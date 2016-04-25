@@ -1,5 +1,6 @@
+<!--
 # sml
-<!-- 
+
 > 持续更新，如果对您有帮助，您可以点右上角 "Star" 支持一下 谢谢！ ^_^
 
 > 后面有空再写学习历程和遇到的问题
@@ -87,7 +88,7 @@ npm run main
 │   └── index.html           // 项目入口文件
 .
 </pre>
-
+-->
 ### 更新记录
-参看 [CHANGELOG.md](./CHANGELOG.md) -->
+参看 [CHANGELOG.md](./CHANGELOG.md)
 # sml-h5
