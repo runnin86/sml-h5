@@ -60,6 +60,7 @@ export default {
       }
       let addObj = {
         id: item.id,
+        number: item.number,
         name: item.name,
         price: item.price,
         image: item.images.split(',')[0],

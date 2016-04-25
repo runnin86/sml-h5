@@ -165,7 +165,23 @@ export default {
     },
     pay () {
       if (window.localStorage.getItem('user')) {
-        console.log('结算流程')
+        // 购物车商品数组
+        let spcarlist = []
+        for (let i of this.items) {
+          spcarlist.push({
+            'name': i.name,
+            'number': i.number,
+            'payCount': i.buy,
+            'projectId': i.id,
+            'recharge_money': i.price * i.buy
+          })
+        }
+        // 组装请求消息体
+        let spcarInfos = {
+          'totalmoney': this.totalAmount,
+          'spcarlist': spcarlist
+        }
+        console.log(spcarInfos)
       }
       else {
         $.toast('你尚未登录')
