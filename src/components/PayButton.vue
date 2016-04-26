@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import {hpApi} from '../util/service'
 import $ from 'zepto'
 export default {
   props: {
@@ -58,37 +59,35 @@ export default {
         $.toast('参与人次必须是' + item.price + '的倍数')
         return
       }
-      let addObj = {
-        id: item.id,
-        number: item.number,
-        name: item.name,
-        price: item.price,
-        image: item.images.split(',')[0],
-        content: item.content,
-        codeCount: item.codeCount,
-        totalPrice: item.totalPrice,
-        buy: parseFloat(this.amount)
-      }
-      if (!window.localStorage.getItem('cards')) {
-        let arr = []
-        arr.push(addObj)
-        window.localStorage.setItem('cards', JSON.stringify(arr))
-      }
-      else {
-        let storageCart = JSON.parse(window.localStorage.getItem('cards'))
-        let itemIds = []
-        for (var i = 0; i < storageCart.length; i++) {
-          itemIds.push(storageCart[i].id)
+      // 添加至购物车
+      this.$http.post(hpApi.redisCart,
+        {
+          'projectId': item.id,
+          'number': item.number,
+          'amount': item.price < 10 ? 10 : item.price
+        },
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg}})=>{
+        if (code === 1) {
+          this.$root.cardBadge++
+          this.$parent.closeModal()
+          $.toast('已加入购物车')
         }
-        if ($.inArray(item.id, itemIds) === -1) {
-          storageCart.push(addObj)
+        else if (code === 0) {
+          // 未登录
+          $.toast('会话失效,请重新登录...')
         }
-        window.localStorage.setItem('cards', JSON.stringify(storageCart))
-      }
-      // console.log(JSON.parse(window.localStorage.getItem('cards')).length)
-      this.$root.cardBadge = JSON.parse(window.localStorage.getItem('cards')).length
-      this.$parent.closeModal()
-      $.toast('已加入购物车')
+        else {
+          console.error('加入购物车失败:' + msg)
+        }
+      }).catch((e)=>{
+        console.error('无法加入购物车:' + e)
+      })
     }
   }
 }

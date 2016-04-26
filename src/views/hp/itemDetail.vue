@@ -148,7 +148,12 @@
         this.showPayBtn = false
       },
       popPay: function () {
-        this.showPayBtn = true
+        if (window.localStorage.getItem('user')) {
+          this.showPayBtn = true
+        }
+        else {
+          $.toast('请登录后参与夺宝...')
+        }
       },
       /*
        * 获取产品基本信息

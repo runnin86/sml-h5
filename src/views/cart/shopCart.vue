@@ -14,7 +14,7 @@
               <div class="item-media">
                 <div class="item-title-row">
                   <div v-if="showImg" class="text-center" style="padding-right:0.2rem;">
-                    <img :src="item.image" style="width:4rem;">
+                    <img :src="item.images| split ','| getArray 0" style="width:4rem;">
                   </div>
                   <div v-else class="text-center" style="padding-right:0.2rem;">
                     <img src="/img/乐夺宝/产品图片默认.png" style="width:4rem;">
@@ -30,8 +30,8 @@
                   <span class="button" @click="reduce(item)"
                     style="width:2rem;font-size:1.6rem;">-</span>
                   <span class="button">
-                    <input value="{{item.buy | cartPriceValidate item.id}}"
-                      type="number" min={{item.price}} max={{item.codeCount}}
+                    <input value="{{item.amount | cartPriceValidate item.id}}"
+                      type="number" min={{item.price}} max={{item.totalCount}}
                       style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
                       onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
                       onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
@@ -40,7 +40,7 @@
                     style="width:2rem;font-size:1.2rem;">+</span>
                 </div>
                 <div style="margin-top:0.1rem;">
-                  人次剩余:<font class="redFont">{{item.codeCount}}</font>
+                  人次剩余:<font class="redFont">{{item.totalCount}}</font>
                 </div>
                 <div style="margin-top:0.3rem;">
                   总价:{{item.totalPrice}}.00元
@@ -116,30 +116,38 @@ export default {
     refreshCart () {
       $.showIndicator()
       setTimeout(function () {
-        if (window.localStorage.getItem('cards')) {
-          this.items = JSON.parse(window.localStorage.getItem('cards'))
-          this.totalAmount = 0
-          for (var i = 0; i < this.items.length; i++) {
-            let newCodeCount = this.items[i].codeCount
-            // 去查询最新商品信息,防止购买份数大于剩余份数
-            this.$http.get(hpApi.home + '/' + this.items[i].id)
-            .then(({data: {code, msg, info}})=>{
-              if (code === 1) {
-                newCodeCount = info[0].codeCount
+        // 获取服务器中的购物车信息
+        this.$http.get(hpApi.redisCart, {},
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg, info}})=>{
+          if (code === 1) {
+            if (info.length > 0) {
+              this.items = []
+              this.totalAmount = 0
+              for (let i of info) {
+                this.totalAmount += i.amount
+                this.items.push(i)
               }
-              else {
-                console.error('获取商品信息失败:' + msg)
-              }
-            }).catch((e)=>{
-              console.error('无法连接服务器-获取商品信息:' + e)
-            })
-            this.items[i].codeCount = newCodeCount
-            if (this.items[i].buy >= newCodeCount) {
-              this.items[i].buy = newCodeCount
             }
-            this.totalAmount += this.items[i].buy
           }
-        }
+          else if (code === 0) {
+            // 未登录
+            $.toast('你尚未登录...')
+            // setTimeout(function () {
+            //   this.$route.router.go({path: '/user', replace: true})
+            // }.bind(this), 3000)
+          }
+          else {
+            console.error('获取购物车失败:' + msg)
+          }
+        }).catch((e)=>{
+          console.error('无法获取购物车:' + e)
+        })
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
@@ -178,10 +186,41 @@ export default {
         }
         // 组装请求消息体
         let spcarInfos = {
-          'totalmoney': this.totalAmount,
-          'spcarlist': spcarlist
+          'spcarInfos': {
+            'totalmoney': this.totalAmount,
+            'spcarlist': spcarlist
+          }
         }
-        console.log(spcarInfos)
+        let postBody = JSON.stringify(spcarInfos)
+        console.log(postBody)
+        // 发起支付请求
+        this.$http.post(hpApi.cartPay, postBody,
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg}})=>{
+          if (code === 1) {
+            $.toast(msg)
+            setTimeout(function () {
+              // 清空购物车
+              window.localStorage.removeItem('cards')
+              this.items = []
+              this.totalAmount = 0
+              this.$root.cardBadge = 0
+              // 刷新购物车
+              this.refreshCart()
+            }.bind(this), 500)
+          }
+          else {
+            $.alert(msg)
+          }
+        }).catch((e)=>{
+          $.alert('服务器连接中断...')
+          console.error(e)
+        })
       }
       else {
         $.toast('你尚未登录')

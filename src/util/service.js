@@ -22,5 +22,9 @@ export let hpApi = {
   // 所有参与记录
   userOneBuyOrder: URL_COMMON + 'userOneBuyOrder',
   // 中奖记录
-  oneBuyNewPublic: URL_COMMON + 'oneBuyNewPublic'
+  oneBuyNewPublic: URL_COMMON + 'oneBuyNewPublic',
+  // 添加到购物车-post,查询购物车-get.(redis)
+  redisCart: URL_COMMON + 'shoppingCart',
+  // 购物车支付
+  cartPay: URL_COMMON + 'shoppingCartPay'
 }
