@@ -227,22 +227,36 @@ export default {
       }
     },
     augment (item) {
-      if (item.buy < item.codeCount) {
-        item.buy += item.price
-        this.totalAmount += item.price
-      }
-      else {
-        item.buy = item.codeCount
-      }
+      // 数量相加
+      let augmentAmount = item.amount + item.price
+      this.changeItemAmount(item, augmentAmount)
     },
     reduce (item) {
-      if (item.buy > item.price) {
-        item.buy -= item.price
-        this.totalAmount -= item.price
-      }
-      else {
-        item.buy = item.price
-      }
+      // 数量加减
+      let reduceAmount = (item.amount - item.price) < item.price ? item.price : (item.amount - item.price)
+      this.changeItemAmount(item, reduceAmount)
+    },
+    changeItemAmount (item, amount) {
+      this.$http.put(hpApi.redisCart + '/' + item.id,
+        {
+          'number': item.number,
+          'amount': amount
+        },
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg}})=>{
+        if (code === 1) {
+          let initAmount = item.amount
+          item.amount = msg.amount
+          this.totalAmount = this.totalAmount - initAmount + amount
+        }
+      }).catch((e)=>{
+        console.error('购物车数量加减异常:' + e)
+      })
     }
   },
   components: {
