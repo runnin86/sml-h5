@@ -1,7 +1,7 @@
 <template>
 <div class="rank" transition="bounce">
   <v-nav :path="path" :title="title"></v-nav>
-  <div v-pull-to-refresh="refresh">
+  <div v-pull-to-refresh="refresh" v-infinite-scroll="loadMore">
     <v-layer></v-layer>
     <v-list type="media" class-name="inset">
       <li class="item-content" v-for="rank in ranks">
@@ -13,7 +13,7 @@
         </div>
         <div class="item-inner">
           <div style="font-size:.8rem;" class="text-sml">
-            {{rank.name}}
+            第{{rank.number}}期 {{rank.name}}
           </div>
           <div v-if="rank.status==0 && this.isShowTime(rank.publicTime).show" class="row">
             <span style="margin-top: -2rem;">
@@ -32,7 +32,7 @@
                 </div>
                 <div>
                   <span>获奖者: {{rank.user_name}}<span>
-                  <span class="pull-right" style="margin-right: 0.6rem;">
+                  <span class="pull-right" style="margin-right: 0.6rem;padding: .1rem;border: 1px solid #929292;">
                     <font color="blue">已揭晓 </font>
                   <span>
                 </div>
@@ -64,7 +64,7 @@ import {loader} from '../../util/util'
 export default {
   ready () {
     $.init()
-    this.getLatest()
+    this.getLatest(0)
   },
   data () {
     return {
@@ -72,6 +72,7 @@ export default {
       path: '/happyPurchase',
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       loading: false,
+      pagenum: 0,
       ranks: []
     }
   },
@@ -80,39 +81,43 @@ export default {
       $.showIndicator()
       setTimeout(function () {
         // 获取最新揭晓记录
-        this.getLatest()
+        this.getLatest(0)
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       }.bind(this), 1000)
     },
     loadMore () {
-      if (this.loading) {
+      // 1.加载中 2.pagenum为负数 3.当前记录的条数<当前页数*每页条数
+      if (this.loading || this.pagenum === -1 ||
+        (this.ranks.length < (this.pagenum + 1) * 10)) {
+        // 满足上述3条件的任一条,均不加载更多
         return
       }
       this.loading = true
       let scroller = $('.inset')
       loader.show()
       setTimeout(() => {
-        console.log('loadMore')
-        let num = this.length + 1
-        let content = `这里是第${num}个card，下拉刷新会出现第${num + 1}个card。`
-        this.ranks.push({
-          avatar: 'http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg',
-          nickname: content,
-          countTime: new Date()
-        })
-        let scrollTop = scroller[0].scrollHeight - scroller.height() - 20
+        // 查询更多数据
+        this.pagenum = this.pagenum + 1
+        this.getLatest(this.pagenum)
+        let scrollTop = scroller[0].scrollHeight - scroller.height()
         scroller.scrollTop(scrollTop)
         this.loading = false
         loader.hide()
       }, 1500)
     },
-    getLatest () {
-      this.$http.get(hpApi.oneBuyNewPublic)
+    getLatest (num) {
+      this.$http.get(hpApi.oneBuyNewPublic + '?pagenum=' + num)
       .then(({data: {code, msg, results}})=>{
         if (code === 1) {
-          this.ranks = results.list
+          if (results.list.length === 0) {
+            this.pagenum = -1
+            return
+          }
+          for (var i = 0; i < results.list.length; i++) {
+            this.ranks.push(results.list[i])
+          }
         }
       }).catch((e)=>{
         console.error('获取最新揭晓失败:' + e)
