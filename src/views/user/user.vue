@@ -288,7 +288,6 @@ export default {
         else {
           $.alert('会话失效,请重新登录', ()=>{
             window.localStorage.clear()
-            this.$root.cardBadge = 0
             window.localStorage.setItem('imageSwitch', true)
             this.$route.router.go({path: '/login?from=user', replace: true})
           })
@@ -312,7 +311,6 @@ export default {
         else {
           $.alert('会话失效,请重新登录', ()=>{
             window.localStorage.clear()
-            this.$root.cardBadge = 0
             window.localStorage.setItem('imageSwitch', true)
             this.$route.router.go({path: '/login?from=user', replace: true})
           })

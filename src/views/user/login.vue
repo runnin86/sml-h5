@@ -51,6 +51,8 @@ export default {
           window.localStorage.setItem('token', info.token)
           window.localStorage.setItem('imageSwitch', true)
           this.$route.router.go({path: this.path, replace: true})
+          // 设置购物车图标
+          this.$root.setCardBadge()
         }
         else {
           $.alert('登录失败:' + msg)

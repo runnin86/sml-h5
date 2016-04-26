@@ -46,7 +46,7 @@
                   总价:{{item.totalPrice}}.00元
                 </div>
               </div>
-              <div class="item-after" @click="delCart(item.id)">
+              <div class="item-after" @click="delCart(item.id, item.number)">
                 <img src="/img/购物车/删除.png" width="32">
               </div>
             </div>
@@ -126,9 +126,9 @@ export default {
           })
         .then(({data: {code, msg, info}})=>{
           if (code === 1) {
+            this.items = []
+            this.totalAmount = 0
             if (info.length > 0) {
-              this.items = []
-              this.totalAmount = 0
               for (let i of info) {
                 this.totalAmount += i.amount
                 this.items.push(i)
@@ -148,28 +148,29 @@ export default {
         }).catch((e)=>{
           console.error('无法获取购物车:' + e)
         })
+        // 设置购物车图标
+        this.$root.setCardBadge()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       }.bind(this), 500)
     },
-    delCart (id) {
-      $.showIndicator()
-      setTimeout(function () {
-        let storageCart = JSON.parse(window.localStorage.getItem('cards'))
-        for (var i = 0; i < storageCart.length; i++) {
-          if (storageCart[i].id === id) {
-            this.totalAmount -= storageCart[i].buy
-            this.items.$remove(this.items[i])
-            storageCart.$remove(storageCart[i])
-          }
+    delCart (id, number) {
+      this.$http.delete(hpApi.redisCart + '/' + id + '_' + number, {},
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg}})=>{
+        if (code === 1) {
+          // 删除成功
+          this.refreshCart()
         }
-        window.localStorage.setItem('cards', JSON.stringify(storageCart))
-        this.$root.cardBadge = JSON.parse(window.localStorage.getItem('cards')).length
-        // 加载完毕需要重置
-        $.pullToRefreshDone('.pull-to-refresh-content')
-        $.hideIndicator()
-      }.bind(this), 200)
+      }).catch((e)=>{
+        console.error('删除购物车异常:' + e)
+      })
     },
     pay () {
       if (window.localStorage.getItem('user')) {
@@ -206,10 +207,8 @@ export default {
             $.toast(msg)
             setTimeout(function () {
               // 清空购物车
-              window.localStorage.removeItem('cards')
               this.items = []
               this.totalAmount = 0
-              this.$root.cardBadge = 0
               // 刷新购物车
               this.refreshCart()
             }.bind(this), 500)

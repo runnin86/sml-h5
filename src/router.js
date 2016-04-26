@@ -151,9 +151,6 @@ export default function (router) {
 
   router.afterEach(function (transition) {
     // console.log('成功浏览到: ' + transition.to.path)
-    if (!window.localStorage.getItem('cardBadge')) {
-      window.localStorage.setItem('cardBadge', 0)
-    }
     $.refreshScroller()
   })
 }

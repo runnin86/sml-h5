@@ -74,9 +74,10 @@ export default {
         })
       .then(({data: {code, msg}})=>{
         if (code === 1) {
-          this.$root.cardBadge++
           this.$parent.closeModal()
           $.toast('已加入购物车')
+          // 设置购物车图标
+          this.$root.setCardBadge()
         }
         else if (code === 0) {
           // 未登录

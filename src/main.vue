@@ -32,6 +32,7 @@
 <script>
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
+import {hpApi} from './util/service'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
 import wx from 'wx'
@@ -104,11 +105,13 @@ export default {
     if (window.localStorage.getItem('imageSwitch') === null) {
       window.localStorage.setItem('imageSwitch', true)
     }
+    // 设置购物车图标
+    this.setCardBadge()
   },
   data () {
     return {
       isIndex: true,
-      cardBadge: window.localStorage.getItem('cards') ? JSON.parse(window.localStorage.getItem('cards')).length : 0,
+      cardBadge: 0,
       userBadge: 0
     }
   },
@@ -122,6 +125,23 @@ export default {
         pwd += $chars.charAt(Math.floor(Math.random() * maxPos))
       }
       return pwd
+    },
+    setCardBadge () {
+      // 获取服务器中的购物车信息
+      this.$http.get(hpApi.redisCart, {},
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg, info}})=>{
+        if (info) {
+          this.cardBadge = info.length
+        }
+      }).catch((e)=>{
+        console.error('无法获取购物车:' + e)
+      })
     }
   },
   components: {
