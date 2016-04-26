@@ -30,8 +30,8 @@
                   <span class="button" @click="reduce(item)"
                     style="width:2rem;font-size:1.6rem;">-</span>
                   <span class="button">
-                    <input value="{{item.amount | cartPriceValidate item.id}}"
-                      type="number" min={{item.price}} max={{item.totalCount}}
+                    <input :value="item.amount" v-on:blur='cartPriceCheck(item, $event)'
+                      type="tel" min={{item.price}} max={{item.totalCount}}
                       style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
                       onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
                       onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
@@ -77,7 +77,8 @@ import VLayer from '../../components/PullToRefreshLayer'
 import {hpApi} from '../../util/service'
 import $ from 'zepto'
 
-Vue.filter('cartPriceValidate', function (value, id) {
+Vue.filter('cartPriceValidate', function (value, price) {
+  console.log(price)
   return value
 })
 
@@ -113,6 +114,19 @@ export default {
     }
   },
   methods: {
+    cartPriceCheck: function (item, e) {
+      if (e.target.value % item.price > 0) {
+        let validAmount = e.target.value - (e.target.value % item.price)
+        // 防止金额小于价格
+        validAmount = validAmount < item.price ? item.price : validAmount
+        e.target.value = validAmount
+        this.changeItemAmount(item, validAmount)
+        $.toast('必须是' + item.price + '的倍数,已为你调整为' + validAmount, 500)
+      }
+      else if (e.target.value === '' || parseFloat(e.target.value) === 0) {
+        e.target.value = item.amount
+      }
+    },
     refreshCart () {
       $.showIndicator()
       setTimeout(function () {
@@ -180,9 +194,9 @@ export default {
           spcarlist.push({
             'name': i.name,
             'number': i.number,
-            'payCount': i.buy,
+            'payCount': i.amount,
             'projectId': i.id,
-            'recharge_money': i.price * i.buy
+            'recharge_money': i.amount
           })
         }
         // 组装请求消息体
@@ -193,32 +207,36 @@ export default {
           }
         }
         let postBody = JSON.stringify(spcarInfos)
-        console.log(postBody)
-        // 发起支付请求
-        this.$http.post(hpApi.cartPay, postBody,
-          {
-            headers: {
-              'x-token': window.localStorage.getItem('token')
-            },
-            emulateJSON: true
+        $.confirm('总计' + this.totalAmount + '元,是否确认付款?', '提示', ()=>{
+          // console.log(postBody)
+          // 发起支付请求
+          this.$http.post(hpApi.cartPay, postBody,
+            {
+              headers: {
+                'x-token': window.localStorage.getItem('token')
+              },
+              emulateJSON: true
+            })
+          .then(({data: {code, msg}})=>{
+            if (code === 1) {
+              $.toast(msg)
+              setTimeout(function () {
+                // 清空购物车
+                this.items = []
+                this.totalAmount = 0
+                // 刷新购物车
+                this.refreshCart()
+              }.bind(this), 500)
+            }
+            else {
+              $.alert(msg)
+            }
+          }).catch((e)=>{
+            $.alert('服务器连接中断...')
+            console.error(e)
           })
-        .then(({data: {code, msg}})=>{
-          if (code === 1) {
-            $.toast(msg)
-            setTimeout(function () {
-              // 清空购物车
-              this.items = []
-              this.totalAmount = 0
-              // 刷新购物车
-              this.refreshCart()
-            }.bind(this), 500)
-          }
-          else {
-            $.alert(msg)
-          }
-        }).catch((e)=>{
-          $.alert('服务器连接中断...')
-          console.error(e)
+        }, ()=>{
+          // confirm取消
         })
       }
       else {
