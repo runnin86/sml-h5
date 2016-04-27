@@ -45,12 +45,10 @@
         <div style="margin-top: 0.1rem;height:100%;" class="list">
           <v-card-container v-for="p in participation | orderBy 'id' -1" style="margin: 0.18rem;">
             <div class="row">
-              <div v-if="showImg" class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;"
-                v-link="{ path: '/happyPurchase/detail', activeClass: 'active', replace: false}">
+              <div v-if="showImg" class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
                 <img :src="p.images| split ','| getArray 0" style="width: 130%;height:130%;">
               </div>
-              <div v-else class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;"
-                v-link="{ path: '/happyPurchase/detail', activeClass: 'active', replace: false}">
+              <div v-else class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
                 <img src="/img/乐夺宝/产品图片默认.png" style="width: 130%;height:130%;">
               </div>
               <div class="col-78">
@@ -89,8 +87,7 @@
                     </span>
                   </div>
                   <div v-if="p.status==1" class="row" style="margin-top: 0.2rem;">
-                    <div class="col-90"
-                      v-link="{name: 'itemDetail', params: { id: p.id }, activeClass: 'active', replace: false}">
+                    <div class="col-90">
                       <card type="content-inner" style="padding:0.1rem">
                         <div class="progress" style="height:10px;">
                           <span v-if="parseFloat((p.totalCount-p.remainingAmount)/p.totalCount) > 0"
@@ -119,12 +116,10 @@
         <div style="margin-top:0.1rem;" class="list">
           <v-card-container v-for="w in winning | orderBy 'id' -1" style="margin: 0.18rem;">
             <div class="row">
-              <div v-if="showImg" class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;"
-                v-link="{ path: '/happyPurchase/detail', activeClass: 'active', replace: false}">
+              <div v-if="showImg" class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
                 <img :src="w.images| split ','| getArray 0" style="width: 130%;height:130%;">
               </div>
-              <div v-else class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;"
-                v-link="{ path: '/happyPurchase/detail', activeClass: 'active', replace: false}">
+              <div v-else class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
                 <img src="/img/乐夺宝/产品图片默认.png" style="width: 130%;height:130%;">
               </div>
               <div class="col-78">

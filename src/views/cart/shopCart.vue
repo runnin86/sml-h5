@@ -188,6 +188,8 @@ export default {
     },
     pay () {
       if (window.localStorage.getItem('user')) {
+        // 刷新购物车
+        this.refreshCart()
         // 购物车商品数组
         let spcarlist = []
         for (let i of this.items) {

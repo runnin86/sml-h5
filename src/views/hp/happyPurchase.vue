@@ -38,7 +38,7 @@
                 <div style="width: 114%;"
                   v-link="{name: 'itemDetail', params: { id: item.id }, query:{ number: item.number }, activeClass: 'active', replace: false}">
                   <card type="content-inner">
-                    <div style="font-size:.8rem;" class="text-sml">{{item.name}}</div>
+                    <div style="font-size:.8rem;" class="text-sml">第{{item.number}}期 {{item.name}}</div>
                     <div style="font-size:.6rem;" class="text-sml">{{item.content}}</div>
                   </card>
                 </div>

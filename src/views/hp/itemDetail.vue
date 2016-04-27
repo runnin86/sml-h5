@@ -30,16 +30,19 @@
               </div>
             </a>
           </li>
-          <li>
-            <a href="#" class="item-content">
-              <div class="item-text-sml">参与码：
-                <div>
-                  <span v-for="r in partake">
-                    <span>{{r}}</span>
-                  </span>
-                </div>
+          <li class="item-content item-link" @click="showPartake('partake',$event)">
+            <div class="item-inner">
+              <div class="item-title">参与码</div>
+            </div>
+          </li>
+          <li class="item-content" id="partake" style="display: none;">
+            <div class="item-text-sml">
+              <div>
+                <span v-for="r in partake">
+                  <span>{{r}}</span>
+                </span>
               </div>
-            </a>
+            </div>
           </li>
         </ul>
       </div>
@@ -73,8 +76,8 @@
             <div class="item-inner" style="padding-left:0.75rem;padding-top:0;padding-bottom:0;">
               <div class="item-media">
                 <div class="item-title-row">
-                  <div class="">
-                    <div class="text-center">
+                  <div>
+                    <div class="text-center pull-left" style="margin-left: 0.2rem;">
                       <img src="/img/个人中心/默认头像.png" class="img-responsive"
                         style="border:solid 1px #02DF82;border-radius: 50px;overflow:hidden;"
                         width="40" height="40">
@@ -83,7 +86,7 @@
                   </div>
                 </div>
               </div>
-              <div class="item-title">
+              <div class="item-title pull-left">
                 <div style="margin-bottom:0.3rem;">IP:192.178.128.122</div>
                 <div style="margin-top:0.3rem;">{{r.time}}</div>
               </div>
@@ -102,7 +105,7 @@
 </div>
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
   v-on:click="closeModal">
-  <v-pay-button :amount="itemInfo.price<10?10:itemInfo.price" :title="title" :show="showPayBtn" :item="itemInfo"></v-pay-button>
+  <v-pay-button :amount="itemInfo.price<10?(itemInfo.codeCount<10?itemInfo.price:10):itemInfo.price" :title="title" :show="showPayBtn" :item="itemInfo"></v-pay-button>
 </div>
 </template>
 
@@ -226,6 +229,17 @@
           }
         }).catch(()=>{
         })
+      },
+      /*
+       * 参与码展开
+       */
+      showPartake (id, e) {
+        if (document.getElementById(id).style.display === 'block') {
+          document.getElementById(id).style.display = 'none'
+        }
+        else {
+          document.getElementById(id).style.display = 'block'
+        }
       },
       /*
        * 加载更多

@@ -59,12 +59,20 @@ export default {
         $.toast('参与人次必须是' + item.price + '的倍数')
         return
       }
+      else if (parseFloat(this.amount) > parseFloat(item.codeCount)) {
+        $.toast('最多可参与人次' + item.codeCount)
+        return
+      }
+      else if (parseFloat(this.amount) <= 0) {
+        $.toast('请输入有效金额')
+        return
+      }
       // 添加至购物车
       this.$http.post(hpApi.redisCart,
         {
           'projectId': item.id,
           'number': item.number,
-          'amount': item.price < 10 ? 10 : item.price
+          'amount': this.amount
         },
         {
           headers: {
