@@ -1,17 +1,17 @@
 <template>
-  <div class="time" id="time1">
+  <div class="time" :id="'time_'+id">
       <span class="danwei_first"></span>
       <span style="display:none;"><img id="day_01" alt="" src="/img/allnum.png" width="20"></span>
       <span style="display:none;"><img id="day_02" alt="" src="/img/allnum.png" width="20"></span>
       <span class="danwei"></span>
-      <span><img id="hour_01" alt="" src="/img/allnum.png" width="20"></span>
-      <span><img id="hour_02" alt="" src="/img/allnum.png" width="20"></span>
+      <span><img :id="'hour_01_'+id" alt="" src="/img/allnum.png" width="20"></span>
+      <span><img :id="'hour_02_'+id" alt="" src="/img/allnum.png" width="20"></span>
       <span class="danwei">:</span>
-      <span><img id="minute_01" alt="" src="/img/allnum.png" width="20"></span>
-      <span><img id="minute_02" alt="" src="/img/allnum.png" width="20"></span>
+      <span><img :id="'minute_01_'+id" alt="" src="/img/allnum.png" width="20"></span>
+      <span><img :id="'minute_02_'+id" alt="" src="/img/allnum.png" width="20"></span>
       <span class="danwei">:</span>
-      <span><img id="second_01" alt="" src="/img/allnum.png" width="20"></span>
-      <span><img id="second_02" alt="" src="/img/allnum.png" width="20"></span>
+      <span><img :id="'second_01_'+id" alt="" src="/img/allnum.png" width="20"></span>
+      <span><img :id="'second_02_'+id" alt="" src="/img/allnum.png" width="20"></span>
       <br class="clear">
   </div>
 </template>
@@ -22,7 +22,8 @@ export default {
     this.clock1()
   },
   props: {
-    counttime: '2016-04-05 00:00:00'
+    counttime: '2016-04-05 00:00:00',
+    id: 0
   },
   methods: {
     clock1 () {
@@ -30,7 +31,7 @@ export default {
       var local = new Date()
       var intDiff = overa.getTime() - local.getTime()
       if (intDiff <= 0) {
-        document.getElementById('time1')
+        document.getElementById('time_' + this.id)
         return false
       }
       var day = Math.floor(intDiff / (1000 * 60 * 60 * 24))
@@ -44,12 +45,12 @@ export default {
       try {
         // document.getElementById('day_01').style.marginTop = (day.toString().substr(0, 1)) * (-57) + 4 + 'px'
         // document.getElementById('day_02').style.marginTop = (day.toString().substr(1, 1)) * (-57) + 4 + 'px'
-        document.getElementById('hour_01').style.marginTop = (hour.toString().substr(0, 1)) * (-57) + 4 + 'px'
-        document.getElementById('hour_02').style.marginTop = (hour.toString().substr(1, 1)) * (-57) + 4 + 'px'
-        document.getElementById('minute_01').style.marginTop = (minute.toString().substr(0, 1)) * (-57) + 4 + 'px'
-        document.getElementById('minute_02').style.marginTop = (minute.toString().substr(1, 1)) * (-57) + 4 + 'px'
-        document.getElementById('second_01').style.marginTop = (second.toString().substr(0, 1)) * (-57) + 4 + 'px'
-        document.getElementById('second_02').style.marginTop = (second.toString().substr(1, 1)) * (-57) + 4 + 'px'
+        document.getElementById('hour_01_' + this.id).style.marginTop = (hour.toString().substr(0, 1)) * (-57) + 4 + 'px'
+        document.getElementById('hour_02_' + this.id).style.marginTop = (hour.toString().substr(1, 1)) * (-57) + 4 + 'px'
+        document.getElementById('minute_01_' + this.id).style.marginTop = (minute.toString().substr(0, 1)) * (-57) + 4 + 'px'
+        document.getElementById('minute_02_' + this.id).style.marginTop = (minute.toString().substr(1, 1)) * (-57) + 4 + 'px'
+        document.getElementById('second_01_' + this.id).style.marginTop = (second.toString().substr(0, 1)) * (-57) + 4 + 'px'
+        document.getElementById('second_02_' + this.id).style.marginTop = (second.toString().substr(1, 1)) * (-57) + 4 + 'px'
         setTimeout(() => {
           let run = this.clock1()
           if (run !== undefined) {

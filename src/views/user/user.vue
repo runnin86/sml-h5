@@ -81,7 +81,7 @@
                   <div v-if="p.status==0 && this.isShowTime(p.publicTime).show" class="row">
                     <span style="margin-top: -2rem;">
                       <div style="margin-left:0.4rem;">揭晓倒计时</div>
-                      <v-count-down :countTime="this.isShowTime(p.publicTime).time"></v-count-down>
+                      <v-count-down :countTime="this.isShowTime(p.publicTime).time" :id="p.id"></v-count-down>
                       <div>
                       </div>
                     </span>
@@ -362,6 +362,7 @@ export default {
     isShowTime (time) {
       let pubTime = new Date(Date.parse(time.replace(/-/g, '/')))
       let now = new Date()
+      // pubTime.setHours(pubTime.getHours() + 9)
       // now.setMinutes(now.getMinutes() + 15)
       if (now < pubTime) {
         // 展示倒计时
