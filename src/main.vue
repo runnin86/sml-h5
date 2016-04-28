@@ -16,11 +16,11 @@
           focusimg="/img/专家方案/个人中心-选中.png"
           h=28 t=0.2 i=32 b=0>
         </bar-item> -->
+        <bar-item path="/plan" label="专家方案" icon="plan"></bar-item>
         <bar-item path="/happyPurchase" label="乐夺宝" icon="gift"></bar-item>
         <bar-item path="/shopCart" label="购物车" icon="cart" :b="cardBadge"></bar-item>
         <bar-item path="/user" label="个人中心" icon="me" :b="userBadge"></bar-item>
         <bar-item path="/more" label="更多" icon="more"></bar-item>
-        <!-- <bar-item path="/plan" label="专家方案" icon="tasks"></bar-item> -->
         <!-- <bar-item path="/home" label="首页" icon="home"></bar-item> -->
         <!-- <bar-item path="/list" label="列表" icon="mytask"></bar-item> -->
       </bar>
@@ -165,7 +165,7 @@ export default {
 }
 .barHeight .tab-item {
   height: 3rem;
-  background-color: white;
+  background-color: #1e2126;
 }
 
 /*
