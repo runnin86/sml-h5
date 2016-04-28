@@ -1,28 +1,11 @@
 <template>
   <div class="page page-current">
       <bar v-if="isIndex" class="barHeight">
-        <!-- <bar-item path="/happyPurchase" label="乐夺宝"
-          img="/img/专家方案/乐夺宝.png"
-          focusimg="/img/专家方案/乐夺宝-选中.png"
-          h=28 t=0.2 i=34>
-        </bar-item>
-        <bar-item path="/shopCart" label="购物车"
-          img="/img/专家方案/购物车.png"
-          focusimg="/img/专家方案/购物车-选中.png"
-          h=28 t=0.2 i=34 b=0>
-        </bar-item>
-        <bar-item path="/user" label="个人中心"
-          img="/img/专家方案/个人中心.png"
-          focusimg="/img/专家方案/个人中心-选中.png"
-          h=28 t=0.2 i=32 b=0>
-        </bar-item> -->
-        <bar-item path="/plan" label="专家方案" icon="plan"></bar-item>
+        <!-- <bar-item path="/plan" label="专家方案" icon="plan"></bar-item> -->
         <bar-item path="/happyPurchase" label="乐夺宝" icon="gift"></bar-item>
         <bar-item path="/shopCart" label="购物车" icon="cart" :b="cardBadge"></bar-item>
         <bar-item path="/user" label="个人中心" icon="me" :b="userBadge"></bar-item>
         <bar-item path="/more" label="更多" icon="more"></bar-item>
-        <!-- <bar-item path="/home" label="首页" icon="home"></bar-item> -->
-        <!-- <bar-item path="/list" label="列表" icon="mytask"></bar-item> -->
       </bar>
       <router-view transition-mode="out-in"></router-view>
       <!-- <router-view transition-mode="out-in" keep-alive></router-view> -->

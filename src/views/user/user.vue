@@ -6,17 +6,20 @@
   <div class="banner">
     <div class="logo">
         <div class="logo_img">
-            <img src="../../assets/img/个人中心/默认头像.png" class="img-responsive"
+            <img src="/img/个人中心/默认头像.png" class="img-responsive"
               style="border:solid 1px #fff;border-radius: 50px;overflow:hidden;"
               width="64" height="64">
         </div>
-        <div class="name_txt">
-          <span class="name" v-if="user">{{user.user_nickname?user.user_nickname:user.user_name}}</span>
+        <div class="name_txt" v-if="user">
+          <span class="name">{{user.user_nickname?user.user_nickname:user.user_name}}</span>
         </div>
         <div class="logo_txt">
-            <span class="yue">我的余额</span>
-            <span class="amount timer count-title" id="count-number"
-              data-to="300" data-speed="500" data-decimals="0">
+            <span class="yue">我的本金</span>
+            <span class="amount" id="count-principal">
+              {{user?coinmeter:'...'}}
+            </span>
+            <span class="yue">我的盈利</span>
+            <span class="amount" id="count-profit">
               {{user?userate:'...'}}
             </span>
         </div>
@@ -421,7 +424,7 @@ export default {
   font-size: 15.999999px;
 }
 .banner .logo .logo_txt {
-  /*margin-top: 0.1rem;*/
+  margin-top: -0.6rem;
   float: right;
   text-align: right;
 }
@@ -431,9 +434,9 @@ export default {
 }
 .banner .logo .logo_txt .amount {
   display: block;
-  margin-top: -6px;
+  margin-top: -8px;
   color: #ffffff;
-  font-size: 35.8666638px;
+  font-size: 20.8666638px;
 }
 .user-tab {
   background: #efeff4;
