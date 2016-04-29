@@ -19,6 +19,10 @@ export let hpApi = {
   coinmeter: URL_COMMON + 'coinmeter',
   // 我的盈利
   userate: URL_COMMON + 'userate',
+  // 我的消息
+  userMessage: URL_COMMON + 'usermsg',
+  // 我的消息(删除)
+  delMessage: URL_COMMON + 'delmsgbyid',
   // 所有参与记录
   userOneBuyOrder: URL_COMMON + 'userOneBuyOrder',
   // 中奖记录

@@ -68,54 +68,14 @@ export default function (router) {
         require(['./views/user/setting'], resolve)
       }
     },
+    '/user/message': {
+      component (resolve) {
+        require(['./views/user/message'], resolve)
+      }
+    },
     '/user/changePwd': {
       component (resolve) {
         require(['./views/user/changePwd'], resolve)
-      }
-    },
-    '/list': {
-      component (resolve) {
-        require(['./views/demo/list'], resolve)
-      }
-    },
-    '/rank': {
-      component (resolve) {
-        require(['./views/demo/rank'], resolve)
-      }
-    },
-    '/invite': {
-      component (resolve) {
-        require(['./views/demo/invite'], resolve)
-      }
-    },
-    '/tasks': {
-      component (resolve) {
-        require(['./views/demo/tasks'], resolve)
-      }
-    },
-    '/demo/tasks': {
-      component (resolve) {
-        require(['./views/demo/tasks'], resolve)
-      }
-    },
-    '/demo/withdraw': {
-      component (resolve) {
-        require(['./views/demo/withdraw'], resolve)
-      }
-    },
-    '/demo/profile': {
-      component (resolve) {
-        require(['./views/demo/profile'], resolve)
-      }
-    },
-    '/demo/profit': {
-      component (resolve) {
-        require(['./views/demo/profit'], resolve)
-      }
-    },
-    '/demo/profit/record': {
-      component (resolve) {
-        require(['./views/demo/profitRecord'], resolve)
       }
     },
     '/more': {

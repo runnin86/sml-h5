@@ -33,7 +33,7 @@
   </div>
   <div v-if="user">
     <nav class="bar bar-tab user-tab">
-      <a class="tab-item">
+      <a class="tab-item" v-link="{ path: '/user/message', replace: false}">
         <span class="icon icon-message"></span>
         <span class="tab-label">消息</span>
       </a>
