@@ -1,5 +1,5 @@
 <template>
-<div class="content feedback">
+<div class="content feedback" transition="bounce">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left" v-link="{path: '/more', replace: true}">
     <span class="icon icon-left"></span>

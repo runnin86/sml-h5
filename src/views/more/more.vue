@@ -7,21 +7,14 @@
     <ul>
       <li class="item-content item-link">
         <div class="item-inner">
+          <div class="item-title">分享</div>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <li class="item-content item-link">
+        <div class="item-inner">
           <div class="item-title">使用教程</div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content item-link">
-        <div class="item-inner">
-          <div class="item-title">高阶攻略</div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content item-link">
-        <div class="item-inner">
-          <div class="item-title">宣传页面</div>
         </div>
       </li>
     </ul>
@@ -36,7 +29,7 @@
     <ul>
       <li class="item-content item-link" v-link="{ path: '/more/about', replace: true}">
         <div class="item-inner">
-          <div class="item-title">关于我们</div>
+          <div class="item-title">关于</div>
         </div>
       </li>
     </ul>

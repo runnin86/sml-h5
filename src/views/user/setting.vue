@@ -8,7 +8,7 @@
   </header>
   <div class="list-block">
     <ul style="margin-top:.5rem;">
-      <li>
+      <!-- <li>
         <div class="item-link item-content">
             <div class="item-inner" v-link="{ path: '/user/changePwd', replace: false}">
                 <div class="item-title label">密码修改</div>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-      </li>
+      </li> -->
       <li>
         <div class="item-content">
             <div class="item-inner">
@@ -27,28 +27,6 @@
                     <input type="checkbox" v-model="showImg">
                     <div class="checkbox"></div>
                   </label>
-                </div>
-            </div>
-        </div>
-      </li>
-    </ul>
-    <ul style="margin-top:.5rem">
-      <li>
-        <div class="item-link item-content">
-            <div class="item-inner">
-                <div class="item-title label">分享</div>
-                <div class="item-input">
-                    <input type="text" readonly="true">
-                </div>
-            </div>
-        </div>
-      </li>
-      <li>
-        <div class="item-link item-content">
-            <div class="item-inner">
-                <div class="item-title label">关于</div>
-                <div class="item-input">
-                    <input type="text" readonly="true">
                 </div>
             </div>
         </div>
