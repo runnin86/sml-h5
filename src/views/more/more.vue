@@ -1,7 +1,7 @@
 <template>
 <div class="content more">
   <header class="bar bar-nav">
-    <h1 class="title">更多</h1>
+    <h1 class="title color">更多</h1>
   </header>
   <div class="list-block">
     <ul>
@@ -51,5 +51,8 @@
     margin-top: .7rem;
     height: inherit;
   }
+}
+.color {
+  background-color: #ed8e07;
 }
 </style>
