@@ -3225,6 +3225,22 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
   font-family: iconfont-sml !important;
   content: "\e600";
 }
+.icon-histogram:before {
+  font-family: iconfont-sml !important;
+  content: "\e62c";
+}
+.icon-piechart:before {
+  font-family: iconfont-sml !important;
+  content: "\e640";
+}
+.icon-clock2:before {
+  font-family: iconfont-sml !important;
+  content: "\e60f";
+}
+.icon-golds:before {
+  font-family: iconfont-sml !important;
+  content: "\e626";
+}
 .icon-principal:before {
   font-family: iconfont-sml !important;
   content: "\e636";
@@ -3232,6 +3248,10 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
 .icon-profit:before {
   font-family: iconfont-sml !important;
   content: "\e637";
+}
+.icon-notice:before {
+  font-family: iconfont-sml !important;
+  content: "\e63c";
 }
 .icon-tasks:before {
   content: "\e601";
@@ -3277,9 +3297,6 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
 }
 .icon-end:before {
   content: "\e610";
-}
-.icon-zhuyi:before {
-  content: "\e611";
 }
 .icon-zhuyi2:before {
   content: "\e614";

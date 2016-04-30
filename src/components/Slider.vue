@@ -12,7 +12,9 @@ export default {
     }
   },
   props: {
-    banner: []
+    banner: [],
+    vertical: false,
+    animateTime: 2000
   },
   ready () {
     setTimeout(() => {
@@ -25,29 +27,14 @@ export default {
       this.slider = new ISlider({
         dom: self.$el,
         data: this.banner,
-        isVertical: false, // 垂直滑动
+        animateTime: this.animateTime,
+        isVertical: this.vertical, // 垂直滑动
         isLooping: true, // 循环播放
         isDebug: false,
         isAutoplay: true, // 自动播放
         isOverspread: true // 背景平铺
       })
     }, 100)
-    // this.$http.get('banner.json')
-    // .then(({data: {code, message, data}})=>{
-    //   let imgs = []
-    //   for (let i = 0 ; i < data.length; i++) {
-    //     imgs.push(data[i])
-    //   }
-    //   let self = this
-    //   this.slider = new ISlider({
-    //     dom: self.$el,
-    //     data: imgs,
-    //     isVertical: false,
-    //     isLooping: true,
-    //     isDebug: false,
-    //     isAutoplay: true
-    //   })
-    // })
   }
 }
 </script>

@@ -1,70 +1,93 @@
 <template>
-<div class="container" transition="fade">
-  <!-- 轮播图 -->
-  <slider :banner="banner" style="z-index:9999;"></slider>
+<div class="container">
+  <div class="content home" distance="55" v-pull-to-refresh="refresh">
+    <v-layer></v-layer>
+    <!-- 轮播图 -->
+    <slider :banner="banner" :vertical="false" style="z-index:9999;"></slider>
 
-  <!-- 快捷入口 -->
-  <bar class="home-bar">
-    <bar-item path="/rank" label="盈利排行" img="/img/专家方案/盈利排行.png" h=42></bar-item>
-    <bar-item path="/user/tasks" label="充值" img="/img/专家方案/充值.png" h=42></bar-item>
-    <bar-item path="/invite" label="帮助" img="/img/专家方案/帮助.png" h=42></bar-item>
-  </bar>
+    <!-- 快捷入口 -->
+    <bar class="home-bar">
+      <bar-item path="/latestAnnounced" label="盈利排行" img="/img/专家方案/盈利排行.png" h=42 i=38></bar-item>
+      <bar-item label="充值" img="/img/专家方案/充值.png" h=42 i=38 @click="recharge()"></bar-item>
+      <bar-item path="/happyPurchase/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
+    </bar>
 
-  <!-- 盈利滚动展示 -->
-  <card type="content" class-name="scrollText">
-    <div>
-      <marquee scrollamount="10" direction="left"
-        scrolldelay="5" style="margin-top: 0.3rem;">最新动态：</marquee>
-    </div>
-  </card>
-
-  <!-- 内容区 -->
-  <v-tabs type="tab" class-name="article-tabs">
-    <v-tab name="timer-tasks" title="低赔区"
-      v-pull-to-refresh="refreshAll">
-      <div style="margin-top:230px;">
-        <v-layer></v-layer>
-        <v-card-container>
-          <card type="header">card1</card>
-          <card type="content">
-            <card type="content-inner">
-            这里是第1个card，下拉刷新会出现第2个card
-            </card>
-          </card>
-        </v-card-container>
+    <!-- 盈利滚动展示 -->
+    <card type="content" class-name="scrollText">
+      <div class="row">
+        <div class="col-10" style="line-height:2rem;">
+          <img src="/img/专家方案/喇叭.png" style="height:1rem;margin-left:0.2rem;margin-bottom:-0.2rem;">
+        </div>
+        <div class="col-90">
+          <slider :banner="scrollmsg" :vertical="true" :animate-time=800 style="z-index:9999;height:2rem;"></slider>
+        </div>
       </div>
-    </v-tab>
-    <v-tab name="common-tasks" title="高赔区" status="active"
-      v-pull-to-refresh="refreshMine" v-infinite-scroll="loadMore">
-      <div style="margin-top:230px;height:100%;" class="list">
-        <v-layer></v-layer>
-        <v-card-container v-for="task in tasks | orderBy 'id' -1">
-          <card type="header">
-            <span>海苔  <font size="2">第220期方案</font></span>
-            <span></span>
-            <span>
-              <a @click="addToCart()"><font size="2" color="orange">加入购物车</font></a>
+    </card>
+
+    <!-- 内容区 -->
+    <div style="margin-bottom:4rem;">
+      <v-card-container v-for="item in itemList | orderBy 'id' -1"
+        style="margin: 0.18rem;background-color:#f9f9f9;">
+        <card type="header" style="font-size:0.68rem;background-color:#ffffff;">
+          <div style="width:180%;">
+            <span class="icon-histogram" style="font-size:1rem;color:red;">
+              <font style="font-size:0.68rem;color:black;">
+                0%~10%收益区
+              </font>
             </span>
-          </card>
-          <div v-link="{ path: '/plan/planDetail', activeClass: 'active', replace: false}">
-            <card type="content text-center" style="padding:0.1rem">
-              预期盈利
-            </card>
-            <card type="content-inner" style="padding:0.2rem">
-              <div class="progress">
-                <span class="orange" style="width: 60%;"><span>60%</span></span>
-              </div>
-            </card>
-            <card type="footer">
-              <span>购买2080</span>
-              <span>销售额2080182</span>
-              <span>售价<font color="red">8.00</font></span>
-            </card>
+            <span class="pull-right icon-piechart" style="font-size:1rem;color:red;">
+              <font style="font-size:0.68rem;color:black;">
+                限购剩余 36870.00元
+              </font>
+            </span>
           </div>
-        </v-card-container>
-      </div>
-    </v-tab>
-  </v-tabs>
+        </card>
+        <card type="content">
+          <div class="list-block infinite-list">
+            <ul>
+              <li class="item-content">
+                <div class="item-media">
+                  <img src="/img/个人中心/默认头像.png" class="img-responsive"
+                    style="margin-left:-0.48rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
+                    width="42" height="42">
+                </div>
+                <div class="item-inner" style="font-size:0.68rem;margin-left:0.36rem;">
+                  <div>
+                    <div>海苔</div>
+                    <div>
+                      <img src="/img/专家方案/信心.png" width="12" height="12">
+                      <img src="/img/专家方案/信心.png" width="12" height="12"
+                        style="margin-left:-0.1rem;">
+                      <img src="/img/专家方案/信心.png" width="12" height="12"
+                        style="margin-left:-0.1rem;">
+                      <img src="/img/专家方案/信心.png" width="12" height="12"
+                        style="margin-left:-0.1rem;">
+                      <img src="/img/专家方案/信心.png" width="12" height="12"
+                        style="margin-left:-0.1rem;">
+                    </div>
+                  </div>
+                  <div class="icon-golds" style="font-size:1rem;">
+                    <font style="font-size:0.5rem;margin-left:-0.22rem;">
+                      12.00 元
+                    </font>
+                  </div>
+                  <div class="icon-clock2" style="font-size:1rem;color:red;">
+                    <font style="font-size:0.5rem;margin-left:-0.22rem;color:black;">
+                      180 分钟
+                    </font>
+                  </div>
+                  <div>
+                    <img src="/img/专家方案/购物车-选中.png"
+                      width="26" height="26" @click="addToCart(item)">
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </card>
+      </v-card-container>
+    </div>
+ </div>
 </div>
 </template>
 
@@ -74,102 +97,131 @@ import Bar from '../../components/Bar'
 import BarItem from '../../components/BarItem'
 
 import VButton from '../../components/Button'
+import VPayButton from '../../components/PayButton'
 import VIcon from '../../components/Iconfont'
-import VTabs from '../../components/Tabs'
-import VTab from '../../components/Tab'
 import VLayer from '../../components/PullToRefreshLayer'
 import VCardContainer from '../../components/Card'
 import Card from '../../components/CardItem'
-import {loader} from '../../util/util'
+import {hpApi} from '../../util/service'
 import $ from 'zepto'
 
 export default {
   ready () {
     $.init()
+    this.getBanner()
+    this.getItemList()
+    $.refreshScroller()
   },
   data () {
     return {
-      title: '任务列表',
       banner: [],
+      scrollmsg: [{
+        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">欢迎参与活动,参与多多,奖品多多,就怕你不来............</div>'
+      }, {
+        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">2016年04月30日海魔希特拉被勇士133****9281干掉了!</div>'
+      }, {
+        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">恭喜133****3322获得了大奖</div>'
+      }],
       loading: false,
-      tasks: [
-        {
-          id: 1,
-          title: 'card1',
-          content: '这里是第1个card，下拉刷新会出现第2个card'
-        }
-      ]
+      showImg: window.localStorage.getItem('imageSwitch') === 'true',
+      itemList: []
     }
   },
   computed: {
     length () {
-      return this.tasks.length
+      return this.itemList.length
     }
   },
   methods: {
-    addToCart () {
-      console.log('进入添加购物车')
+    getBanner () {
+      // 获取banner的图片数据
+      this.$http.get(hpApi.banner)
+      .then(({data: {code, msg, info}})=>{
+        if (code === 1) {
+          if (info.length > 0) {
+            let img = []
+            for (var i = 0; i < info.length; i++) {
+              if (this.showImg) {
+                img.push({
+                  content: info[i].img
+                })
+              }
+            }
+            this.$set('banner', img)
+          }
+        }
+        else {
+          console.error('获取banner失败:' + msg)
+        }
+      }).catch(()=>{
+        console.error('无法连接服务器获取banner')
+      })
     },
-    openPanel () {
-      $.openPanel('#panel-demo')
+    getItemList () {
+      // 获取商品列表
+      this.$http.get(hpApi.home)
+      .then(({data: {code, msg, results, count, pagenum}})=>{
+        if (code === 1) {
+          this.$set('itemList', results.list)
+        }
+        else {
+          console.error('获取商品列表失败:' + msg)
+        }
+      }).catch(()=>{
+        $.alert('服务器连接中断...')
+        console.error('无法连接服务器-获取商品列表')
+      })
     },
-    refreshAll () {
+    addToCart (item) {
+      if (window.localStorage.getItem('user')) {
+        // 添加至购物车
+        this.$http.post(hpApi.redisCart,
+          {
+            'projectId': item.id,
+            'number': item.number,
+            'amount': item.price < 10 ? 10 : item.price
+          },
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg}})=>{
+          if (code === 1) {
+            $.toast('已加入购物车')
+            // 设置购物车图标
+            this.$root.setCardBadge()
+          }
+          else if (code === 0) {
+            // 未登录
+            $.toast('会话失效,请重新登录...')
+          }
+          else {
+            console.error('加入购物车失败:' + msg)
+          }
+        }).catch((e)=>{
+          console.error('无法加入购物车:' + e)
+        })
+      }
+      else {
+        $.toast('你尚未登录')
+        this.$route.router.go({path: '/login?from=happyPurchase', replace: true})
+      }
+    },
+    refresh () {
       $.showIndicator()
       setTimeout(function () {
-        console.log('refreshAll')
-        var cardNumber = $(this.$el).find('.card').length
-        var cardHTML = '<div class="card">' +
-          '<div class="card-header">card' + cardNumber + '</div>' +
-          '<div class="card-content">' +
-          '<div class="card-content-inner">' +
-          '这里是第' + cardNumber + '个card，下拉刷新会出现第' + (cardNumber + 1) + '个card。' +
-          '</div>' +
-          '</div>' +
-          '</div>'
-        $(this.$el).find('.allTasks').prepend(cardHTML)
+        this.itemList = []
+        this.getBanner()
+        this.getItemList()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
-      }.bind(this), 1500)
+      }.bind(this), 1345)
     },
-    refreshMine () {
-      $.showIndicator()
-      setTimeout(function () {
-        console.log('refreshMine')
-        let num = this.length + 1
-        let title = `card${num}`
-        let content = `这里是第${num}个card，下拉刷新会出现第${num + 1}个card。`
-        this.tasks.push({
-          id: num,
-          title: title,
-          content: content
-        })
-        $.pullToRefreshDone('.pull-to-refresh-content')
-        $.hideIndicator()
-      }.bind(this), 1500)
-    },
-    loadMore () {
-      if (this.loading) {
-        return
-      }
-      this.loading = true
-      let scroller = $('.list')
-      loader.show()
-      setTimeout(() => {
-        console.log('loadMore')
-        let num = this.length + 1
-        let title = `card${num}`
-        let content = `这里是第${num}个card，下拉刷新会出现第${num + 1}个card。`
-        this.tasks.push({
-          id: num,
-          title: title,
-          content: content
-        })
-        let scrollTop = scroller[0].scrollHeight - scroller.height() - 20
-        scroller.scrollTop(scrollTop)
-        this.loading = false
-        loader.hide()
-      }, 1500)
+    recharge () {
+      $.alert('充值提示')
     }
   },
   components: {
@@ -177,9 +229,8 @@ export default {
     Bar,
     BarItem,
     VButton,
+    VPayButton,
     VIcon,
-    VTabs,
-    VTab,
     VLayer,
     VCardContainer,
     Card
@@ -188,24 +239,6 @@ export default {
 </script>
 
 <style>
-.article {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /*overflow: auto;*/
-  -webkit-overflow-scrolling: touch;
-}
-.article-tabs .buttons-tab {
-  z-index: 10;
-  /*margin-top:0.4rem;*/
-  /*background-color: #128182;*/
-}
-#common-tasks, #timer-tasks {
-  top: 0.2rem;
-}
-
 .container {
   position: absolute;
   top: 0;
@@ -215,18 +248,27 @@ export default {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
-
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .home-bar {
   background: #efeff4;
-  height: 3.2rem;
+  height: auto;
   position: relative;
   box-shadow: 0 .01rem .05rem rgba(0,0,0,.3);
 }
 .home-bar .tab-item {
-  height: 3.2rem;
+  height: auto;
+  padding-top: 0.1rem;
+  padding-bottom: 0.2rem;
   background-color: white;
 }
-
 .list-block {
   margin: .5rem 0;
 }
@@ -235,7 +277,8 @@ export default {
   padding-bottom: 1rem;
 }
 .scrollText{
-  background-color:white;
+  background-color:#cb4a4a;
+  /*height:1.6rem;*/
   z-index:10;
 }
 .scrollText:after {
@@ -267,5 +310,10 @@ export default {
   z-index: 15;
   -webkit-transform-origin: 50% 0%;
   transform-origin: 50% 0%;
+}
+.text-sml{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
