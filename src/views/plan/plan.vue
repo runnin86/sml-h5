@@ -46,7 +46,8 @@
           <div class="list-block infinite-list">
             <ul>
               <li class="item-content">
-                <div class="item-media">
+                <div class="item-media"
+                  v-link="{name: 'planDetail', params: { id: 3 }, query:{ number: 1 }, activeClass: 'active', replace: false}">
                   <img src="/img/个人中心/默认头像.png" class="img-responsive"
                     style="margin-left:-0.48rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
                     width="42" height="42">

@@ -43,7 +43,8 @@ export default function (router) {
         require(['./views/plan/plan'], resolve)
       }
     },
-    '/plan/planDetail': {
+    '/plan/detail/:id': {
+      name: 'planDetail',
       component (resolve) {
         require(['./views/plan/planDetail'], resolve)
       }

@@ -1,103 +1,133 @@
 <template>
-<div class="content profile" transition="bounce">
+<div class="content plandetail" transition="bounce">
   <header class="bar bar-nav">
-    <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: false}">
-      <span class="icon icon-left"></span>
+    <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: true}">
+    <span class="icon icon-left"></span>
     </a>
-    <h1 class="title">方案详情</h1>
+    <h1 class="title color">方案详情</h1>
   </header>
   <div class="list-block">
-    <ul style="margin-top:.5rem;">
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            <span>海苔  第280期</span>
-            <span>本期为大家带来高赔收益单</span>
-          </div>
+    <ul>
+      <li class="item-content">
+        <div style="width:100%;">
+          <span style="margin-left:-0.4rem;">
+            信心指数
+            <img src="/img/专家方案/信心.png" width="12" height="12">
+            <img src="/img/专家方案/信心.png" width="12" height="12"
+              style="margin-left:-0.1rem;">
+            <img src="/img/专家方案/信心.png" width="12" height="12"
+              style="margin-left:-0.1rem;">
+            <img src="/img/专家方案/信心.png" width="12" height="12"
+              style="margin-left:-0.1rem;">
+            <img src="/img/专家方案/信心.png" width="12" height="12"
+              style="margin-left:-0.1rem;">
+          </span>
+          <span class="pull-right" style="margin-right:0.4rem;">
+            剩余购买时间: 500分钟
+          </span>
         </div>
       </li>
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            <span></span>
-            <span>截止时间 <font color="red">23:59:59</font></span>
-          </div>
-        </div>
-        <div class="item-content">
-          <div class="item-inner">
-            <span>
-              <div>本期信心指数</div>
-              <div>
-                <img src="../../assets/img/专家方案/信心.png" height="14" width="16" class="text-center">
-                <img src="../../assets/img/专家方案/信心.png" height="14" width="16" class="text-center">
-                <img src="../../assets/img/专家方案/信心.png" height="14" width="16" class="text-center">
-                <img src="../../assets/img/专家方案/信心.png" height="14" width="16" class="text-center">
-                <img src="../../assets/img/专家方案/信心.png" height="14" width="16" class="text-center">
-              </div>
-            </span>
-            <span><font color="red" size="10">12</font>元</span>
-            <span>预期收益 <font size="5" color="red">72%</font></span>
-          </div>
+      <li class="item-content">
+        <div class="center2">
+          <img src="/img/个人中心/默认头像.png" class="img-responsive"
+            style="border:solid 1px #e32;border-radius: 50px;overflow:hidden;"
+            width="64" height="64">
         </div>
       </li>
-      <li style="background-color:red;color:white;">
-        <div class="item-content">
-          <div class="item-inner">
-            <span></span>
-            <span>购买人次1028 / 总销售额2871873.00</span>
-            <span></span>
-          </div>
+      <li class="item-content" style="margin-top:-0.6rem;">
+        <div class="center2">
+          <font>他山之石<font>
         </div>
       </li>
-      <li>
-        <div class="item-link-sml item-content" @click="toggleClass()">
-            <div class="item-inner">
-                <div class="item-title label">方案内容</div>
-            </div>
+      <li class="item-content" style="margin-top:-0.8rem;">
+        <div class="pull-left" style="margin-left:-0.4rem;">
+          方案数:280
+        </div>
+        <div class="center2">胜率:88%</div>
+        <div class="pull-right" style="margin-right:0.4rem;">
+          奖金:226035
         </div>
       </li>
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            方案内容方案内容方案内容方案内容方案内容方案
-            内容方案内容方案内容方案内容方案内容方案内容
-            方案内容方案内容方案内容
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="item-link-sml item-content">
-            <div class="item-inner">
-                <div class="item-title label">专家信息</div>
-            </div>
-        </div>
-      </li>
-      <li>
-        <div class="item-content">
-          <div class="item-inner">
-            这个是专家区域，这个是专家区域，这个是专家区域
-            这个是专家区域，这个是专家区域，这个是专家区域
-            这个是专家区域，这个是专家区域，这个是专家区域
-            这个是专家区域，这个是专家区域，这个是专家区域
-            这个是专家区域，这个是专家区域，这个是专家区域
-            这个是专家区域，这个是专家区域，这个是专家区域
-          </div>
+      <li class="item-content"
+        style="margin-top:-0.6rem;background-color:#3c3d42;">
+        <div style="width:180%;">
+          <span class="icon-histogram"
+            style="font-size:1rem;color:red;">
+            <font style="font-size:0.68rem;color:#ffffff;">
+              0%~10%收益区
+            </font>
+          </span>
+          <span class="pull-right icon-piechart"
+            style="font-size:1rem;color:red;margin-right:0.4rem;">
+            <font style="font-size:0.68rem;color:#ffffff;">
+              限购剩余 36870.00元
+            </font>
+          </span>
         </div>
       </li>
     </ul>
-  </div>
-
-  <div class="toolBar">
-    <div class="text-center">
-      <img src="../../assets/img/专家方案/温馨提示.png" height="24" width="152" class="text-center">
-    </div>
-    <div class="text-center">
-      <font size="2">合理稳健的利用您的财富,才能给您带来长久收益!</font>
-    </div>
-
-    <div class="submit-button" style="padding-bottom: -30px;">
-      <button class="button button-big button-fill" @click="sortBy('123')">投注</button>
-    </div>
+    <ul>
+      <li class="item-content2 item-link">
+        <div class="item-inner">
+          <div class="item-title2">方案内容(销售截止后才可观看)</div>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <li class="item-content2 item-link" v-link="{ path: '/more/feedback', replace: true}">
+        <div class="item-inner">
+          <div class="item-title2">专家简介</div>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <li class="item-content2 item-link" v-link="{ path: '/more/about', replace: true}">
+        <div class="item-inner">
+          <div class="item-title2">专家战绩</div>
+        </div>
+      </li>
+      <li class="item-content2" style="display: block;background-color: #fafafa;">
+        <div class="item-inner item-title2">
+          <div>01/05</div>
+          <div>
+            <span class="icon-histogram"
+              style="font-size:1rem;color:red;">
+              <font style="font-size:0.68rem;color:black;">
+                0%~10%收益
+              </font>
+            </span>
+          </div>
+          <div>
+            <div class="icon-golds" style="font-size:1rem;">
+              <font style="font-size:0.5rem;">
+                12.00 元
+              </font>
+            </div>
+          </div>
+          <div class="icon-right2"></div>
+        </div>
+        <div class="item-inner item-title2">
+          <div>30/04</div>
+          <div>
+            <span class="icon-histogram"
+              style="font-size:1rem;color:red;">
+              <font style="font-size:0.68rem;color:black;">
+                10%~30%收益
+              </font>
+            </span>
+          </div>
+          <div>
+            <div class="icon-golds" style="font-size:1rem;">
+              <font style="font-size:0.5rem;">
+                6.00 元
+              </font>
+            </div>
+          </div>
+          <div class="icon-wrong2"></div>
+        </div>
+      </li>
+    </ul>
+    <br>
   </div>
 </div>
 </template>
@@ -105,97 +135,105 @@
 <script>
   import $ from 'zepto'
   export default {
-    methods: {
-      toggleClass: function () {
-        console.log('331')
-      },
-      sortBy: function (key) {
-        console.log($.actions)
-        var buttons1 = [
-          {
-            text: '请选择',
-            label: true
-          },
-          {
-            text: '卖出',
-            bold: true,
-            color: 'danger'
-            // ,onClick: function() {
-            //   $.alert("你选择了“卖出“");
-            // }
-          },
-          {
-            text: '买入'
-            // ,onClick: function() {
-            //   $.alert("你选择了“买入“");
-            // }
-          }
-        ]
-        var buttons2 = [
-          {
-            text: '取消',
-            bg: 'danger'
-          }
-        ]
-        var groups = [buttons1, buttons2]
-        $.actions(groups)
+    ready () {
+      $.init()
+    },
+    data () {
+      return {
+        id: this.$route.params.id,
+        itemInfo: '',
+        banner: [],
+        title: '方案详情',
+        path: '/plan',
+        records: [],
+        partake: [],
+        showPayBtn: false,
+        showImg: window.localStorage.getItem('imageSwitch') === 'true',
+        userId: window.localStorage.getItem('user') ? JSON.parse(window.localStorage.getItem('user')).user_id : null,
+        loading: false,
+        pagenum: 0,
+        addObj: ''
       }
+    },
+    methods: {
     }
   }
 </script>
 <style>
-.profile .list-block {
-  margin: 2.4rem 0 1rem 0;
-  font-size: .65rem;
-  /*position:absolute;*/
-  bottom:0px;
-  left:0px;
-  width:100%;
-  height:100%;
-  overflow:auto;
+.list-block {
+  margin: 2.2rem 0;
+  height: 2.9rem;
+  font-size:0.74rem;
+
+  ul {
+    height: 2.9rem;
+  }
+
+  .item-content {
+    margin-top: .7rem;
+    height: inherit;
+  }
 }
-.profile .list-block .item-subtitle {
-  font-size: .65rem;
-}
-.profile .list-block .item-input {
-  margin-top: .06rem;
-  margin-bottom: .06rem;
-}
-.profile .list-block input {
-  font-size: .65rem;
-}
-.profile .list-block select {
-  font-size: .65rem;
-}
-.profile .list-block textarea {
-  font-size: .65rem;
-}
-.profile .list-block .item-title.label  {
-  width: 30%;
-}
-.profile .submit-button {
-  margin: 0 auto 2rem auto;
-  width: 100%;
-  padding: 0 .45rem;
-}
-.profile .submit-button button {
+.color {
   background-color: #ed8e07;
+}
+.center2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+.list-block .item-content2 {
+  box-sizing: border-box;
+  min-height: 2.2rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.list-block .item-title2 {
+  -webkit-flex-shrink: 1;
+  -ms-flex: 0 1 auto;
+  -webkit-flex-shrink: 1;
+  flex-shrink: 1;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding-left: 0.4rem;
+}
+.list-block ul:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  right: auto;
+  height: 1px;
   width: 100%;
-  line-height: 2.1rem !important;
-  height: 2.1rem !important;
+  background-color: #e7e7e7;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
 }
-.toolBar {
-  /*position:absolute;*/
-  bottom:0px;
-  width:100%;
-  text-align:center;
-}
-.item-link-sml {
-  background-image: url('/img/箭头/向右icon.png');
-  background-size: 0.7rem;
-  background-repeat: no-repeat;
-  background-position: 97% center;
-  background-position: -webkit-calc(100% - .5rem) center;
-  background-position: calc(100% - .5rem) center;
+.list-block .item-inner:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  right: auto;
+  height: 1px;
+  width: 100%;
+  background-color: #e7e7e7;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
 }
 </style>

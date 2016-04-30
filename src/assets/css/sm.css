@@ -3253,6 +3253,14 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
   font-family: iconfont-sml !important;
   content: "\e63c";
 }
+.icon-right2:before {
+  font-family: iconfont-sml !important;
+  content: "\e62d";
+}
+.icon-wrong2:before {
+  font-family: iconfont-sml !important;
+  content: "\e632";
+}
 .icon-tasks:before {
   content: "\e601";
 }

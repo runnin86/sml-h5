@@ -1,6 +1,6 @@
 <template>
 <div class="content" transition="bounce">
-  <v-nav :path="path" :title="title" :replace=false></v-nav>
+  <v-nav :path="path" :title="title" :replace=false class="color"></v-nav>
   <v-content type="block">
     <div class="content list" style="margin-top:2.2rem;"
       v-infinite-scroll="loadMore">
@@ -304,5 +304,8 @@
   font-size: 0.75rem;
   color: #5f646e;
   line-height: 1.05rem;
+}
+.color {
+  background-color: #ed8e07;
 }
 </style>
