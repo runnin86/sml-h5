@@ -271,7 +271,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
 .list-block {
   margin: .3rem 0;
 }

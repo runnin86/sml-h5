@@ -181,7 +181,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
 .list-block {
   margin: 2.2rem 0;
   height: 2.9rem;
