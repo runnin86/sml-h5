@@ -13,7 +13,7 @@
     </bar>
 
     <!-- 盈利滚动展示 -->
-    <card type="content" class-name="scrollText">
+    <card type="content" class-name="scrollPlan">
       <div class="row">
         <div class="col-10" style="line-height:2rem;">
           <img src="/img/专家方案/喇叭.png" style="height:1rem;margin-left:0.2rem;margin-bottom:-0.2rem;">
@@ -240,7 +240,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .container {
   position: absolute;
   top: 0;
@@ -278,12 +278,12 @@ export default {
   bottom: 2.5rem;
   padding-bottom: 1rem;
 }
-.scrollText{
+.scrollPlan{
   background-color:#cb4a4a;
   /*height:1.6rem;*/
   z-index:10;
 }
-.scrollText:after {
+.scrollPlan:after {
   content: '';
   position: absolute;
   left: 0;
@@ -298,7 +298,7 @@ export default {
   -webkit-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
 }
-.scrollText:before {
+.scrollPlan:before {
   content: '';
   position: absolute;
   left: 0;
