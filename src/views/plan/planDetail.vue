@@ -71,7 +71,7 @@
         <div class="item-inner">
           <div class="item-title2">
             方案内容
-            <font style="font-size:0.38rem;color:gray;">
+            <font style="font-size:0.48rem;color:gray;">
               (销售截止后才可查看)
             </font>
           </div>

@@ -54,11 +54,6 @@ export default function (router) {
         require(['./views/cart/shopCart'], resolve)
       }
     },
-    '/home': {
-      component (resolve) {
-        require(['./views/home'], resolve)
-      }
-    },
     '/user': {
       component (resolve) {
         require(['./views/user/user'], resolve)
