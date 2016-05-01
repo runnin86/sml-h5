@@ -91,8 +91,8 @@
           <div>01/05</div>
           <div>
             <span class="icon-histogram"
-              style="font-size:1rem;color:red;">
-              <font style="font-size:0.68rem;color:black;">
+              style="font-size:1rem;">
+              <font style="font-size:0.68rem;">
                 0%~10%收益
               </font>
             </span>
@@ -110,8 +110,8 @@
           <div>30/04</div>
           <div>
             <span class="icon-histogram"
-              style="font-size:1rem;color:red;">
-              <font style="font-size:0.68rem;color:black;">
+              style="font-size:1rem;">
+              <font style="font-size:0.68rem;">
                 10%~30%收益
               </font>
             </span>

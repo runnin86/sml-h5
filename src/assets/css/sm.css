@@ -3203,12 +3203,10 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
   width: 5rem;
 }
 @font-face {
-  font-family: iconfont-sml;
-  src: url(//at.alicdn.com/t/font_1461840481_152783.eot); /* IE9*/
-  src: url(//at.alicdn.com/t/font_1461840481_152783.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
-  url(//at.alicdn.com/t/font_1461840481_152783.woff) format('woff'), /* chrome、firefox */
-  url(//at.alicdn.com/t/font_1461840481_152783.ttf) format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url(//at.alicdn.com/t/font_1461840481_152783.svg#iconfont) format('svg'); /* iOS 4.1- */
+  font-family: "iconfont-sml";
+  src: url('../fontsml/iconfont.woff') format('woff'),
+  url('../fontsml/iconfont.ttf') format('truetype'),
+  url('../fontsml/iconfont.svg') format('svg');
 }
 .icon {
   font-family: iconfont-sml !important;
@@ -3223,11 +3221,11 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
 }
 .icon-plan:before {
   font-family: iconfont-sml !important;
-  content: "\e600";
+  content: "\e613";
 }
 .icon-histogram:before {
   font-family: iconfont-sml !important;
-  content: "\e62c";
+  content: "\e624";
 }
 .icon-piechart:before {
   font-family: iconfont-sml !important;
@@ -3235,11 +3233,11 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
 }
 .icon-clock2:before {
   font-family: iconfont-sml !important;
-  content: "\e60f";
+  content: "\e63f";
 }
 .icon-golds:before {
   font-family: iconfont-sml !important;
-  content: "\e626";
+  content: "\e641";
 }
 .icon-principal:before {
   font-family: iconfont-sml !important;
@@ -3252,6 +3250,14 @@ html:not(.watch-active-state) .card-header a.link:active, html:not(.watch-active
 .icon-notice:before {
   font-family: iconfont-sml !important;
   content: "\e63c";
+}
+.icon-heart:before {
+  font-family: iconfont-sml !important;
+  content: "\e620";
+}
+.icon-emptyheart:before {
+  font-family: iconfont-sml !important;
+  content: "\e623";
 }
 .icon-right2:before {
   font-family: iconfont-sml !important;

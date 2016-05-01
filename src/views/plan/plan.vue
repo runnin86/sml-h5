@@ -72,8 +72,8 @@
                       12.00 元
                     </font>
                   </div>
-                  <div class="icon-clock2" style="font-size:1rem;color:red;">
-                    <font style="font-size:0.5rem;margin-left:-0.22rem;color:black;">
+                  <div class="icon-clock2" style="font-size:1rem;">
+                    <font style="font-size:0.5rem;margin-left:-0.22rem;">
                       180 分钟
                     </font>
                   </div>
@@ -240,7 +240,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   position: absolute;
   top: 0;
