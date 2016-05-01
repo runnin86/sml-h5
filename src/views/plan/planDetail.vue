@@ -1,5 +1,5 @@
 <template>
-<div class="content plandetail" transition="bounce">
+<div class="content" transition="bounce" style="margin-bottom:1.8rem;">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: true}">
     <span class="icon icon-left"></span>
@@ -69,7 +69,12 @@
     <ul>
       <li class="item-content2 item-link" @click="showInfo('planContent',$event)">
         <div class="item-inner">
-          <div class="item-title2">方案内容(销售截止后才可观看)</div>
+          <div class="item-title2">
+            方案内容
+            <font style="font-size:0.38rem;color:gray;">
+              (销售截止后才可查看)
+            </font>
+          </div>
         </div>
       </li>
       <li class="item-content2 fafafa" id="planContent" style="display: none;">
@@ -144,9 +149,19 @@
     <br>
   </div>
 </div>
+<div class="toolBarDetail">
+  <div class="submit-button">
+    <button v-show="!showPayBtn" class="button button-big button-fill" @click="popPay()">购买方案</button>
+  </div>
+</div>
+<div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
+  v-on:click="closeModal">
+  <v-pay-button :amount="itemInfo.price<10?(itemInfo.codeCount<10?itemInfo.price:10):itemInfo.price" :title="title" :show="showPayBtn" :item="itemInfo"></v-pay-button>
+</div>
 </template>
 
 <script>
+  import VPayButton from '../../components/PlanPayButton'
   import $ from 'zepto'
   export default {
     ready () {
@@ -177,7 +192,21 @@
         else {
           document.getElementById(id).style.display = 'block'
         }
+      },
+      closeModal: function () {
+        this.showPayBtn = false
+      },
+      popPay: function () {
+        if (window.localStorage.getItem('user')) {
+          this.showPayBtn = true
+        }
+        else {
+          $.toast('请登录后购买方案...')
+        }
       }
+    },
+    components: {
+      VPayButton
     }
   }
 </script>
@@ -208,6 +237,24 @@
 .center2 {
   margin-left: auto;
   margin-right: auto;
+}
+.submit-button {
+  /*margin: 0 auto 2rem auto;*/
+  width: 100%;
+  padding: 0 .45rem;
+}
+.submit-button button {
+  background-color: red;
+  width: 100%;
+  line-height: 2.1rem !important;
+  height: 2.1rem !important;
+}
+.toolBarDetail {
+  position:absolute;
+  bottom:0.38rem;
+  width:100%;
+  text-align:center;
+  background-color: #FFFFFF;
 }
 .list-block .item-content2 {
   box-sizing: border-box;
