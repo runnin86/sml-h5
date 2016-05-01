@@ -4,7 +4,7 @@
     <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: true}">
     <span class="icon icon-left"></span>
     </a>
-    <h1 class="title color">方案详情</h1>
+    <h1 class="title headerColor">方案详情</h1>
   </header>
   <div class="list-block">
     <ul>
@@ -22,7 +22,7 @@
             <img src="/img/专家方案/信心.png" width="12" height="12"
               style="margin-left:-0.1rem;">
           </span>
-          <span class="pull-right" style="margin-right:0.4rem;">
+          <span class="pull-right r04">
             剩余购买时间: 500分钟
           </span>
         </div>
@@ -44,7 +44,7 @@
           方案数:280
         </div>
         <div class="center2">胜率:88%</div>
-        <div class="pull-right" style="margin-right:0.4rem;">
+        <div class="pull-right r04">
           奖金:226035
         </div>
       </li>
@@ -57,8 +57,8 @@
               0%~10%收益区
             </font>
           </span>
-          <span class="pull-right icon-piechart"
-            style="font-size:1rem;color:red;margin-right:0.4rem;">
+          <span class="pull-right icon-piechart r04"
+            style="font-size:1rem;color:red;">
             <font style="font-size:0.68rem;color:#ffffff;">
               限购剩余 36870.00元
             </font>
@@ -67,27 +67,41 @@
       </li>
     </ul>
     <ul>
-      <li class="item-content2 item-link">
+      <li class="item-content2 item-link" @click="showInfo('planContent',$event)">
         <div class="item-inner">
           <div class="item-title2">方案内容(销售截止后才可观看)</div>
         </div>
       </li>
+      <li class="item-content2 fafafa" id="planContent" style="display: none;">
+        <div class="item-inner">
+          <div class="item-title2" style="font-size:0.58rem;margin-left:0.4rem;">
+            曼城主场让莱切斯特城球半/两球中水。曼城排名联赛第二，虽然最近联赛状态不好，但与垫底的英超(微博 专题) 升班马莱切斯特城相比，曼城的优势还是非常大，莱切斯特城最近5轮比赛不胜只拿到1分，根本不会被投注看好，以曼城的实力和声望主场最差也应该让到两球盘，开球半/两球上盘水位还不是很低，对于曼城不能接受，本场主队大胜的几率很低。
+          </div>
+        </div>
+      </li>
     </ul>
     <ul>
-      <li class="item-content2 item-link" v-link="{ path: '/more/feedback', replace: true}">
+      <li class="item-content2 item-link" @click="showInfo('expertDesc',$event)">
         <div class="item-inner">
           <div class="item-title2">专家简介</div>
         </div>
       </li>
+      <li class="item-content2 fafafa" id="expertDesc" style="display: none;">
+        <div class="item-inner">
+          <div class="item-title2" style="font-size:0.58rem;margin-left:0.4rem;">
+            戴维，资深足彩专家，掌握欧亚足坛博彩市场内第一手资料，精研亚盘欧赔，凯利指数最早使用者之一，轻松解析盘口赔率背后玄机。独家创建使用“形态、实力差、误差”三大理论分析足彩，对亚洲盘变化的把握极其准确。个人中奖极多，胜负、进球推荐均曾经数次命中百万大奖，在《足彩310》、《体彩导报》等媒体均开有个人推荐专栏。
+          </div>
+        </div>
+      </li>
     </ul>
     <ul>
-      <li class="item-content2 item-link" v-link="{ path: '/more/about', replace: true}">
+      <li class="item-content2 item-link"  @click="showInfo('expertHistory',$event)">
         <div class="item-inner">
           <div class="item-title2">专家战绩</div>
         </div>
       </li>
-      <li class="item-content2" style="display: block;background-color: #fafafa;">
-        <div class="item-inner item-title2">
+      <li class="item-content2" id="expertHistory" style="display: block;">
+        <div class="item-inner item-title2 fafafa">
           <div>01/05</div>
           <div>
             <span class="icon-histogram"
@@ -106,7 +120,7 @@
           </div>
           <div class="icon-right2"></div>
         </div>
-        <div class="item-inner item-title2">
+        <div class="item-inner item-title2 fafafa">
           <div>30/04</div>
           <div>
             <span class="icon-histogram"
@@ -156,6 +170,14 @@
       }
     },
     methods: {
+      showInfo (id, e) {
+        if (document.getElementById(id).style.display === 'block') {
+          document.getElementById(id).style.display = 'none'
+        }
+        else {
+          document.getElementById(id).style.display = 'block'
+        }
+      }
     }
   }
 </script>
@@ -174,8 +196,14 @@
     height: inherit;
   }
 }
-.color {
+.headerColor {
   background-color: #ed8e07;
+}
+.fafafa {
+  background-color: #fafafa;
+}
+.r04 {
+  margin-right:0.4rem;
 }
 .center2 {
   margin-left: auto;
@@ -199,10 +227,10 @@
   -ms-flex: 0 1 auto;
   -webkit-flex-shrink: 1;
   flex-shrink: 1;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   position: relative;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /*overflow: hidden;*/
+  /*text-overflow: ellipsis;*/
   max-width: 100%;
   padding-left: 0.4rem;
 }
