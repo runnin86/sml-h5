@@ -45,9 +45,9 @@
         <card type="content">
           <div class="list-block infinite-list">
             <ul>
-              <li class="item-content">
-                <div class="item-media"
-                  v-link="{name: 'planDetail', params: { id: 3 }, query:{ number: 1 }, activeClass: 'active', replace: false}">
+              <li class="item-content"
+                v-link="{name: 'planDetail', params: { id: 3 }, query:{ number: 1 }, activeClass: 'active', replace: false}">
+                <div class="item-media">
                   <img src="/img/个人中心/默认头像.png" class="img-responsive"
                     style="margin-left:-0.48rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
                     width="42" height="42">
@@ -79,7 +79,7 @@
                   </div>
                   <div>
                     <img src="/img/专家方案/购物车-选中.png"
-                      width="26" height="26" @click="addToCart(item)">
+                      width="26" height="26" @click="addToCart(item, $event)">
                   </div>
                 </div>
               </li>
@@ -173,7 +173,8 @@ export default {
         console.error('无法连接服务器-获取商品列表')
       })
     },
-    addToCart (item) {
+    addToCart (item, e) {
+      e.stopPropagation()
       if (window.localStorage.getItem('user')) {
         // 添加至购物车
         this.$http.post(hpApi.redisCart,
