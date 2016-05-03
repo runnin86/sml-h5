@@ -6,53 +6,117 @@
     <div class="content list" style="bottom: 4.8rem;top: -0.2rem;"
       v-pull-to-refresh="refreshCart">
       <v-layer></v-layer>
-      <div class="list-block infinite-list">
-        <ul>
-          <li class="item-content" id="cartRecord" style="padding-left:0rem;"
-            v-for="item in items" track-by="$index">
-            <div class="item-inner" style="padding:0.2rem;">
-              <div class="item-media">
-                <div class="item-title-row">
-                  <div v-if="showImg" class="text-center" style="padding-right:0.2rem;">
-                    <img :src="item.images| split ','| getArray 0" style="width:4rem;">
+      <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;">
+        <v-tab name="tab-planList" status="active" title="方案">
+          <div class="list-block infinite-list" style="margin-top:0.1rem;">
+            <ul>
+              <li class="item-content" id="cartRecord" style="padding-left:0rem;"
+                v-for="item in items" track-by="$index">
+                <div class="item-inner" style="padding:0.2rem;">
+                  <div class="item-media">
+                    <div class="item-title-row">
+                      <div v-if="showImg" class="text-center" style="padding-right:0.2rem;">
+                        <img src="/img/个人中心/默认头像.png" class="img-responsive"
+                          style="margin:0 0.6rem 0 0.6rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
+                          width="42" height="42">                      </div>
+                      <div v-else class="text-center" style="padding-right:0.2rem;">
+                        <img src="/img/乐夺宝/产品图片默认.png" style="width:4rem;">
+                      </div>
+                    </div>
                   </div>
-                  <div v-else class="text-center" style="padding-right:0.2rem;">
-                    <img src="/img/乐夺宝/产品图片默认.png" style="width:4rem;">
+                  <div class="item-title-sml" style="margin-left:-1.6rem;">
+                    <div style="margin-top:0.2rem;">
+                      2016-05-03 17:58:33
+                    </div>
+                    <div class="buttons-row" style="margin-top:0.3rem;text-align:center;">
+                      <span class="button" @click="reduce(item)"
+                        style="width:2rem;font-size:1.6rem;">-</span>
+                      <span class="button" style="width:24%;">
+                        <input :value="item.amount" v-on:blur='cartPriceCheck(item, $event)'
+                          type="tel" min={{item.price}} max={{item.totalCount}}
+                          style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
+                          onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
+                          onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
+                      </span>
+                      <span class="button" @click="augment(item)"
+                        style="width:2rem;font-size:1.2rem;">+</span>
+                    </div>
+                    <div style="margin-top:0.3rem;">
+                      <span class="icon-histogram"
+                        style="font-size:1rem;color:red;">
+                        <font style="font-size:0.58rem;color:black;">
+                          10%~30%
+                        </font>
+                      </span>
+                      <span class="icon-golds"
+                        style="font-size:1rem;margin-left:1.2rem;">
+                        <font style="font-size:0.58rem;">
+                          12.00元
+                        </font>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="item-title-sml" style="margin-left:-7.6rem;">
+                      1200.00元
+                  </div>
+                  <div class="item-after" @click="delCart(item.id, item.number)">
+                    <img src="/img/购物车/删除.png" width="32">
                   </div>
                 </div>
-              </div>
-              <div class="item-title-sml">
-                <div style="margin-bottom:0.3rem;font-size:0.8rem;">{{item.name}}</div>
-                <div style="margin-top:-0.2rem;">
-                  {{item.content}}
+              </li>
+            </ul>
+          </div>
+        </v-tab>
+        <v-tab name="tab-hpList" title="乐夺宝">
+          <div class="list-block infinite-list" style="margin-top:0.1rem;">
+            <ul>
+              <li class="item-content" id="cartRecord" style="padding-left:0rem;"
+                v-for="item in items" track-by="$index">
+                <div class="item-inner" style="padding:0.2rem;">
+                  <div class="item-media" style="width:2rem;">
+                    <div class="item-title-row">
+                      <div v-if="showImg" class="text-center" style="padding-right:0.2rem;">
+                        <img :src="item.images| split ','| getArray 0" style="width:4rem;">
+                      </div>
+                      <div v-else class="text-center" style="padding-right:0.2rem;">
+                        <img src="/img/乐夺宝/产品图片默认.png" style="width:4rem;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="item-title-sml" style="width:100%;margin-left:2.8rem;">
+                    <div style="margin-bottom:0.3rem;font-size:0.8rem;">{{item.name}}</div>
+                    <div style="margin-top:-0.2rem;">
+                      {{item.content}}
+                    </div>
+                    <div class="buttons-row" style="margin-top:0.3rem;width: 7.6rem;">
+                      <span class="button" @click="reduce(item)"
+                        style="width:2rem;font-size:1.6rem;">-</span>
+                      <span class="button">
+                        <input :value="item.amount" v-on:blur='cartPriceCheck(item, $event)'
+                          type="tel" min={{item.price}} max={{item.totalCount}}
+                          style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
+                          onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
+                          onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
+                      </span>
+                      <span class="button" @click="augment(item)"
+                        style="width:2rem;font-size:1.2rem;">+</span>
+                    </div>
+                    <div style="margin-top:0.1rem;">
+                      人次剩余:<font class="redFont">{{item.totalCount}}</font>
+                    </div>
+                    <div style="margin-top:0.3rem;">
+                      总价:{{item.totalPrice}}.00元
+                    </div>
+                  </div>
+                  <div class="item-after" @click="delCart(item.id, item.number)">
+                    <img src="/img/购物车/删除.png" width="32">
+                  </div>
                 </div>
-                <div class="buttons-row" style="margin-top:0.3rem;width: 7.6rem;">
-                  <span class="button" @click="reduce(item)"
-                    style="width:2rem;font-size:1.6rem;">-</span>
-                  <span class="button">
-                    <input :value="item.amount" v-on:blur='cartPriceCheck(item, $event)'
-                      type="tel" min={{item.price}} max={{item.totalCount}}
-                      style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
-                      onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
-                      onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
-                  </span>
-                  <span class="button" @click="augment(item)"
-                    style="width:2rem;font-size:1.2rem;">+</span>
-                </div>
-                <div style="margin-top:0.1rem;">
-                  人次剩余:<font class="redFont">{{item.totalCount}}</font>
-                </div>
-                <div style="margin-top:0.3rem;">
-                  总价:{{item.totalPrice}}.00元
-                </div>
-              </div>
-              <div class="item-after" @click="delCart(item.id, item.number)">
-                <img src="/img/购物车/删除.png" width="32">
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
+              </li>
+            </ul>
+          </div>
+        </v-tab>
+      </v-tabs>
     </div>
   </div>
   <div class="toolBarCart" v-if="length>0">
@@ -74,6 +138,8 @@
 <script>
 import Vue from 'vue'
 import VLayer from '../../components/PullToRefreshLayer'
+import VTabs from '../../components/Tabs'
+import VTab from '../../components/Tab'
 import {hpApi} from '../../util/service'
 import $ from 'zepto'
 
@@ -280,12 +346,14 @@ export default {
     }
   },
   components: {
-    VLayer
+    VLayer,
+    VTabs,
+    VTab
   }
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   position: absolute;
   top: 0;
