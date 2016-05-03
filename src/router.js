@@ -59,6 +59,11 @@ export default function (router) {
         require(['./views/user/user'], resolve)
       }
     },
+    '/user/order': {
+      component (resolve) {
+        require(['./views/user/order'], resolve)
+      }
+    },
     '/user/setting': {
       component (resolve) {
         require(['./views/user/setting'], resolve)
