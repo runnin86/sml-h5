@@ -1,6 +1,5 @@
 <template>
-<div class="content user" distance="55"
-  v-pull-to-refresh="refresh" v-infinite-scroll="loadMore"
+<div class="content user" distance="55" v-pull-to-refresh="refresh"
   :style="(!this.user?'background-color:white':'')">
   <v-layer></v-layer>
   <div class="list-block" style="margin-top:0rem;margin-bottom:0rem;">
@@ -130,7 +129,6 @@ import VCardContainer from '../../components/Card'
 import Card from '../../components/CardItem'
 import VCountDown from '../../components/Countdown'
 import VLayer from '../../components/PullToRefreshLayer'
-import {loader} from '../../util/util'
 import {hpApi} from '../../util/service'
 import $ from 'zepto'
 
@@ -145,16 +143,7 @@ export default {
       user: JSON.parse(window.localStorage.getItem('user')),
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       userate: 0,
-      coinmeter: 0,
-      participation: [],
-      participationPagenum: 0,
-      winning: [],
-      winningPagenum: 0
-    }
-  },
-  computed: {
-    length () {
-      return this.participation.length
+      coinmeter: 0
     }
   },
   methods: {
@@ -164,20 +153,11 @@ export default {
     refresh () {
       if (this.user) {
         $.showIndicator()
-        // 获取用户盈利
-        let token = window.localStorage.getItem('token')
-        this.getUserate(token)
         // 执行查询
         setTimeout(function () {
-          // 需要清空分页信息
-          this.participation = []
-          this.participationPagenum = 0
-          this.winning = []
-          this.winningPagenum = 0
-          // 获取用户参与记录
-          // this.getParticipation(this.user.user_id, 0)
-          // 获取用户中奖记录
-          // this.getWinning(this.user.user_id, 0)
+          // 获取用户盈利
+          let token = window.localStorage.getItem('token')
+          this.getUserate(token)
           // 加载完毕需要重置
           $.pullToRefreshDone('.pull-to-refresh-content')
           $.hideIndicator()
@@ -187,58 +167,6 @@ export default {
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
       }
-    },
-    /*
-     * 加载更多
-     */
-    loadMore () {
-      let activeTab = $('.active.button.tab-link')[0].hash
-      if (activeTab === '#tab-participation') {
-        this.loadMore0()
-      }
-      else if (activeTab === '#tab-winning') {
-        this.loadMore1()
-      }
-    },
-    loadMore0 () {
-      // 1.加载中 2.pagenum为负数 3.当前记录的条数<当前页数*每页条数
-      if (this.loading || this.participationPagenum === -1 ||
-        (this.participation.length < (this.participationPagenum + 1) * 10)) {
-        // 满足上述3条件的任一条,均不加载更多
-        return
-      }
-      this.loading = true
-      let scroller = $('.list')
-      loader.show()
-      setTimeout(() => {
-        // 查询更多数据
-        this.participationPagenum = this.participationPagenum + 1
-        this.getParticipation(this.user.user_id, this.participationPagenum)
-        let scrollTop = scroller[0].scrollHeight - scroller.height()
-        scroller.scrollTop(scrollTop)
-        this.loading = false
-        loader.hide()
-      }, 1500)
-    },
-    loadMore1 () {
-      // 1.加载中 2.pagenum为负数 3.当前记录的条数<当前页数*每页条数
-      if (this.loading || this.winningPagenum === -1 ||
-        (this.winning.length < (this.winningPagenum + 1) * 10)) {
-        // 满足上述3条件的任一条,均不加载更多
-        return
-      }
-      this.loading = true
-      let scroller = $('.list')
-      loader.show()
-      setTimeout(() => {
-        // 查询更多数据
-        this.winningPagenum = this.winningPagenum + 1
-        this.getWinning(this.user.user_id, this.winningPagenum)
-        let scrollTop = scroller[0].scrollHeight - scroller.height()
-        scroller.scrollTop(scrollTop)
-        this.loading = false
-        loader.hide()
-      }, 1500)
     },
     /*
      * 获取用户账户的盈利
@@ -287,65 +215,6 @@ export default {
       }).catch((e)=>{
         console.error('获取账户本金失败:' + e)
       })
-    },
-    /*
-     * 获取用户的所有参与
-     */
-    getParticipation (uid, num) {
-      if (this.user.user_id) {
-        this.$http.get(hpApi.userOneBuyOrder + '?userId=' + uid + '&pagenum=' + num)
-        .then(({data: {code, msg, results}})=>{
-          if (code === 1) {
-            if (results.list.length === 0) {
-              this.participationPagenum = -1
-              return
-            }
-            for (var i = 0; i < results.list.length; i++) {
-              this.participation.push(results.list[i])
-            }
-          }
-        }).catch((e)=>{
-          console.error('获取用户参与记录失败:' + e)
-        })
-      }
-    },
-    /*
-     * 获取用户的中奖记录
-     */
-    getWinning (uid, num) {
-      if (this.user.user_id) {
-        this.$http.get(hpApi.oneBuyNewPublic + '?userId=' + uid + '&pagenum=' + num)
-        .then(({data: {code, msg, results}})=>{
-          if (code === 1) {
-            if (results.list.length === 0) {
-              this.winningPagenum = -1
-              return
-            }
-            for (var i = 0; i < results.list.length; i++) {
-              this.winning.push(results.list[i])
-            }
-          }
-        }).catch((e)=>{
-          console.error('获取用户中奖记录失败:' + e)
-        })
-      }
-    },
-    /*
-     * 是否展示倒计时
-     */
-    isShowTime (time) {
-      let pubTime = new Date(Date.parse(time.replace(/-/g, '/')))
-      let now = new Date()
-      // pubTime.setHours(pubTime.getHours() + 9)
-      // now.setMinutes(now.getMinutes() + 15)
-      if (now < pubTime) {
-        // 展示倒计时
-        return {show: true, time: pubTime}
-      }
-      else {
-        // 展示结果
-        return {show: false, time: pubTime}
-      }
     }
   },
   components: {
