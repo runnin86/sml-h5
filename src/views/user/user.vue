@@ -2,122 +2,124 @@
 <div class="content user" distance="55" v-pull-to-refresh="refresh"
   :style="(!this.user?'background-color:white':'')">
   <v-layer></v-layer>
-  <div class="list-block" style="margin-top:0rem;margin-bottom:0rem;">
-    <ul style="background-image: url('/img/个人中心/个人背景图片.png')">
-      <li class="item-content">
-        <div style="width:100%;color:#FFFFFF;font-size:1.2rem;">
-          <span class="icon icon-settings pull-right r08"
-            v-link="{ path: '/user/setting', replace: false}"></span>
-          <span class="icon icon-message pull-right r08"
-            v-link="{ path: '/user/message', replace: false}"></span>
-        </div>
-      </li>
-      <li class="item-content" style="margin-top:-0.4rem;margin-left:-0.76rem;">
-        <div class="center2">
-          <img src="/img/个人中心/默认头像.png" class="img-responsive"
-            style="border:solid 1px #e32;border-radius: 50px;overflow:hidden;"
-            width="64" height="64">
-        </div>
-      </li>
-      <li class="item-content" style="margin-top:-0.4rem;margin-left:-0.76rem;">
-        <div class="name_txt center2" v-if="user">
-          <span class="name">{{user.user_nickname?user.user_nickname:user.user_name}}</span>
-        </div>
-      </li>
-      <li class="item-content" style="margin-top:-0.4rem;">
-        <div style="margin-left:-0.4rem;width:48%;">
-          <a href="#" class="button button-dark" style="color:#FFFFFF;border-color:#FFFFFF">提现</a>
-        </div>
-        <div class="r04" style="width:48%;">
-          <a href="#" class="button button-dark" style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">充值</a>
-        </div>
-      </li>
-      <li class="item-content"
-        style="background-color:#3c3d42;font-size:0.68rem;color:#FFFFFF;">
-        <div class="pull-left" style="margin-left:0.2rem;margin-top:0.4rem;">
-          <div class="text-center">
-            <img src="/img/个人中心/我的本金.png" width="32" height="32">
-          </div>
-          <div>本金 {{user?coinmeter:'...'}}</div>
-        </div>
-        <div class="center2" style="margin-top:0.4rem;">
-          <div class="text-center">
-            <img src="/img/个人中心/我的盈利.png" width="32" height="32">
-          </div>
-          <div>盈利 {{user?userate:'...'}}</div>
-        </div>
-        <div class="pull-right r08" style="margin-top:0.4rem;">
-          <div class="text-center">
-            <img src="/img/个人中心/本月.png" width="80" height="32">
-          </div>
-          <div>销量 {{user?coinmeter:'...'}}</div>
-        </div>
-      </li>
-    </ul>
-  </div>
   <div v-if="!user" class="submit-button">
     <button @click="this.$route.router.go({path: '/login?from=user', replace: true})"
       class="button button-big button-fill">
       登录
     </button>
   </div>
-  <div class="list-block" style="margin-top:0rem;font-size:0.65rem;">
-    <ul>
-      <li class="item-content item-link">
-        <div class="item-inner">
-          <div class="icon-filling item-title">
-            我的账单
+  <div v-else>
+    <div class="list-block" style="margin-top:0rem;margin-bottom:0rem;">
+      <ul style="background-image: url('/img/个人中心/个人背景图片.png')">
+        <li class="item-content">
+          <div style="width:100%;color:#FFFFFF;font-size:1.2rem;">
+            <span class="icon icon-settings pull-right r08"
+              v-link="{ path: '/user/setting', replace: false}"></span>
+            <span class="icon icon-message pull-right r08"
+              v-link="{ path: '/user/message', replace: false}"></span>
           </div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content item-link"
-        v-link="{ path: '/user/order', replace: true}">
-        <div class="item-inner">
-          <div class="icon-order item-title">
-            我的订单
+        </li>
+        <li class="item-content" style="margin-top:-0.4rem;margin-left:-0.76rem;">
+          <div class="center2">
+            <img src="/img/个人中心/默认头像.png" class="img-responsive"
+              style="border:solid 1px #e32;border-radius: 50px;overflow:hidden;"
+              width="64" height="64">
           </div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content item-link">
-        <div class="item-inner">
-          <div class="icon-golds2 item-title">
-            我的返佣
+        </li>
+        <li class="item-content" style="margin-top:-0.4rem;margin-left:-0.76rem;">
+          <div class="name_txt center2" v-if="user">
+            <span class="name">{{user.user_nickname?user.user_nickname:user.user_name}}</span>
           </div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content item-link">
-        <div class="item-inner">
-          <div class="icon-team item-title">
-            我的团队
+        </li>
+        <li class="item-content" style="margin-top:-0.4rem;">
+          <div style="margin-left:-0.4rem;width:48%;">
+            <a href="#" class="button button-dark" style="color:#FFFFFF;border-color:#FFFFFF">提现</a>
           </div>
-        </div>
-      </li>
-    </ul>
-    <ul style="margin-top:0.8rem;">
-      <li class="item-content item-link" v-link="{ path: '/more/feedback', replace: true}">
-        <div class="item-inner">
-          <div class="icon-qrcode item-title">
-            我的二维码
+          <div class="r04" style="width:48%;">
+            <a href="#" class="button button-dark" style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">充值</a>
           </div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content item-link" v-link="{ path: '/more/about', replace: true}">
-        <div class="item-inner">
-          <div class="icon-pwd item-title">
-            修改密码
+        </li>
+        <li class="item-content"
+          style="background-color:#3c3d42;font-size:0.68rem;color:#FFFFFF;">
+          <div class="pull-left" style="margin-left:0.2rem;margin-top:0.4rem;">
+            <div class="text-center">
+              <img src="/img/个人中心/我的本金.png" width="32" height="32">
+            </div>
+            <div>本金 {{user?coinmeter:'...'}}</div>
           </div>
-        </div>
-      </li>
-    </ul>
-    <br>
+          <div class="center2" style="margin-top:0.4rem;">
+            <div class="text-center">
+              <img src="/img/个人中心/我的盈利.png" width="32" height="32">
+            </div>
+            <div>盈利 {{user?userate:'...'}}</div>
+          </div>
+          <div class="pull-right r08" style="margin-top:0.4rem;">
+            <div class="text-center">
+              <img src="/img/个人中心/本月.png" width="80" height="32">
+            </div>
+            <div>销量 {{user?coinmeter:'...'}}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="list-block" style="margin-top:0rem;font-size:0.65rem;">
+      <ul>
+        <li class="item-content item-link">
+          <div class="item-inner">
+            <div class="icon-filling item-title">
+              我的账单
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li class="item-content item-link"
+          v-link="{ path: '/user/order', replace: true}">
+          <div class="item-inner">
+            <div class="icon-order item-title">
+              我的订单
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li class="item-content item-link">
+          <div class="item-inner">
+            <div class="icon-golds2 item-title">
+              我的返佣
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li class="item-content item-link">
+          <div class="item-inner">
+            <div class="icon-team item-title">
+              我的团队
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul style="margin-top:0.8rem;">
+        <li class="item-content item-link" v-link="{ path: '/more/feedback', replace: true}">
+          <div class="item-inner">
+            <div class="icon-qrcode item-title">
+              我的二维码
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li class="item-content item-link" v-link="{ path: '/more/about', replace: true}">
+          <div class="item-inner">
+            <div class="icon-pwd item-title">
+              修改密码
+            </div>
+          </div>
+        </li>
+      </ul>
+      <br>
+    </div>
   </div>
 </div>
 </template>
