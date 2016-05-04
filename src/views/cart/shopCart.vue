@@ -3,42 +3,47 @@
     <nav class="bar bar-nav">
       <h1 class="title color">购物车</h1>
     </nav>
-    <div class="content list" style="bottom: 4.8rem;top: -0.2rem;"
-      v-pull-to-refresh="refreshCart">
+    <div class="content list" v-pull-to-refresh="refreshCart">
       <v-layer></v-layer>
       <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;">
         <v-tab name="tab-planList" status="active" title="方案">
           <div class="list-block infinite-list" style="margin-top:0.1rem;">
             <ul>
               <li class="item-content" id="cartRecord" style="padding-left:0rem;"
-                v-for="item in items" track-by="$index">
+                v-for="plan in plans" track-by="$index">
                 <div class="item-inner" style="padding:0.2rem;">
                   <div class="item-media">
                     <div class="item-title-row">
-                      <div v-if="showImg" class="text-center" style="padding-right:0.2rem;">
+                      <div class="text-center" style="padding-right:0.2rem;">
                         <img src="/img/个人中心/默认头像.png" class="img-responsive"
                           style="margin:0 0.6rem 0 0.6rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
-                          width="42" height="42">                      </div>
-                      <div v-else class="text-center" style="padding-right:0.2rem;">
-                        <img src="/img/乐夺宝/产品图片默认.png" style="width:4rem;">
+                          width="42" height="42">
+                      </div>
+                      <div class="text-center" style="padding-right:0.2rem;">
+                        {{plan.expertName}}
                       </div>
                     </div>
                   </div>
                   <div class="item-title-sml" style="margin-left:-1.6rem;">
                     <div style="margin-top:0.2rem;">
-                      2016-05-03 17:58:33
+                      <span>
+                        {{plan.planName}}
+                      </span>
+                      <span class="pull-right" style="margin-right:1rem;">
+                        2016-05-03 17:58:33
+                      </span>
                     </div>
                     <div class="buttons-row" style="margin-top:0.3rem;text-align:center;">
-                      <span class="button" @click="reduce(item)"
+                      <span class="button" @click="reduce(plan)"
                         style="width:2rem;font-size:1.6rem;">-</span>
                       <span class="button" style="width:24%;">
-                        <input :value="item.amount" v-on:blur='cartPriceCheck(item, $event)'
-                          type="tel" min={{item.price}} max={{item.totalCount}}
+                        <input :value="plan.amount" v-on:blur='cartPriceCheck(plan, $event)'
+                          type="tel" min=1 max=9999
                           style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
                           onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
                           onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
                       </span>
-                      <span class="button" @click="augment(item)"
+                      <span class="button" @click="augment(plan)"
                         style="width:2rem;font-size:1.2rem;">+</span>
                     </div>
                     <div style="margin-top:0.3rem;">
@@ -51,20 +56,34 @@
                       <span class="icon-golds"
                         style="font-size:1rem;margin-left:1.2rem;">
                         <font style="font-size:0.58rem;">
-                          12.00元
+                          {{plan.planAmount}}元
                         </font>
                       </span>
                     </div>
                   </div>
                   <div class="item-title-sml" style="margin-left:-7.6rem;">
-                      1200.00元
+                      {{plan.planAmount * plan.amount}}元
                   </div>
-                  <div class="item-after" @click="delCart(item.id, item.number)">
+                  <div class="item-after" @click="delCart(plan.pid)">
                     <img src="/img/购物车/删除.png" width="32">
                   </div>
                 </div>
               </li>
             </ul>
+          </div>
+          <div class="toolBarCart" v-if="length>0">
+            <div class="list-block">
+              <ul>
+                <li class="item-content bottomLi">
+                  <div class="item-inner" style="padding-left:0.75rem;">
+                    <div class="item-title redFont">共{{items.length}}件方案,总计 {{totalPlans}} 元</div>
+                    <div class="toPay-button">
+                      <button class="button button-fill button-danger" @click="pay()">付款</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </v-tab>
         <v-tab name="tab-hpList" title="乐夺宝">
@@ -115,22 +134,22 @@
               </li>
             </ul>
           </div>
-        </v-tab>
-      </v-tabs>
-    </div>
-  </div>
-  <div class="toolBarCart" v-if="length>0">
-    <div class="list-block">
-      <ul>
-        <li class="item-content bottomLi">
-          <div class="item-inner" style="padding-left:0.75rem;">
-            <div class="item-title redFont">共{{items.length}}件商品,总计{{totalAmount}}元</div>
-            <div class="toPay-button">
-              <button class="button button-fill" @click="pay()">付款</button>
+          <div class="toolBarCart" v-if="length>0">
+            <div class="list-block">
+              <ul>
+                <li class="item-content bottomLi">
+                  <div class="item-inner" style="padding-left:0.75rem;">
+                    <div class="item-title">共{{items.length}}件商品,总计 {{totalItems}} 元</div>
+                    <div class="toPay-button">
+                      <button class="button button-fill" @click="pay()">付款</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
-        </li>
-      </ul>
+        </v-tab>
+      </v-tabs>
     </div>
   </div>
 </template>
@@ -140,7 +159,7 @@ import Vue from 'vue'
 import VLayer from '../../components/PullToRefreshLayer'
 import VTabs from '../../components/Tabs'
 import VTab from '../../components/Tab'
-import {hpApi} from '../../util/service'
+import {hpApi, planApi} from '../../util/service'
 import $ from 'zepto'
 
 Vue.filter('cartPriceValidate', function (value, price) {
@@ -160,8 +179,10 @@ export default {
   },
   data () {
     return {
+      plans: [],
+      totalPlans: 0,
       items: [],
-      totalAmount: 0,
+      totalItems: 0,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       loading: false
     }
@@ -196,44 +217,85 @@ export default {
     refreshCart () {
       $.showIndicator()
       setTimeout(function () {
-        // 获取服务器中的购物车信息
-        this.$http.get(hpApi.redisCart, {},
-          {
-            headers: {
-              'x-token': window.localStorage.getItem('token')
-            },
-            emulateJSON: true
-          })
-        .then(({data: {code, msg, info}})=>{
-          if (code === 1) {
-            this.items = []
-            this.totalAmount = 0
-            if (info.length > 0) {
-              for (let i of info) {
-                this.totalAmount += i.amount
-                this.items.push(i)
-              }
-            }
-          }
-          else if (code === 0) {
-            // 未登录
-            $.toast('你尚未登录...')
-            // setTimeout(function () {
-            //   this.$route.router.go({path: '/user', replace: true})
-            // }.bind(this), 3000)
-          }
-          else {
-            console.error('获取购物车失败:' + msg)
-          }
-        }).catch((e)=>{
-          console.error('无法获取购物车:' + e)
-        })
+        // 获取方案购物车
+        this.loadPlanCart()
+        // 获取乐夺宝购物车
+        this.loadHPCart()
         // 设置购物车图标
         this.$root.setCardBadge()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       }.bind(this), 500)
+    },
+    loadPlanCart () {
+      // 获取服务器中的方案购物车信息
+      this.$http.post(planApi.redisCart, {},
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg, result}})=>{
+        if (code === 1) {
+          this.plans = []
+          this.totalPlans = 0
+          if (result.length > 0) {
+            for (let p of result) {
+              this.totalPlans += p.planAmount
+              this.plans.push(p)
+            }
+          }
+          console.log(this.plans)
+        }
+        else if (code === 0) {
+          // 未登录
+          $.toast('你尚未登录...')
+          // setTimeout(function () {
+          //   this.$route.router.go({path: '/user', replace: true})
+          // }.bind(this), 3000)
+        }
+        else {
+          console.error('获取乐夺宝购物车失败:' + msg)
+        }
+      }).catch((e)=>{
+        console.error('无法获取方案购物车:' + e)
+      })
+    },
+    loadHPCart () {
+      // 获取服务器中的乐夺宝购物车信息
+      this.$http.get(hpApi.redisCart, {},
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg, info}})=>{
+        if (code === 1) {
+          this.items = []
+          this.totalItems = 0
+          if (info.length > 0) {
+            for (let i of info) {
+              this.totalItems += i.amount
+              this.items.push(i)
+            }
+          }
+        }
+        else if (code === 0) {
+          // 未登录
+          $.toast('你尚未登录...')
+          // setTimeout(function () {
+          //   this.$route.router.go({path: '/user', replace: true})
+          // }.bind(this), 3000)
+        }
+        else {
+          console.error('获取乐夺宝购物车失败:' + msg)
+        }
+      }).catch((e)=>{
+        console.error('无法获取乐夺宝购物车:' + e)
+      })
     },
     delCart (id, number) {
       this.$http.delete(hpApi.redisCart + '/' + id + '_' + number, {},
@@ -270,12 +332,12 @@ export default {
         // 组装请求消息体
         let spcarInfos = {
           'spcarInfos': {
-            'totalmoney': this.totalAmount,
+            'totalmoney': this.totalItems,
             'spcarlist': spcarlist
           }
         }
         let postBody = JSON.stringify(spcarInfos)
-        $.confirm('总计' + this.totalAmount + '元,是否确认付款?', '提示', ()=>{
+        $.confirm('总计' + this.totalItems + '元,是否确认付款?', '提示', ()=>{
           // console.log(postBody)
           // 发起支付请求
           this.$http.post(hpApi.cartPay, postBody,
@@ -291,7 +353,7 @@ export default {
               setTimeout(function () {
                 // 清空购物车
                 this.items = []
-                this.totalAmount = 0
+                this.totalItems = 0
                 // 刷新购物车
                 this.refreshCart()
               }.bind(this), 500)
@@ -338,7 +400,7 @@ export default {
         if (code === 1) {
           let initAmount = item.amount
           item.amount = msg.amount
-          this.totalAmount = this.totalAmount - initAmount + amount
+          this.totalItems = this.totalItems - initAmount + amount
         }
       }).catch((e)=>{
         console.error('购物车数量加减异常:' + e)
@@ -383,7 +445,7 @@ export default {
 }
 .toolBarCart {
   position:absolute;
-  bottom:2.24rem;
+  bottom:1.68rem;
   width:100%;
   text-align:center;
 }

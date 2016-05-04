@@ -1,4 +1,10 @@
 const URL_COMMON = 'http://123.57.217.199:9587/api/v1/sml/'
+// 方案接口地址
+export let planApi = {
+  // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
+  redisCart: URL_COMMON + 'quespcart'
+}
+
 // 乐夺宝接口地址
 export let hpApi = {
   // banner地址
@@ -27,7 +33,7 @@ export let hpApi = {
   userOneBuyOrder: URL_COMMON + 'userOneBuyOrder',
   // 中奖记录
   oneBuyNewPublic: URL_COMMON + 'oneBuyNewPublic',
-  // 添加到购物车-post,查询购物车-get.(redis)
+  // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
   redisCart: URL_COMMON + 'shoppingCart',
   // 购物车支付
   cartPay: URL_COMMON + 'shoppingCartPay'
