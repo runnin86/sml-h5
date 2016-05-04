@@ -109,6 +109,14 @@ export default {
   ready () {
     $.init()
     this.refresh()
+    // $('.buttons-tab').fixedTab({offset: 644})
+    $('.content').on('scroll', function () {
+      let top1 = $('.content').scrollTop()
+      $('.buttons-tab').css({
+        top: top1 - 2,
+        'z-index': 100
+      })
+    })
   },
   data () {
     return {
