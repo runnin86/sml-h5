@@ -63,6 +63,7 @@ export default {
           color: 'danger',
           onClick: function () {
             root.cardBadge = 0
+            root.showPlan = false
             window.localStorage.removeItem('user')
             window.localStorage.removeItem('token')
             window.localStorage.removeItem('imageSwitch')

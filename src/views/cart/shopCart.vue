@@ -71,12 +71,12 @@
               </li>
             </ul>
           </div>
-          <div class="toolBarCart" v-if="length>0">
+          <div class="toolBarCart" v-if="plans.length>0">
             <div class="list-block">
               <ul>
                 <li class="item-content bottomLi">
                   <div class="item-inner" style="padding-left:0.75rem;">
-                    <div class="item-title redFont">共{{items.length}}件方案,总计 {{totalPlans}} 元</div>
+                    <div class="item-title redFont">共{{plans.length}}件方案,总计 {{totalPlans}} 元</div>
                     <div class="toPay-button">
                       <button class="button button-fill button-danger" @click="pay()">付款</button>
                     </div>
@@ -134,7 +134,7 @@
               </li>
             </ul>
           </div>
-          <div class="toolBarCart" v-if="length>0">
+          <div class="toolBarCart" v-if="items.length>0">
             <div class="list-block">
               <ul>
                 <li class="item-content bottomLi">

@@ -1,7 +1,7 @@
 <template>
   <div class="page page-current">
       <bar v-if="isIndex" class="barHeight">
-        <bar-item path="/plan" label="专家方案" icon="plan"></bar-item>
+        <bar-item v-show="showPlan" path="/plan" label="专家方案" icon="plan"></bar-item>
         <bar-item path="/happyPurchase" label="乐夺宝" icon="gift"></bar-item>
         <bar-item path="/shopCart" label="购物车" icon="cart" :b="cardBadge"></bar-item>
         <bar-item path="/user" label="个人中心" icon="me" :b="userBadge"></bar-item>
@@ -95,7 +95,8 @@ export default {
     return {
       isIndex: true,
       cardBadge: 0,
-      userBadge: 0
+      userBadge: 0,
+      showPlan: false
     }
   },
   methods: {
@@ -110,21 +111,25 @@ export default {
       return pwd
     },
     setCardBadge () {
-      // 获取服务器中的购物车信息
-      this.$http.get(hpApi.redisCart, {},
-        {
-          headers: {
-            'x-token': window.localStorage.getItem('token')
-          },
-          emulateJSON: true
+      let token = window.localStorage.getItem('token')
+      if (token) {
+        this.showPlan = true
+        // 获取服务器中的购物车信息
+        this.$http.get(hpApi.redisCart, {},
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg, info}})=>{
+          if (info) {
+            this.cardBadge = info.length
+          }
+        }).catch((e)=>{
+          console.error('无法获取购物车:' + e)
         })
-      .then(({data: {code, msg, info}})=>{
-        if (info) {
-          this.cardBadge = info.length
-        }
-      }).catch((e)=>{
-        console.error('无法获取购物车:' + e)
-      })
+      }
     }
   },
   components: {
