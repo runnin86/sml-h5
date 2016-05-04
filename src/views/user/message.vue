@@ -40,7 +40,7 @@
 
 <script>
 import {loader} from '../../util/util'
-import {hpApi} from '../../util/service'
+import {userApi} from '../../util/service'
 import $ from 'zepto'
 
 export default {
@@ -70,7 +70,7 @@ export default {
     getMessage () {
       let token = window.localStorage.getItem('token')
       let param = '?pagenum=' + this.pagenum + '&pagesize=' + this.pagesize
-      this.$http.get(hpApi.userMessage + param, {}, {
+      this.$http.get(userApi.userMessage + param, {}, {
         headers: {
           'x-token': token
         },

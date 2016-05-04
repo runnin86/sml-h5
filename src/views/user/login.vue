@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {hpApi} from '../../util/service'
+import {userApi} from '../../util/service'
 import $ from 'zepto'
 export default {
   ready () {
@@ -39,7 +39,7 @@ export default {
         $.toast('请输入用户名或密码')
         return
       }
-      this.$http.post(hpApi.login,
+      this.$http.post(userApi.login,
         {
           'userName': this.userName,
           'password': this.password

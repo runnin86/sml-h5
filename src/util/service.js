@@ -19,16 +19,6 @@ export let hpApi = {
   my_partake: URL_COMMON + 'oneBuyUserPay',
   // 所有参与记录
   all_partake: URL_COMMON + 'oneBuyUser',
-  // 登录
-  login: URL_COMMON + 'login',
-  // 我的本金
-  coinmeter: URL_COMMON + 'coinmeter',
-  // 我的盈利
-  userate: URL_COMMON + 'userate',
-  // 我的消息
-  userMessage: URL_COMMON + 'usermsg',
-  // 我的消息(删除)
-  delMessage: URL_COMMON + 'delmsgbyid',
   // 所有参与记录
   userOneBuyOrder: URL_COMMON + 'userOneBuyOrder',
   // 中奖记录
@@ -37,4 +27,20 @@ export let hpApi = {
   redisCart: URL_COMMON + 'shoppingCart',
   // 购物车支付
   cartPay: URL_COMMON + 'shoppingCartPay'
+}
+
+// 用户公用接口地址
+export let userApi = {
+  // 登录
+  login: URL_COMMON + 'login',
+  // 修改用户密码
+  changePwd: URL_COMMON + 'modifypwd',
+  // 我的本金
+  coinmeter: URL_COMMON + 'coinmeter',
+  // 我的盈利
+  userate: URL_COMMON + 'userate',
+  // 我的消息
+  userMessage: URL_COMMON + 'usermsg',
+  // 我的消息(删除)
+  delMessage: URL_COMMON + 'delmsgbyid'
 }

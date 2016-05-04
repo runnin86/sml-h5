@@ -110,7 +110,7 @@
         </li>
       </ul>
       <ul>
-        <li class="item-content item-link" v-link="{ path: '/more/about', replace: true}">
+        <li class="item-content item-link" v-link="{ path: '/user/changePwd', replace: true}">
           <div class="item-inner">
             <div class="icon-pwd item-title">
               修改密码
@@ -131,7 +131,7 @@ import VCardContainer from '../../components/Card'
 import Card from '../../components/CardItem'
 import VCountDown from '../../components/Countdown'
 import VLayer from '../../components/PullToRefreshLayer'
-import {hpApi} from '../../util/service'
+import {userApi} from '../../util/service'
 import $ from 'zepto'
 
 export default {
@@ -174,7 +174,7 @@ export default {
      * 获取用户账户的盈利
      */
     getUserate (token) {
-      this.$http.post(hpApi.userate, {}, {
+      this.$http.post(userApi.userate, {}, {
         headers: {
           'x-token': token
         },
@@ -199,7 +199,7 @@ export default {
      * 获取账户本金
      */
     getCoinmeter (token) {
-      this.$http.post(hpApi.coinmeter,
+      this.$http.post(userApi.coinmeter,
         {
           'x-token': token
         })
