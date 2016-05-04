@@ -1,6 +1,10 @@
 const URL_COMMON = 'http://123.57.217.199:9587/api/v1/sml/'
 // 方案接口地址
 export let planApi = {
+  // banner地址
+  banner: URL_COMMON + 'slider?type=tc',
+  // 获取首页方案
+  plan: URL_COMMON + 'plan',
   // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
   redisCart: URL_COMMON + 'quespcart'
 }

@@ -26,7 +26,7 @@
 
     <!-- 内容区 -->
     <div style="margin-bottom:4rem;">
-      <v-card-container v-for="item in itemList | orderBy 'id' -1"
+      <v-card-container v-for="item in planList | orderBy 'id' -1"
         style="margin: 0.18rem;background-color:#f9f9f9;">
         <card type="header" style="font-size:0.68rem;background-color:#ffffff;">
           <div style="width:180%;">
@@ -103,14 +103,14 @@ import VIcon from '../../components/Iconfont'
 import VLayer from '../../components/PullToRefreshLayer'
 import VCardContainer from '../../components/Card'
 import Card from '../../components/CardItem'
-import {hpApi} from '../../util/service'
+import {hpApi, planApi} from '../../util/service'
 import $ from 'zepto'
 
 export default {
   ready () {
     $.init()
     this.getBanner()
-    this.getItemList()
+    this.getPlanList()
     $.refreshScroller()
   },
   data () {
@@ -125,18 +125,18 @@ export default {
       }],
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
-      itemList: []
+      planList: []
     }
   },
   computed: {
     length () {
-      return this.itemList.length
+      return this.planList.length
     }
   },
   methods: {
     getBanner () {
       // 获取banner的图片数据
-      this.$http.get(hpApi.banner)
+      this.$http.get(planApi.banner)
       .then(({data: {code, msg, info}})=>{
         if (code === 1) {
           if (info.length > 0) {
@@ -158,19 +158,19 @@ export default {
         console.error('无法连接服务器获取banner')
       })
     },
-    getItemList () {
-      // 获取商品列表
+    getPlanList () {
+      // 获取方案
       this.$http.get(hpApi.home)
       .then(({data: {code, msg, results, count, pagenum}})=>{
         if (code === 1) {
-          this.$set('itemList', results.list)
+          this.$set('planList', results.list)
         }
         else {
-          console.error('获取商品列表失败:' + msg)
+          console.error('获取方案失败:' + msg)
         }
       }).catch(()=>{
         $.alert('服务器连接中断...')
-        console.error('无法连接服务器-获取商品列表')
+        console.error('无法连接服务器-获取方案')
       })
     },
     addToCart (item, e) {
@@ -214,9 +214,9 @@ export default {
     refresh () {
       $.showIndicator()
       setTimeout(function () {
-        this.itemList = []
+        this.planList = []
         this.getBanner()
-        this.getItemList()
+        this.getPlanList()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
