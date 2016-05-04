@@ -15,7 +15,7 @@
 <script>
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
-import {hpApi} from './util/service'
+import {hpApi, planApi} from './util/service'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
 import wx from 'wx'
@@ -113,8 +113,11 @@ export default {
     setCardBadge () {
       let token = window.localStorage.getItem('token')
       if (token) {
+        // 展示方案的菜单
         this.showPlan = true
-        // 获取服务器中的购物车信息
+        // 处理购物车图标右上角的数字
+        this.cardBadge = 0
+        // 获取服务器中的乐夺宝购物车信息
         this.$http.get(hpApi.redisCart, {},
           {
             headers: {
@@ -124,10 +127,25 @@ export default {
           })
         .then(({data: {code, msg, info}})=>{
           if (info) {
-            this.cardBadge = info.length
+            this.cardBadge += info.length
           }
         }).catch((e)=>{
-          console.error('无法获取购物车:' + e)
+          console.error('无法获取乐夺宝购物车:' + e)
+        })
+        // 获取服务器中的方案购物车信息
+        this.$http.post(planApi.redisCart, {},
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg, result}})=>{
+          if (result) {
+            this.cardBadge += result.length
+          }
+        }).catch((e)=>{
+          console.error('无法获取方案购物车:' + e)
         })
       }
     }

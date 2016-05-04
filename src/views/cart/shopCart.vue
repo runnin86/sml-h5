@@ -247,7 +247,6 @@ export default {
               this.plans.push(p)
             }
           }
-          console.log(this.plans)
         }
         else if (code === 0) {
           // 未登录
