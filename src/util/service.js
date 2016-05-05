@@ -8,7 +8,9 @@ export let planApi = {
   // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
   redisCart: URL_COMMON + 'quespcart',
   // 盈利排行
-  rank: URL_COMMON + 'ranktop'
+  rank: URL_COMMON + 'ranktop',
+  // 服务器时间
+  time: URL_COMMON + 'nowtime'
 }
 
 // 乐夺宝接口地址

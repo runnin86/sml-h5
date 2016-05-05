@@ -79,9 +79,9 @@
                       </font>
                     </div>
                     <div class="icon-clock2" style="font-size:1rem;">
-                      <font style="font-size:0.5rem;margin-left:-0.22rem;">
-                        <!-- created_time,deadline_time去计算 -->
-                        180 分钟
+                      <font style="font-size:0.5rem;margin-left:-0.12rem;">
+                        <!-- 剩余时间通过服务器时间和deadline_time去计算 -->
+                        {{'' | residualTime p.deadline_time}}
                       </font>
                     </div>
                     <div>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Slider from '../../components/Slider'
 import Bar from '../../components/Bar'
 import BarItem from '../../components/BarItem'
@@ -113,6 +114,12 @@ import VCardContainer from '../../components/Card'
 import Card from '../../components/CardItem'
 import {hpApi, planApi} from '../../util/service'
 import $ from 'zepto'
+
+Vue.filter('residualTime', function (a, b) {
+  // 计算时间差
+  let filterTime = this.getDateDiff(this.serviceTime, b, 'minute')
+  return filterTime > 0 ? filterTime + '分钟' : '已截止'
+})
 
 export default {
   ready () {
@@ -133,7 +140,8 @@ export default {
       }],
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
-      rangeList: []
+      rangeList: [],
+      serviceTime: ''
     }
   },
   computed: {
@@ -194,6 +202,20 @@ export default {
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       })
+      // 获取服务器时间
+      this.$http.get(planApi.time, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        if (code === 1) {
+          this.$set('serviceTime', result)
+        }
+      }).catch(()=>{
+        console.error('无法连接服务器-获取服务器时间')
+      })
     },
     addToCart (item, e) {
       e.stopPropagation()
@@ -235,6 +257,38 @@ export default {
     },
     recharge () {
       $.alert('充值提示')
+    },
+    /*
+     * 计算时间差
+     */
+    getDateDiff (startTime, endTime, diffType) {
+      // 将xxxx-xx-xx的时间格式，转换为 xxxx/xx/xx的格式
+      startTime = startTime.replace(/\-/g, '/')
+      endTime = endTime.replace(/\-/g, '/')
+      // 将计算间隔类性字符转换为小写
+      diffType = diffType.toLowerCase()
+      var sTime = new Date(startTime) // 开始时间
+      var eTime = new Date(endTime)   // 结束时间
+      // 作为除数的数字
+      var divNum = 1
+      switch (diffType)
+      {
+        case 'second':
+          divNum = 1000
+          break
+        case 'minute':
+          divNum = 1000 * 60
+          break
+        case 'hour':
+          divNum = 1000 * 3600
+          break
+        case 'day':
+          divNum = 1000 * 3600 * 24
+          break
+        default:
+          break
+      }
+      return parseInt((eTime.getTime() - sTime.getTime()) / parseFloat(divNum, 0), 0)
     }
   },
   components: {
