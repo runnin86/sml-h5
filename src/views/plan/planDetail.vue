@@ -32,12 +32,13 @@
       </li>
       <li class="item-content">
         <div class="center2">
-          <img :src="plan.expert_photo" class="img-responsive" width="64" height="64">
+          <img :src="plan.expert_photo" class="img-responsive" width="64" height="68">
         </div>
       </li>
       <li class="item-content" style="margin-top:-0.6rem;">
         <div class="center2">
-          <font>{{plan.expert_name}}<font>
+          {{plan.expert_name}}
+          <font style="font-size:0.6rem;">[{{plan.plan_name}}]<font>
         </div>
       </li>
       <li class="item-content" style="margin-top:-0.8rem;">
