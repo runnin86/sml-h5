@@ -148,9 +148,7 @@ import $ from 'zepto'
 export default {
   ready () {
     $.init()
-    this.getBanner()
-    this.getItemList()
-    this.getItemList10()
+    this.refresh()
     $.refreshScroller()
   },
   data () {

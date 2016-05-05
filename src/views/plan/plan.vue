@@ -37,8 +37,12 @@
                 </font>
               </span>
               <span class="pull-right icon-piechart" style="font-size:1rem;color:red;">
-                <font style="font-size:0.68rem;color:black;">
+                <font style="font-size:0.68rem;color:black;"
+                  v-if="r.rangeSaleLimit-r.rangeSaled>0">
                   限购剩余 {{r.rangeSaleLimit-r.rangeSaled}} 元
+                </font>
+                <font style="font-size:0.68rem;color:black;" v-else>
+                  不限购
                 </font>
               </span>
             </div>
