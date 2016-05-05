@@ -51,7 +51,7 @@
             <div class="list-block infinite-list">
               <ul>
                 <li class="item-content" v-for="p in r.plans | orderBy 'plan_status' -1"
-                  v-link="{name: 'planDetail', params: { id: p.plan_id }, query:{ number: 1 }, activeClass: 'active', replace: false}">
+                  v-link="{name: 'planDetail', params: { id: p.plan_id }, activeClass: 'active', replace: false}">
                   <div class="item-media">
                     <img :src="p.expert_photo" class="img-responsive"
                       style="margin-left:-0.28rem;"

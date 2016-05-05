@@ -1,7 +1,7 @@
 <template>
 <div class="content" transition="bounce" style="margin-bottom:1.8rem;">
   <header class="bar bar-nav">
-    <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: true}">
+    <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: false}">
     <span class="icon icon-left"></span>
     </a>
     <h1 class="title headerColor">方案详情</h1>
@@ -12,15 +12,18 @@
         <div style="width:100%;">
           <span style="margin-left:-0.4rem;">
             信心指数
-            <img src="/img/专家方案/信心.png" width="12" height="12">
-            <img src="/img/专家方案/信心.png" width="12" height="12"
+            <img v-if="plan.planConfident===-1 || plan.planConfident>0"
+              src="/img/专家方案/信心.png" width="12" height="12">
+            <img v-if="plan.planConfident===-1 || plan.planConfident>1"
+              src="/img/专家方案/信心.png" width="12" height="12"
               style="margin-left:-0.1rem;">
-            <img src="/img/专家方案/信心.png" width="12" height="12"
+            <img v-if="plan.planConfident===-1 || plan.planConfident>2"
+              src="/img/专家方案/信心.png" width="12" height="12"
               style="margin-left:-0.1rem;">
-            <img src="/img/专家方案/信心.png" width="12" height="12"
-              style="margin-left:-0.1rem;">
-            <img src="/img/专家方案/信心.png" width="12" height="12"
-              style="margin-left:-0.1rem;">
+            <img v-if="plan.planConfident>3" style="margin-left:-0.1rem;"
+              src="/img/专家方案/信心.png" width="12" height="12">
+            <img v-if="plan.planConfident>4" style="margin-left:-0.1rem;"
+              src="/img/专家方案/信心.png" width="12" height="12">
           </span>
           <span class="pull-right r04">
             剩余购买时间: 500分钟
@@ -29,23 +32,23 @@
       </li>
       <li class="item-content">
         <div class="center2">
-          <img src="/img/个人中心/默认头像.png" class="img-responsive"
-            style="border:solid 1px #e32;border-radius: 50px;overflow:hidden;"
-            width="64" height="64">
+          <img :src="plan.expert_photo" class="img-responsive" width="64" height="64">
         </div>
       </li>
       <li class="item-content" style="margin-top:-0.6rem;">
         <div class="center2">
-          <font>他山之石<font>
+          <font>{{plan.expert_name}}<font>
         </div>
       </li>
       <li class="item-content" style="margin-top:-0.8rem;">
         <div class="pull-left" style="margin-left:-0.4rem;">
-          方案数:280
+          方案数:{{summary.planTotalNum}}
         </div>
-        <div class="center2">胜率:88%</div>
+        <div class="center2">
+          胜率:{{parseInt(summary.winrate*100, 0)}}%
+        </div>
         <div class="pull-right r04">
-          奖金:226035
+          奖金:{{summary.totalProfit}}
         </div>
       </li>
       <li class="item-content"
@@ -54,13 +57,17 @@
           <span class="icon-histogram"
             style="font-size:1rem;color:red;">
             <font style="font-size:0.68rem;color:#ffffff;">
-              0%~10%收益区
+              {{plan.range_name}}
             </font>
           </span>
           <span class="pull-right icon-piechart r04"
             style="font-size:1rem;color:red;">
-            <font style="font-size:0.68rem;color:#ffffff;">
-              限购剩余 36870.00元
+            <font style="font-size:0.68rem;color:#FFFFFF;"
+              v-if="plan.range_saleLimit-plan.saledAmount>0">
+              限购剩余 {{plan.range_saleLimit-plan.saledAmount}} 元
+            </font>
+            <font style="font-size:0.68rem;color:#FFFFFF;" v-else>
+              不限购
             </font>
           </span>
         </div>
@@ -80,7 +87,7 @@
       <li class="item-content2 fafafa" id="planContent" style="display: none;">
         <div class="item-inner">
           <div class="item-title2" style="font-size:0.58rem;margin-left:0.4rem;">
-            曼城主场让莱切斯特城球半/两球中水。曼城排名联赛第二，虽然最近联赛状态不好，但与垫底的英超(微博 专题) 升班马莱切斯特城相比，曼城的优势还是非常大，莱切斯特城最近5轮比赛不胜只拿到1分，根本不会被投注看好，以曼城的实力和声望主场最差也应该让到两球盘，开球半/两球上盘水位还不是很低，对于曼城不能接受，本场主队大胜的几率很低。
+            {{{plan.plan_content}}}
           </div>
         </div>
       </li>
@@ -94,7 +101,7 @@
       <li class="item-content2 fafafa" id="expertDesc" style="display: none;">
         <div class="item-inner">
           <div class="item-title2" style="font-size:0.58rem;margin-left:0.4rem;">
-            戴维，资深足彩专家，掌握欧亚足坛博彩市场内第一手资料，精研亚盘欧赔，凯利指数最早使用者之一，轻松解析盘口赔率背后玄机。独家创建使用“形态、实力差、误差”三大理论分析足彩，对亚洲盘变化的把握极其准确。个人中奖极多，胜负、进球推荐均曾经数次命中百万大奖，在《足彩310》、《体彩导报》等媒体均开有个人推荐专栏。
+            {{attachInfo.expertIntro}}
           </div>
         </div>
       </li>
@@ -105,44 +112,25 @@
           <div class="item-title2">专家战绩</div>
         </div>
       </li>
-      <li class="item-content2" id="expertHistory" style="display: block;">
-        <div class="item-inner item-title2 fafafa">
-          <div>01/05</div>
+      <li class="item-content2" id="expertHistory" style="display: block;font-size:0.6rem;">
+        <div v-for="h in expertHistory | orderBy 'plan_status' -1"
+          class="item-inner item-title2 fafafa"
+          :style="(h.planResult!=='胜'?'':'color:#FF2D2D')">
           <div>
-            <span class="icon-histogram"
-              style="font-size:1rem;">
-              <font style="font-size:0.68rem;">
-                0%~10%收益
-              </font>
+            <!-- 01/05 -->
+            {{h.effective_time.substr(5, 5)}}
+          </div>
+          <div>
+            <span class="icon-histogram">
+              {{h.rangeName}}
             </span>
           </div>
           <div>
-            <div class="icon-golds" style="font-size:1rem;">
-              <font style="font-size:0.5rem;">
-                12.00 元
-              </font>
+            <div class="icon-golds">
+              {{h.plan_amount}}.00元
             </div>
           </div>
-          <div class="icon-right2"></div>
-        </div>
-        <div class="item-inner item-title2 fafafa">
-          <div>30/04</div>
-          <div>
-            <span class="icon-histogram"
-              style="font-size:1rem;">
-              <font style="font-size:0.68rem;">
-                10%~30%收益
-              </font>
-            </span>
-          </div>
-          <div>
-            <div class="icon-golds" style="font-size:1rem;">
-              <font style="font-size:0.5rem;">
-                6.00 元
-              </font>
-            </div>
-          </div>
-          <div class="icon-wrong2"></div>
+          <div :class="h.planResult==='胜'?'icon-right2':(h.planResult==='负'?'icon-wrong2':'icon-cancel2')"></div>
         </div>
       </li>
     </ul>
@@ -156,32 +144,35 @@
 </div>
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
   v-on:click="closeModal">
-  <v-pay-button :amount="itemInfo.price<10?(itemInfo.codeCount<10?itemInfo.price:10):itemInfo.price" :title="title" :show="showPayBtn" :item="itemInfo"></v-pay-button>
+  <v-pay-button :amount="plan.plan_amount" :title="title" :show="showPayBtn" :item="plan"></v-pay-button>
 </div>
 </template>
 
 <script>
   import VPayButton from '../../components/PlanPayButton'
+  import {planApi} from '../../util/service'
   import $ from 'zepto'
+
   export default {
     ready () {
       $.init()
+      this.loadPlan()
     },
     data () {
       return {
         id: this.$route.params.id,
-        itemInfo: '',
-        banner: [],
         title: '方案详情',
         path: '/plan',
-        records: [],
-        partake: [],
+        attachInfo: '',
+        certList: '',
+        expertHistory: '',
+        plan: '',
+        summary: '',
         showPayBtn: false,
         showImg: window.localStorage.getItem('imageSwitch') === 'true',
         userId: window.localStorage.getItem('user') ? JSON.parse(window.localStorage.getItem('user')).user_id : null,
         loading: false,
-        pagenum: 0,
-        addObj: ''
+        pagenum: 0
       }
     },
     methods: {
@@ -203,6 +194,37 @@
         else {
           $.toast('请登录后购买方案...')
         }
+      },
+      loadPlan () {
+        // 获取方案
+        $.showIndicator()
+        this.$http.post(planApi.detail, {
+          pid: this.id
+        }, {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+        .then(({data: {code, msg, result}})=>{
+          if (code === 1) {
+            // console.log(result)
+            this.$set('attachInfo', result.attachInfo)
+            this.$set('certList', result.certList)
+            this.$set('expertHistory', result.expertHistory)
+            this.$set('plan', result.plan)
+            this.$set('summary', result.summaryList[0])
+          }
+          else {
+            console.error('获取方案明细失败:' + msg)
+          }
+        }).catch(()=>{
+          console.error('无法连接服务器-获取方案明细')
+        }).finally(()=>{
+          // 加载完毕需要重置
+          $.pullToRefreshDone('.pull-to-refresh-content')
+          $.hideIndicator()
+        })
       }
     },
     components: {

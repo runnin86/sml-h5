@@ -5,6 +5,8 @@ export let planApi = {
   banner: URL_COMMON + 'slider?type=tc',
   // 获取首页方案
   plan: URL_COMMON + 'plan',
+  // 方案详情
+  detail: URL_COMMON + 'planbyid',
   // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
   redisCart: URL_COMMON + 'quespcart',
   // 盈利排行
