@@ -26,7 +26,7 @@
               src="/img/专家方案/信心.png" width="12" height="12">
           </span>
           <span class="pull-right r04">
-            剩余购买时间: 500分钟
+            剩余购买时间:{{residualTime}}
           </span>
         </div>
       </li>
@@ -139,7 +139,8 @@
 </div>
 <div class="toolBarDetail">
   <div class="submit-button">
-    <button v-show="!showPayBtn" class="button button-big button-fill" @click="popPay()">购买方案</button>
+    <button v-show="!showPayBtn" class="button button-big button-fill"
+      :class="disabledPayBtn?'disabled':''" @click="popPay()">购买方案</button>
   </div>
 </div>
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
@@ -151,11 +152,26 @@
 <script>
   import VPayButton from '../../components/PlanPayButton'
   import {planApi} from '../../util/service'
+  import {getDateDiff} from '../../util/util'
   import $ from 'zepto'
 
   export default {
     ready () {
       $.init()
+      // 获取服务器时间
+      this.$http.get(planApi.time, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        if (code === 1) {
+          this.$set('serviceTime', result)
+        }
+      }).catch(()=>{
+        console.error('无法连接服务器-获取服务器时间')
+      })
       this.loadPlan()
     },
     data () {
@@ -168,7 +184,10 @@
         expertHistory: '',
         plan: '',
         summary: '',
+        serviceTime: '',
+        residualTime: '',
         showPayBtn: false,
+        disabledPayBtn: false,
         showImg: window.localStorage.getItem('imageSwitch') === 'true',
         userId: window.localStorage.getItem('user') ? JSON.parse(window.localStorage.getItem('user')).user_id : null,
         loading: false,
@@ -188,6 +207,9 @@
         this.showPayBtn = false
       },
       popPay: function () {
+        if (this.disabledPayBtn) {
+          return
+        }
         if (window.localStorage.getItem('user')) {
           this.showPayBtn = true
         }
@@ -214,6 +236,11 @@
             this.$set('expertHistory', result.expertHistory)
             this.$set('plan', result.plan)
             this.$set('summary', result.summaryList[0])
+            let filterTime = getDateDiff(this.serviceTime, result.plan.deallineTime, 'minute')
+            this.$set('residualTime', filterTime > 0 ? filterTime + '分钟' : '已截止')
+            if (filterTime < 0) {
+              this.$set('disabledPayBtn', true)
+            }
           }
           else {
             console.error('获取方案明细失败:' + msg)
