@@ -57,28 +57,28 @@
                       style="margin-left:-0.28rem;"
                       width="42" height="46">
                   </div>
-                  <div class="item-inner" style="font-size:0.68rem;margin-left:0.56rem;">
-                    <div>
+                  <div class="item-inner text-sml" style="font-size:0.68rem;margin-left:0.56rem;">
+                    <div style="width: 22%;">
                       <div>{{p.expert_name}}</div>
                       <div>
                         <!-- planConfident:-1默认为3 -->
-                        <img src="/img/专家方案/信心.png" width="12" height="12">
-                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                        <img v-if="p.planConfident===-1 || p.planConfident>0" src="/img/专家方案/信心.png" width="12" height="12">
+                        <img v-if="p.planConfident===-1 || p.planConfident>1" src="/img/专家方案/信心.png" width="12" height="12"
                           style="margin-left:-0.1rem;">
-                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                        <img v-if="p.planConfident===-1 || p.planConfident>2" src="/img/专家方案/信心.png" width="12" height="12"
                           style="margin-left:-0.1rem;">
-                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                        <img v-if="p.planConfident>3" src="/img/专家方案/信心.png" width="12" height="12"
                           style="margin-left:-0.1rem;">
-                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                        <img v-if="p.planConfident>4" src="/img/专家方案/信心.png" width="12" height="12"
                           style="margin-left:-0.1rem;">
                       </div>
                     </div>
-                    <div class="icon-golds" style="font-size:1rem;">
+                    <div class="icon-golds" style="font-size:1rem;width: 26%;">
                       <font style="font-size:0.5rem;margin-left:-0.22rem;">
                         {{p.plan_amount}}.00 元
                       </font>
                     </div>
-                    <div class="icon-clock2" style="font-size:1rem;">
+                    <div class="icon-clock2" style="font-size:1rem;width: 28%;">
                       <font style="font-size:0.5rem;margin-left:-0.12rem;">
                         <!-- 剩余时间通过服务器时间和deadline_time去计算 -->
                         {{'' | residualTime p.deadline_time}}
