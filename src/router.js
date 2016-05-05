@@ -49,6 +49,11 @@ export default function (router) {
         require(['./views/plan/planDetail'], resolve)
       }
     },
+    '/plan/rank': {
+      component (resolve) {
+        require(['./views/plan/rank'], resolve)
+      }
+    },
     '/shopCart': {
       component (resolve) {
         require(['./views/cart/shopCart'], resolve)

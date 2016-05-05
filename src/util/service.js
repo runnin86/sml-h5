@@ -6,7 +6,9 @@ export let planApi = {
   // 获取首页方案
   plan: URL_COMMON + 'plan',
   // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
-  redisCart: URL_COMMON + 'quespcart'
+  redisCart: URL_COMMON + 'quespcart',
+  // 盈利排行
+  rank: URL_COMMON + 'ranktop'
 }
 
 // 乐夺宝接口地址

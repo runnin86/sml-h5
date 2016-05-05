@@ -7,7 +7,7 @@
 
     <!-- 快捷入口 -->
     <bar class="home-bar">
-      <bar-item path="/latestAnnounced" label="盈利排行" img="/img/专家方案/盈利排行.png" h=42 i=38></bar-item>
+      <bar-item path="/plan/rank" label="盈利排行" img="/img/专家方案/盈利排行.png" h=42 i=38></bar-item>
       <bar-item label="充值" img="/img/专家方案/充值.png" h=42 i=38 @click="recharge()"></bar-item>
       <bar-item path="/happyPurchase/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
     </bar>
