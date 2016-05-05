@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <div class="content home" distance="55" v-pull-to-refresh="refresh">
+  <div class="content home" distance="55" v-pull-to-refresh="getRangeList">
     <v-layer></v-layer>
     <!-- 轮播图 -->
     <slider :banner="banner" :vertical="false" style="z-index:9999;"></slider>
@@ -26,66 +26,70 @@
 
     <!-- 内容区 -->
     <div style="margin-bottom:4rem;">
-      <v-card-container v-for="item in planList | orderBy 'id' -1"
+      <v-card-container v-for="r in rangeList | orderBy 'id' -1"
         style="margin: 0.18rem;background-color:#f9f9f9;">
-        <card type="header" style="font-size:0.68rem;background-color:#ffffff;">
-          <div style="width:180%;">
-            <span class="icon-histogram" style="font-size:1rem;color:red;">
-              <font style="font-size:0.68rem;color:black;">
-                0%~10%收益区
-              </font>
-            </span>
-            <span class="pull-right icon-piechart" style="font-size:1rem;color:red;">
-              <font style="font-size:0.68rem;color:black;">
-                限购剩余 36870.00元
-              </font>
-            </span>
-          </div>
-        </card>
-        <card type="content">
-          <div class="list-block infinite-list">
-            <ul>
-              <li class="item-content"
-                v-link="{name: 'planDetail', params: { id: 3 }, query:{ number: 1 }, activeClass: 'active', replace: false}">
-                <div class="item-media">
-                  <img src="/img/个人中心/默认头像.png" class="img-responsive"
-                    style="margin-left:-0.48rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
-                    width="42" height="42">
-                </div>
-                <div class="item-inner" style="font-size:0.68rem;margin-left:0.36rem;">
-                  <div>
-                    <div>海苔</div>
+        <div v-if="r.plans.length>0">
+          <card type="header" style="font-size:0.68rem;background-color:#ffffff;">
+            <div style="width:180%;">
+              <span class="icon-histogram" style="font-size:1rem;color:red;">
+                <font style="font-size:0.68rem;color:black;">
+                  {{r.range_name}}
+                </font>
+              </span>
+              <span class="pull-right icon-piechart" style="font-size:1rem;color:red;">
+                <font style="font-size:0.68rem;color:black;">
+                  限购剩余 {{r.rangeSaleLimit-r.rangeSaled}} 元
+                </font>
+              </span>
+            </div>
+          </card>
+          <card type="content">
+            <div class="list-block infinite-list">
+              <ul>
+                <li class="item-content" v-for="p in r.plans | orderBy 'plan_status' -1"
+                  v-link="{name: 'planDetail', params: { id: p.plan_id }, query:{ number: 1 }, activeClass: 'active', replace: false}">
+                  <div class="item-media">
+                    <img :src="p.expert_photo" class="img-responsive"
+                      style="margin-left:-0.28rem;"
+                      width="42" height="46">
+                  </div>
+                  <div class="item-inner" style="font-size:0.68rem;margin-left:0.56rem;">
                     <div>
-                      <img src="/img/专家方案/信心.png" width="12" height="12">
-                      <img src="/img/专家方案/信心.png" width="12" height="12"
-                        style="margin-left:-0.1rem;">
-                      <img src="/img/专家方案/信心.png" width="12" height="12"
-                        style="margin-left:-0.1rem;">
-                      <img src="/img/专家方案/信心.png" width="12" height="12"
-                        style="margin-left:-0.1rem;">
-                      <img src="/img/专家方案/信心.png" width="12" height="12"
-                        style="margin-left:-0.1rem;">
+                      <div>{{p.expert_name}}</div>
+                      <div>
+                        <!-- planConfident:-1默认为3 -->
+                        <img src="/img/专家方案/信心.png" width="12" height="12">
+                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                          style="margin-left:-0.1rem;">
+                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                          style="margin-left:-0.1rem;">
+                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                          style="margin-left:-0.1rem;">
+                        <img src="/img/专家方案/信心.png" width="12" height="12"
+                          style="margin-left:-0.1rem;">
+                      </div>
+                    </div>
+                    <div class="icon-golds" style="font-size:1rem;">
+                      <font style="font-size:0.5rem;margin-left:-0.22rem;">
+                        {{p.plan_amount}}.00 元
+                      </font>
+                    </div>
+                    <div class="icon-clock2" style="font-size:1rem;">
+                      <font style="font-size:0.5rem;margin-left:-0.22rem;">
+                        <!-- created_time,deadline_time去计算 -->
+                        180 分钟
+                      </font>
+                    </div>
+                    <div>
+                      <img src="/img/专家方案/购物车-选中.png"
+                        width="26" height="26" @click="addToCart(p, $event)">
                     </div>
                   </div>
-                  <div class="icon-golds" style="font-size:1rem;">
-                    <font style="font-size:0.5rem;margin-left:-0.22rem;">
-                      12.00 元
-                    </font>
-                  </div>
-                  <div class="icon-clock2" style="font-size:1rem;">
-                    <font style="font-size:0.5rem;margin-left:-0.22rem;">
-                      180 分钟
-                    </font>
-                  </div>
-                  <div>
-                    <img src="/img/专家方案/购物车-选中.png"
-                      width="26" height="26" @click="addToCart(item, $event)">
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </card>
+                </li>
+              </ul>
+            </div>
+          </card>
+        </div>
       </v-card-container>
     </div>
  </div>
@@ -110,7 +114,7 @@ export default {
   ready () {
     $.init()
     this.getBanner()
-    this.getPlanList()
+    this.getRangeList()
     $.refreshScroller()
   },
   data () {
@@ -125,12 +129,12 @@ export default {
       }],
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
-      planList: []
+      rangeList: []
     }
   },
   computed: {
     length () {
-      return this.planList.length
+      return this.rangeList.length
     }
   },
   methods: {
@@ -158,12 +162,22 @@ export default {
         console.error('无法连接服务器获取banner')
       })
     },
-    getPlanList () {
+    /*
+     * 获取方案区间列表
+     */
+    getRangeList () {
+      $.showIndicator()
       // 获取方案
-      this.$http.get(hpApi.home)
-      .then(({data: {code, msg, results, count, pagenum}})=>{
+      this.$http.get(planApi.plan, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
         if (code === 1) {
-          this.$set('planList', results.list)
+          // console.log(result.rangeList)
+          this.$set('rangeList', result.rangeList)
         }
         else {
           console.error('获取方案失败:' + msg)
@@ -171,6 +185,10 @@ export default {
       }).catch(()=>{
         $.alert('服务器连接中断...')
         console.error('无法连接服务器-获取方案')
+      }).finally(()=>{
+        // 加载完毕需要重置
+        $.pullToRefreshDone('.pull-to-refresh-content')
+        $.hideIndicator()
       })
     },
     addToCart (item, e) {
@@ -210,17 +228,6 @@ export default {
         $.toast('你尚未登录')
         this.$route.router.go({path: '/login?from=happyPurchase', replace: true})
       }
-    },
-    refresh () {
-      $.showIndicator()
-      setTimeout(function () {
-        this.planList = []
-        this.getBanner()
-        this.getPlanList()
-        // 加载完毕需要重置
-        $.pullToRefreshDone('.pull-to-refresh-content')
-        $.hideIndicator()
-      }.bind(this), 1345)
     },
     recharge () {
       $.alert('充值提示')
