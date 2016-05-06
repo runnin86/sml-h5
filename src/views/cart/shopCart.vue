@@ -5,7 +5,7 @@
     </nav>
     <div class="content list" v-pull-to-refresh="refreshCart">
       <v-layer></v-layer>
-      <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;" @click="selectTab()">
+      <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;" @click="selectTab($event)">
         <v-tab name="tab-planList" status="active" title="方案">
           <div class="list-block infinite-list" style="margin-top:0.1rem;">
             <ul>
@@ -408,13 +408,15 @@ export default {
         console.error('购物车数量加减异常:' + e)
       })
     },
-    selectTab () {
-      let unActiveTab = $('.active.button.tab-link')[0].hash
-      if (unActiveTab === '#tab-hpList') {
-        this.$set('showTab', 'plan')
-      }
-      else if (unActiveTab === '#tab-planList') {
-        this.$set('showTab', 'hp')
+    selectTab (e) {
+      if (e.target.href) {
+        let unActiveTab = $('.active.button.tab-link')[0].hash
+        if (unActiveTab === '#tab-hpList') {
+          this.$set('showTab', 'plan')
+        }
+        else if (unActiveTab === '#tab-planList') {
+          this.$set('showTab', 'hp')
+        }
       }
     }
   },
