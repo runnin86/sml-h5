@@ -7,7 +7,7 @@
         <bar-item path="/user" label="个人中心" icon="me" :b="userBadge"></bar-item>
         <bar-item path="/more" label="更多" icon="more"></bar-item>
       </bar>
-      <router-view transition-mode="out-in"></router-view>
+      <router-view transition-mode="out-in" keep-alive></router-view>
       <!-- <router-view transition-mode="out-in" keep-alive></router-view> -->
   </div>
 </template>
