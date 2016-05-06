@@ -89,11 +89,11 @@
                     </div>
                   </div>
                   <div class="item-title-sml" style="width:100%;margin-left:2.8rem;">
-                    <div style="margin-bottom:0.3rem;font-size:0.8rem;">{{item.name}}</div>
-                    <div style="margin-top:-0.2rem;">
+                    <div style="margin-bottom:0.3rem;font-size:0.68rem;">{{item.name}}</div>
+                    <div style="margin-top:-0.4rem;font-size:0.44rem;">
                       {{item.content}}
                     </div>
-                    <div class="buttons-row" style="margin-top:0.3rem;width: 7.6rem;">
+                    <div class="buttons-row" style="margin-top:0.1rem;width: 7.6rem;">
                       <span class="button" @click="reduce(item)"
                         style="width:2rem;font-size:1.6rem;">-</span>
                       <span class="button">
