@@ -106,11 +106,13 @@
                       <span class="button" @click="augment(item)"
                         style="width:2rem;font-size:1.2rem;">+</span>
                     </div>
-                    <div style="margin-top:0.1rem;">
-                      人次剩余:<font class="redFont">{{item.totalCount}}</font>
-                    </div>
                     <div style="margin-top:0.3rem;">
-                      总价:{{item.totalPrice}}.00元
+                      <span style="font-size:0.5rem;">
+                        人次剩余:<font class="redFont">{{item.totalCount}}</font>
+                      </span>
+                      <span style="font-size:0.5rem;margin-left:1.2rem;">
+                        总价:{{item.totalPrice}}.00元
+                      </span>
                     </div>
                   </div>
                   <div class="item-after" @click="delCart(item.id, item.number)">
