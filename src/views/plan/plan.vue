@@ -192,6 +192,13 @@ export default {
           // console.log(result.rangeList)
           this.$set('rangeList', result.rangeList)
         }
+        else if (code === 0) {
+          window.localStorage.removeItem('user')
+          window.localStorage.removeItem('token')
+          window.localStorage.removeItem('imageSwitch')
+          window.localStorage.setItem('imageSwitch', true)
+          this.$route.router.go({path: '/happyPurchase', replace: true})
+        }
         else {
           console.error('获取方案失败:' + msg)
         }
