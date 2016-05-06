@@ -39,7 +39,7 @@ export let dateFilter = (time, type) => {
  * 字符串str按照s进行分割,返回一个数组
  */
 export let splitFilter = (str, s) => {
-  return str.split(s)
+  return str != null ? str.split(s) : ''
 }
 
 /**

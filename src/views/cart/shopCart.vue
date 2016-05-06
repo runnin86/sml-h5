@@ -5,7 +5,7 @@
     </nav>
     <div class="content list" v-pull-to-refresh="refreshCart">
       <v-layer></v-layer>
-      <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;">
+      <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;" @click="selectTab()">
         <v-tab name="tab-planList" status="active" title="方案">
           <div class="list-block infinite-list" style="margin-top:0.1rem;">
             <ul>
@@ -71,20 +71,6 @@
               </li>
             </ul>
           </div>
-          <div class="toolBarCart" v-if="plans.length>0">
-            <div class="list-block">
-              <ul>
-                <li class="item-content bottomLi">
-                  <div class="item-inner" style="padding-left:0.75rem;">
-                    <div class="item-title redFont">共{{plans.length}}件方案,总计 {{totalPlans}} 元</div>
-                    <div class="toPay-button">
-                      <button class="button button-fill button-danger" @click="pay()">付款</button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
         </v-tab>
         <v-tab name="tab-hpList" title="乐夺宝">
           <div class="list-block infinite-list" style="margin-top:0.1rem;">
@@ -134,22 +120,36 @@
               </li>
             </ul>
           </div>
-          <div class="toolBarCart" v-if="items.length>0">
-            <div class="list-block">
-              <ul>
-                <li class="item-content bottomLi">
-                  <div class="item-inner" style="padding-left:0.75rem;">
-                    <div class="item-title">共{{items.length}}件商品,总计 {{totalItems}} 元</div>
-                    <div class="toPay-button">
-                      <button class="button button-fill" @click="pay()">付款</button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
         </v-tab>
       </v-tabs>
+    </div>
+  </div>
+  <div class="toolBarCart" v-if="plans.length>0 && showTab === 'plan'">
+    <div class="list-block">
+      <ul>
+        <li class="item-content bottomLi">
+          <div class="item-inner" style="padding-left:0.75rem;">
+            <div class="item-title redFont">共{{plans.length}}件方案,总计 {{totalPlans}} 元</div>
+            <div class="toPay-button">
+              <button class="button button-fill button-danger" @click="pay()">付款</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="toolBarCart" v-if="items.length>0 && showTab === 'hp'">
+    <div class="list-block">
+      <ul>
+        <li class="item-content bottomLi">
+          <div class="item-inner" style="padding-left:0.75rem;">
+            <div class="item-title">共{{items.length}}件商品,总计 {{totalItems}} 元</div>
+            <div class="toPay-button">
+              <button class="button button-fill" @click="pay()">付款</button>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -184,6 +184,7 @@ export default {
       items: [],
       totalItems: 0,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
+      showTab: 'plan',
       loading: false
     }
   },
@@ -404,6 +405,15 @@ export default {
       }).catch((e)=>{
         console.error('购物车数量加减异常:' + e)
       })
+    },
+    selectTab () {
+      let unActiveTab = $('.active.button.tab-link')[0].hash
+      if (unActiveTab === '#tab-hpList') {
+        this.$set('showTab', 'plan')
+      }
+      else if (unActiveTab === '#tab-planList') {
+        this.$set('showTab', 'hp')
+      }
     }
   },
   components: {
@@ -440,11 +450,11 @@ export default {
 }
 .list {
   bottom: .5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 4.4rem;
 }
 .toolBarCart {
   position:absolute;
-  bottom:1.68rem;
+  bottom:2.2rem;
   width:100%;
   text-align:center;
 }
