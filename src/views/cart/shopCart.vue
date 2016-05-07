@@ -244,7 +244,7 @@ export default {
           this.totalPlans = 0
           if (result.length > 0) {
             for (let p of result) {
-              this.totalPlans += p.planAmount
+              this.totalPlans += (p.planAmount * p.amount)
               this.plans.push(p)
             }
           }
@@ -426,21 +426,23 @@ export default {
      * ------------------------方案相关---------------------------
      */
     cartPriceCheckPlan: function (plan, e) {
-      if (e.target.value % plan.plan_amount > 0) {
-        let validAmount = e.target.value - (e.target.value % plan.plan_amount)
-        // 防止金额小于价格
-        validAmount = validAmount < plan.plan_amount ? plan.plan_amount : validAmount
-        e.target.value = validAmount
-        this.changeAmountPlan(plan, validAmount)
-        $.toast('必须是' + plan.plan_amount + '的倍数,已为你调整为' + validAmount, 500)
+      let validAmount = 0
+      if (e.target.value > 0) {
+        validAmount = parseFloat(e.target.value)
       }
       else if (e.target.value === '' || parseFloat(e.target.value) === 0) {
-        e.target.value = plan.plan_amount
+        e.target.value = 1
+        validAmount = 1
       }
+      this.changeAmountPlan(plan, validAmount)
     },
     delCartPlan (id) {
       // Body :{"dellist":[{"pid":"1ee6d76ff3094c8a82b948def322da58"}]}
-      this.$http.delete(planApi.delCart, {},
+      let dellist = [{'pid': id}]
+      this.$http.delete(planApi.delCart,
+        {
+          'dellist': JSON.stringify(dellist)
+        },
         {
           headers: {
             'x-token': window.localStorage.getItem('token')
@@ -453,23 +455,24 @@ export default {
          this.refreshCart()
        }
      }).catch((e)=>{
-       console.error('删除购物车异常:' + e)
+       console.log('删除购物车异常:')
+       console.error(e)
      })
     },
     payPlan () {
       if (window.localStorage.getItem('user')) {
         // 刷新购物车
         this.refreshCart()
-        // 购物车商品数组
+        // 购物车方案数组
         let spcarlist = []
         // {"planbinfo":{"totalmoney":2.0,
         //  "spcarlist":[{"multipy":1,"name":"飞鹰计划","pid":"31","sum":2.0}]}}
         for (let i of this.plans) {
           spcarlist.push({
-            'multipy': i.amount,
+            'multipy': parseFloat(i.amount),
             'name': i.planName,
-            'pid': i.plan_id,
-            'sum': i.planAmount
+            'pid': i.pid,
+            'sum': parseFloat(i.amount) * parseFloat(i.planAmount)
           })
         }
         // 组装请求消息体
@@ -518,24 +521,19 @@ export default {
       }
     },
     augmentPlan (plan) {
-      console.log(plan)
       // 数量相加
-      let augmentAmount = (plan.amount + 1) * plan.planAmount
-      this.changeAmountPlan(plan, augmentAmount)
+      this.changeAmountPlan(plan, parseFloat(plan.amount) + 1)
     },
     reducePlan (plan) {
       // 数量加减
-      let reduceAmount = (plan.amount - 1) * plan.planAmount < plan.planAmount ? plan.planAmount : (plan.amount - 1) * plan.planAmount
-      this.changeAmountPlan(plan, reduceAmount)
+      if (parseFloat(plan.amount) - 1 >= 1) {
+        this.changeAmountPlan(plan, parseFloat(plan.amount) - 1)
+      }
     },
     changeAmountPlan (plan, amount) {
-      if (amount) {
-        console.log(amount)
-        return
-      }
       this.$http.post(planApi.upCart,
         {
-          'pid': plan.plan_id,
+          'pid': plan.pid,
           'amt': amount
         },
         {
@@ -544,11 +542,16 @@ export default {
           },
           emulateJSON: true
         })
-      .then(({data: {code, msg}})=>{
+      .then(({data: {code, msg, result}})=>{
         if (code === 1) {
-          let initAmount = plan.amount
-          plan.amount = msg.amount
-          this.totalPlans = this.totalPlans - initAmount + amount
+          plan.amount = result.amount
+          // 重新计算总和
+          this.totalPlans = 0
+          if (this.plans.length > 0) {
+            for (let p of this.plans) {
+              this.totalPlans += (p.planAmount * p.amount)
+            }
+          }
         }
       }).catch((e)=>{
         console.error('购物车数量加减异常:' + e)
