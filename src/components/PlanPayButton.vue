@@ -2,33 +2,33 @@
   <div :class="['actions-modal', show ? 'modal-in' : 'modal-out']"
     @click="$event.stopPropagation()">
     <div class="actions-modal-group">
-      <span class="actions-modal-label">请选择</span>
+      <span class="actions-modal-label">请选择倍数</span>
       <span class="actions-modal-button actions-modal-button-bold">
         <div class="modal-buttons">
-          <span class="modal-button-sml" @click="this.amount=plan.plan_amount*5" :style="(this.amount===plan.plan_amount*5?'color:#f6383a':'')">{{plan.plan_amount*5}}</span>
-          <span class="modal-button-sml" @click="this.amount=plan.plan_amount*10" :style="(this.amount===plan.plan_amount*10?'color:#f6383a':'')">{{plan.plan_amount*10}}</span>
-          <span class="modal-button-sml" @click="this.amount=plan.plan_amount*20" :style="(this.amount===plan.plan_amount*20?'color:#f6383a':'')">{{plan.plan_amount*20}}</span>
-          <span class="modal-button-sml" @click="this.amount=plan.plan_amount*50" :style="(this.amount===plan.plan_amount*50?'color:#f6383a':'')">{{plan.plan_amount*50}}</span>
-          <span class="modal-button-sml" @click="this.amount=plan.plan_amount*100" :style="(this.amount===plan.plan_amount*100?'color:#f6383a':'')">{{plan.plan_amount*100}}</span>
+          <span class="modal-button-sml" @click="this.amount=5" :style="(this.amount===5?'color:#f6383a':'')">5</span>
+          <span class="modal-button-sml" @click="this.amount=10" :style="(this.amount===10?'color:#f6383a':'')">10</span>
+          <span class="modal-button-sml" @click="this.amount=20" :style="(this.amount===20?'color:#f6383a':'')">20</span>
+          <span class="modal-button-sml" @click="this.amount=50" :style="(this.amount===50?'color:#f6383a':'')">50</span>
+          <span class="modal-button-sml" @click="this.amount=100" :style="(this.amount===100?'color:#f6383a':'')">100</span>
         </div>
       </span>
       <span class="actions-modal-button">
         <div class="modal-buttons">
-          <span class="modal-button-sml" @click="this.amount>this.plan.plan_amount?(this.amount-=this.plan.plan_amount):this.plan.plan_amount"
+          <span class="modal-button-sml" @click="this.amount<2?1:this.amount-=1"
             style="width:20%;font-size:2rem;color:black;">-</span>
           <span class="modal-button-sml" style="width:60%">
             <input v-model="amount"
-              type="number" min={{plan.plan_amount}} max={{plan.plan_amount*99999}}
+              type="number" min=1 max=9999
               style="ime-mode:disabled;height:1.8rem;width:100%;text-align:center;color:#f6383a"
               onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
               onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
           </span>
-          <span class="modal-button-sml" @click="this.amount=parseFloat(this.amount)+parseFloat(this.plan.plan_amount)"
+          <span class="modal-button-sml" @click="this.amount+=1"
             style="width:20%;font-size:1.4rem;color:black;">+</span>
         </div>
       </span>
       <span class="actions-modal-label">
-        需&nbsp;<font style="color:#f6383a">{{amount}}</font>&nbsp;元
+        需&nbsp;<font style="color:#f6383a">{{amount*plan.plan_amount}}</font>&nbsp;元
       </span>
     </div>
     <div class="actions-modal-group">
@@ -48,16 +48,8 @@ export default {
   },
   methods: {
     addToCart: function (plan) {
-      if (parseFloat(this.amount) % parseFloat(plan.plan_amount) > 0) {
-        $.toast('购买金额必须是' + plan.plan_amount + '的倍数')
-        return
-      }
-      // else if (parseFloat(this.amount) > parseFloat(plan.codeCount)) {
-      //   $.toast('最多可购买' + plan.codeCount)
-      //   return
-      // }
-      else if (parseFloat(this.amount) <= 0) {
-        $.toast('请输入有效金额')
+      if (parseFloat(this.amount) <= 0) {
+        $.toast('请输入有效倍数')
         return
       }
       // 添加至购物车

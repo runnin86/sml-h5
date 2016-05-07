@@ -15,9 +15,9 @@
                   <div class="item-media">
                     <div class="item-title-row">
                       <div class="text-center" style="padding-right:0.2rem;">
-                        <img src="/img/个人中心/默认头像.png" class="img-responsive"
-                          style="margin:0 0.6rem 0 0.6rem;border:solid 1px #e13;border-radius: 50px;overflow:hidden;"
-                          width="42" height="42">
+                        <img :src="plan.expertHead" class="img-responsive"
+                          style="margin:0 0.6rem 0 0.6rem;"
+                          width="42" height="46">
                       </div>
                       <div class="text-center" style="padding-right:0.2rem;">
                         {{plan.expertName}}
