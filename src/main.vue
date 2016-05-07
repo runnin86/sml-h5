@@ -133,7 +133,7 @@ export default {
           console.error('无法获取乐夺宝购物车:' + e)
         })
         // 获取服务器中的方案购物车信息
-        this.$http.post(planApi.redisCart, {},
+        this.$http.post(planApi.queryCart, {},
           {
             headers: {
               'x-token': window.localStorage.getItem('token')

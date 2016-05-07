@@ -81,12 +81,14 @@
                     <div class="icon-clock2" style="font-size:1rem;width: 28%;">
                       <font style="font-size:0.5rem;margin-left:-0.12rem;">
                         <!-- 剩余时间通过服务器时间和deadline_time去计算 -->
-                        {{'' | residualTime p.deadline_time}}
+                        {{p.deadline_time | residualTime}}
                       </font>
                     </div>
                     <div>
-                      <img src="/img/专家方案/购物车-选中.png"
-                        width="26" height="26" @click="addToCart(p, $event)">
+                      <img v-if="isValidate(p.deadline_time)" src="/img/专家方案/购物车-选中.png"
+                        width="26" height="24" @click="addToCart(p.plan_id, $event)">
+                      <img v-else="isValidate(p.deadline_time)" src="/img/专家方案/购物车.png"
+                        width="26" height="24" @click="addToCart(0, $event)">
                     </div>
                   </div>
                 </li>
@@ -112,13 +114,13 @@ import VIcon from '../../components/Iconfont'
 import VLayer from '../../components/PullToRefreshLayer'
 import VCardContainer from '../../components/Card'
 import Card from '../../components/CardItem'
-import {hpApi, planApi} from '../../util/service'
+import {planApi} from '../../util/service'
 import {getDateDiff} from '../../util/util'
 import $ from 'zepto'
 
-Vue.filter('residualTime', function (a, b) {
+Vue.filter('residualTime', function (dtime) {
   // 计算时间差
-  let filterTime = getDateDiff(this.serviceTime, b, 'minute')
+  let filterTime = getDateDiff(this.serviceTime, dtime, 'minute')
   return filterTime > 0 ? filterTime + '分钟' : '已截止'
 })
 
@@ -225,15 +227,16 @@ export default {
         console.error('无法连接服务器-获取服务器时间')
       })
     },
-    addToCart (item, e) {
+    addToCart (pid, e) {
       e.stopPropagation()
+      if (pid === 0) {
+        return
+      }
       if (window.localStorage.getItem('user')) {
         // 添加至购物车
-        this.$http.post(hpApi.redisCart,
+        this.$http.post(planApi.addCart,
           {
-            'projectId': item.id,
-            'number': item.number,
-            'amount': item.price < 10 ? 10 : item.price
+            'pid': pid
           },
           {
             headers: {
@@ -249,7 +252,7 @@ export default {
           }
           else if (code === 0) {
             // 未登录
-            $.toast('会话失效,请重新登录...')
+            $.toast(msg)
           }
           else {
             console.error('加入购物车失败:' + msg)
@@ -260,11 +263,21 @@ export default {
       }
       else {
         $.toast('你尚未登录')
-        this.$route.router.go({path: '/login?from=happyPurchase', replace: true})
+        this.$route.router.go({path: '/login?from=plan', replace: true})
       }
     },
     recharge () {
       $.alert('充值提示')
+    },
+    isValidate (dtime) {
+      // 计算时间差
+      let filterTime = getDateDiff(this.serviceTime, dtime, 'minute')
+      if (filterTime > 0) {
+        return true
+      }
+      else {
+        return false
+      }
     }
   },
   components: {
