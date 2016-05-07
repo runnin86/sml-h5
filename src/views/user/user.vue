@@ -57,7 +57,7 @@
             <div class="text-center">
               <img src="/img/个人中心/本月.png" width="80" height="32">
             </div>
-            <div>销量 {{user?coinmeter:'...'}}</div>
+            <div>销量 {{user?usersales:'...'}}</div>
           </div>
         </li>
       </ul>
@@ -145,7 +145,8 @@ export default {
       user: JSON.parse(window.localStorage.getItem('user')),
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       userate: 0,
-      coinmeter: 0
+      coinmeter: 0,
+      usersales: 0
     }
   },
   methods: {
@@ -157,9 +158,13 @@ export default {
         $.showIndicator()
         // 执行查询
         setTimeout(function () {
-          // 获取用户盈利
           let token = window.localStorage.getItem('token')
+          // 获取账户本金
+          this.getCoinmeter(token)
+          // 获取用户盈利
           this.getUserate(token)
+          // 获取用户销量
+          // this.getUsersales(token)
           // 加载完毕需要重置
           $.pullToRefreshDone('.pull-to-refresh-content')
           $.hideIndicator()
@@ -185,11 +190,12 @@ export default {
           this.userate = result.rateAccount
         }
         else {
-          $.alert('会话失效,请重新登录', ()=>{
-            window.localStorage.clear()
-            window.localStorage.setItem('imageSwitch', true)
-            this.$route.router.go({path: '/login?from=user', replace: true})
-          })
+          console.log('获取用户利润失败:' + msg)
+          // $.alert('会话失效,请重新登录', ()=>{
+          //   window.localStorage.clear()
+          //   window.localStorage.setItem('imageSwitch', true)
+          //   this.$route.router.go({path: '/login?from=user', replace: true})
+          // })
         }
       }).catch((e)=>{
         console.error('获取账户盈利失败:' + e)
@@ -208,11 +214,37 @@ export default {
           this.coinmeter = result.coinmeter
         }
         else {
-          $.alert('会话失效,请重新登录', ()=>{
-            window.localStorage.clear()
-            window.localStorage.setItem('imageSwitch', true)
-            this.$route.router.go({path: '/login?from=user', replace: true})
-          })
+          console.log('获取用户本金失败:' + msg)
+          // $.alert('会话失效,请重新登录', ()=>{
+          //   window.localStorage.clear()
+          //   window.localStorage.setItem('imageSwitch', true)
+          //   this.$route.router.go({path: '/login?from=user', replace: true})
+          // })
+        }
+      }).catch((e)=>{
+        console.error('获取账户本金失败:' + e)
+      })
+    },
+    /*
+     * 获取用户销量
+     */
+    getUsersales (token) {
+      this.$http.post(userApi.coinmeter,
+        {
+          'x-token': token
+        })
+      .then(({data: {code, msg, result}})=>{
+        console.log(msg + '-s->' + result)
+        if (code === 1) {
+          this.usersales = result.coinmeter
+        }
+        else {
+          console.log('获取用户销量失败:' + msg)
+          // $.alert('会话失效,请重新登录', ()=>{
+          //   window.localStorage.clear()
+          //   window.localStorage.setItem('imageSwitch', true)
+          //   this.$route.router.go({path: '/login?from=user', replace: true})
+          // })
         }
       }).catch((e)=>{
         console.error('获取账户本金失败:' + e)
