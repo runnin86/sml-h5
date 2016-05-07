@@ -18,7 +18,7 @@
             style="width:20%;font-size:2rem;color:black;">-</span>
           <span class="modal-button-sml" style="width:60%">
             <input v-model="amount"
-              type="text" min={{item.price}} max={{item.codeCount}}
+              type="number" min={{item.price}} max={{item.codeCount}}
               style="ime-mode:disabled;height:1.8rem;width:100%;text-align:center;color:#f6383a"
               onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
               onKeyUp="this.value=this.value.replace(/\D/g,'')"/>

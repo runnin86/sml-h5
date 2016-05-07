@@ -146,12 +146,12 @@
 </div>
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
   v-on:click="closeModal">
-  <v-pay-button :amount="plan.plan_amount" :title="title" :show="showPayBtn" :item="plan"></v-pay-button>
+  <v-plan-pay-button :amount="plan.plan_amount" :title="title" :show="showPayBtn" :plan="plan"></v-plan-pay-button>
 </div>
 </template>
 
 <script>
-  import VPayButton from '../../components/PlanPayButton'
+  import VPlanPayButton from '../../components/PlanPayButton'
   import {planApi} from '../../util/service'
   import {getDateDiff} from '../../util/util'
   import $ from 'zepto'
@@ -256,7 +256,7 @@
       }
     },
     components: {
-      VPayButton
+      VPlanPayButton
     }
   }
 </script>
