@@ -15,6 +15,8 @@ export let planApi = {
   upCart: URL_COMMON + 'upspcart',
   // 查询购物车(redis)
   queryCart: URL_COMMON + 'quespcart',
+  // 购物车支付
+  cartPay: URL_COMMON + 'shoppingCartPay',
   // 盈利排行
   rank: URL_COMMON + 'ranktop',
   // 服务器时间

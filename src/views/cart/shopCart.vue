@@ -30,27 +30,27 @@
                         {{plan.planName}}
                       </span>
                       <span class="pull-right" style="margin-right:1rem;">
-                        2016-05-03 17:58:33
+                        {{plan.addTime}}
                       </span>
                     </div>
                     <div class="buttons-row" style="margin-top:0.3rem;text-align:center;">
-                      <span class="button" @click="reduce(plan)"
+                      <span class="button" @click="reducePlan(plan)"
                         style="width:2rem;font-size:1.6rem;">-</span>
                       <span class="button" style="width:24%;">
-                        <input :value="plan.amount" v-on:blur='cartPriceCheck(plan, $event)'
+                        <input :value="plan.amount" v-on:blur='cartPriceCheckPlan(plan, $event)'
                           type="tel" min=1 max=9999
                           style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
                           onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
                           onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
                       </span>
-                      <span class="button" @click="augment(plan)"
+                      <span class="button" @click="augmentPlan(plan)"
                         style="width:2rem;font-size:1.2rem;">+</span>
                     </div>
                     <div style="margin-top:0.3rem;">
                       <span class="icon-histogram"
                         style="font-size:1rem;color:red;">
                         <font style="font-size:0.58rem;color:black;">
-                          10%~30%
+                          {{plan.rangeName}}
                         </font>
                       </span>
                       <span class="icon-golds"
@@ -64,7 +64,7 @@
                   <div class="item-title-sml" style="margin-left:-7.6rem;">
                       {{plan.planAmount * plan.amount}}元
                   </div>
-                  <div class="item-after" @click="delCart(plan.pid)">
+                  <div class="item-after" @click="delCartPlan(plan.pid)">
                     <img src="/img/购物车/删除.png" width="32">
                   </div>
                 </div>
@@ -94,16 +94,16 @@
                       {{item.content}}
                     </div>
                     <div class="buttons-row" style="margin-top:0.1rem;width: 7.6rem;">
-                      <span class="button" @click="reduce(item)"
+                      <span class="button" @click="reduceHP(item)"
                         style="width:2rem;font-size:1.6rem;">-</span>
                       <span class="button">
-                        <input :value="item.amount" v-on:blur='cartPriceCheck(item, $event)'
+                        <input :value="item.amount" v-on:blur='cartPriceCheckHP(item, $event)'
                           type="tel" min={{item.price}} max={{item.totalCount}}
                           style="ime-mode:disabled;text-align:center;height:100%;font-size:.7rem;"
                           onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
                           onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
                       </span>
-                      <span class="button" @click="augment(item)"
+                      <span class="button" @click="augmentHP(item)"
                         style="width:2rem;font-size:1.2rem;">+</span>
                     </div>
                     <div style="margin-top:0.3rem;">
@@ -115,7 +115,7 @@
                       </span>
                     </div>
                   </div>
-                  <div class="item-after" @click="delCart(item.id, item.number)">
+                  <div class="item-after" @click="delCartHP(item.id, item.number)">
                     <img src="/img/购物车/删除.png" width="32">
                   </div>
                 </div>
@@ -133,7 +133,7 @@
           <div class="item-inner" style="padding-left:0.75rem;">
             <div class="item-title redFont">共{{plans.length}}件方案,总计 {{totalPlans}} 元</div>
             <div class="toPay-button">
-              <button class="button button-fill button-danger" @click="pay()">付款</button>
+              <button class="button button-fill button-danger" @click="payPlan()">付款</button>
             </div>
           </div>
         </li>
@@ -147,7 +147,7 @@
           <div class="item-inner" style="padding-left:0.75rem;">
             <div class="item-title">共{{items.length}}件商品,总计 {{totalItems}} 元</div>
             <div class="toPay-button">
-              <button class="button button-fill" @click="pay()">付款</button>
+              <button class="button button-fill" @click="payHP()">付款</button>
             </div>
           </div>
         </li>
@@ -204,17 +204,15 @@ export default {
     }
   },
   methods: {
-    cartPriceCheck: function (item, e) {
-      if (e.target.value % item.price > 0) {
-        let validAmount = e.target.value - (e.target.value % item.price)
-        // 防止金额小于价格
-        validAmount = validAmount < item.price ? item.price : validAmount
-        e.target.value = validAmount
-        this.changeItemAmount(item, validAmount)
-        $.toast('必须是' + item.price + '的倍数,已为你调整为' + validAmount, 500)
-      }
-      else if (e.target.value === '' || parseFloat(e.target.value) === 0) {
-        e.target.value = item.amount
+    selectTab (e) {
+      if (e.target.href) {
+        let unActiveTab = $('.active.button.tab-link')[0].hash
+        if (unActiveTab === '#tab-hpList') {
+          this.$set('showTab', 'plan')
+        }
+        else if (unActiveTab === '#tab-planList') {
+          this.$set('showTab', 'hp')
+        }
       }
     },
     refreshCart () {
@@ -299,7 +297,23 @@ export default {
         console.error('无法获取乐夺宝购物车:' + e)
       })
     },
-    delCart (id, number) {
+    /*
+     * ------------------------乐夺宝相关---------------------------
+     */
+    cartPriceCheckHP: function (item, e) {
+      if (e.target.value % item.price > 0) {
+        let validAmount = e.target.value - (e.target.value % item.price)
+        // 防止金额小于价格
+        validAmount = validAmount < item.price ? item.price : validAmount
+        e.target.value = validAmount
+        this.changeAmountHP(item, validAmount)
+        $.toast('必须是' + item.price + '的倍数,已为你调整为' + validAmount, 500)
+      }
+      else if (e.target.value === '' || parseFloat(e.target.value) === 0) {
+        e.target.value = item.amount
+      }
+    },
+    delCartHP (id, number) {
       this.$http.delete(hpApi.redisCart + '/' + id + '_' + number, {},
         {
           headers: {
@@ -316,7 +330,7 @@ export default {
         console.error('删除购物车异常:' + e)
       })
     },
-    pay () {
+    payHP () {
       if (window.localStorage.getItem('user')) {
         // 刷新购物车
         this.refreshCart()
@@ -376,17 +390,17 @@ export default {
         this.$route.router.go({path: '/login?from=shopCart', replace: true})
       }
     },
-    augment (item) {
+    augmentHP (item) {
       // 数量相加
       let augmentAmount = item.amount + item.price
-      this.changeItemAmount(item, augmentAmount)
+      this.changeAmountHP(item, augmentAmount)
     },
-    reduce (item) {
+    reduceHP (item) {
       // 数量加减
       let reduceAmount = (item.amount - item.price) < item.price ? item.price : (item.amount - item.price)
-      this.changeItemAmount(item, reduceAmount)
+      this.changeAmountHP(item, reduceAmount)
     },
-    changeItemAmount (item, amount) {
+    changeAmountHP (item, amount) {
       this.$http.put(hpApi.redisCart + '/' + item.id,
         {
           'number': item.number,
@@ -408,16 +422,137 @@ export default {
         console.error('购物车数量加减异常:' + e)
       })
     },
-    selectTab (e) {
-      if (e.target.href) {
-        let unActiveTab = $('.active.button.tab-link')[0].hash
-        if (unActiveTab === '#tab-hpList') {
-          this.$set('showTab', 'plan')
-        }
-        else if (unActiveTab === '#tab-planList') {
-          this.$set('showTab', 'hp')
-        }
+    /*
+     * ------------------------方案相关---------------------------
+     */
+    cartPriceCheckPlan: function (plan, e) {
+      if (e.target.value % plan.plan_amount > 0) {
+        let validAmount = e.target.value - (e.target.value % plan.plan_amount)
+        // 防止金额小于价格
+        validAmount = validAmount < plan.plan_amount ? plan.plan_amount : validAmount
+        e.target.value = validAmount
+        this.changeAmountPlan(plan, validAmount)
+        $.toast('必须是' + plan.plan_amount + '的倍数,已为你调整为' + validAmount, 500)
       }
+      else if (e.target.value === '' || parseFloat(e.target.value) === 0) {
+        e.target.value = plan.plan_amount
+      }
+    },
+    delCartPlan (id) {
+      // Body :{"dellist":[{"pid":"1ee6d76ff3094c8a82b948def322da58"}]}
+      this.$http.delete(planApi.delCart, {},
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+     .then(({data: {code, msg}})=>{
+       if (code === 1) {
+         // 删除成功
+         this.refreshCart()
+       }
+     }).catch((e)=>{
+       console.error('删除购物车异常:' + e)
+     })
+    },
+    payPlan () {
+      if (window.localStorage.getItem('user')) {
+        // 刷新购物车
+        this.refreshCart()
+        // 购物车商品数组
+        let spcarlist = []
+        // {"planbinfo":{"totalmoney":2.0,
+        //  "spcarlist":[{"multipy":1,"name":"飞鹰计划","pid":"31","sum":2.0}]}}
+        for (let i of this.plans) {
+          spcarlist.push({
+            'multipy': i.amount,
+            'name': i.planName,
+            'pid': i.plan_id,
+            'sum': i.planAmount
+          })
+        }
+        // 组装请求消息体
+        let planbinfo = {
+          'planbinfo': {
+            'totalmoney': this.totalPlans,
+            'spcarlist': spcarlist
+          }
+        }
+        let postBody = JSON.stringify(planbinfo)
+        $.confirm('总计' + this.totalPlans + '元,是否确认付款?', '提示', ()=>{
+          // console.log(postBody)
+          // 发起支付请求
+          this.$http.post(planApi.cartPay, postBody,
+            {
+              headers: {
+                'x-token': window.localStorage.getItem('token')
+              },
+              emulateJSON: true
+            })
+          .then(({data: {code, msg}})=>{
+            if (code === 1) {
+              $.toast(msg)
+              setTimeout(function () {
+                // 清空购物车
+                this.plans = []
+                this.totalPlans = 0
+                // 刷新购物车
+                this.refreshCart()
+              }.bind(this), 500)
+            }
+            else {
+              $.alert(msg)
+            }
+          }).catch((e)=>{
+            $.alert('服务器连接中断...')
+            console.error(e)
+          })
+        }, ()=>{
+          // confirm取消
+        })
+      }
+      else {
+        $.toast('你尚未登录')
+        this.$route.router.go({path: '/login?from=shopCart', replace: true})
+      }
+    },
+    augmentPlan (plan) {
+      console.log(plan)
+      // 数量相加
+      let augmentAmount = (plan.amount + 1) * plan.planAmount
+      this.changeAmountPlan(plan, augmentAmount)
+    },
+    reducePlan (plan) {
+      // 数量加减
+      let reduceAmount = (plan.amount - 1) * plan.planAmount < plan.planAmount ? plan.planAmount : (plan.amount - 1) * plan.planAmount
+      this.changeAmountPlan(plan, reduceAmount)
+    },
+    changeAmountPlan (plan, amount) {
+      if (amount) {
+        console.log(amount)
+        return
+      }
+      this.$http.post(planApi.upCart,
+        {
+          'pid': plan.plan_id,
+          'amt': amount
+        },
+        {
+          headers: {
+            'x-token': window.localStorage.getItem('token')
+          },
+          emulateJSON: true
+        })
+      .then(({data: {code, msg}})=>{
+        if (code === 1) {
+          let initAmount = plan.amount
+          plan.amount = msg.amount
+          this.totalPlans = this.totalPlans - initAmount + amount
+        }
+      }).catch((e)=>{
+        console.error('购物车数量加减异常:' + e)
+      })
     }
   },
   components: {
