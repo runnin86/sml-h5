@@ -101,7 +101,7 @@
         </li>
       </ul>
       <ul style="margin-top:0.8rem;">
-        <li class="item-content item-link" v-link="{ path: '/more/feedback', replace: true}">
+        <li class="item-content item-link" v-link="{ path: '/user/qrCode', replace: true}">
           <div class="item-inner">
             <div class="icon-qrcode item-title">
               我的二维码

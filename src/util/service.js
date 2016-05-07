@@ -52,5 +52,7 @@ export let userApi = {
   // 我的消息
   userMessage: URL_COMMON + 'usermsg',
   // 我的消息(删除)
-  delMessage: URL_COMMON + 'delmsgbyid'
+  delMessage: URL_COMMON + 'delmsgbyid',
+  // 我的二维码
+  qrcode: URL_COMMON + 'qrcode'
 }
