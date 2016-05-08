@@ -64,7 +64,8 @@
     </div>
     <div class="list-block" style="margin-top:0rem;font-size:0.65rem;">
       <ul>
-        <li class="item-content item-link">
+        <li class="item-content item-link"
+          v-link="{ path: '/user/bill', replace: true}">
           <div class="item-inner">
             <div class="icon-filling item-title">
               我的账单

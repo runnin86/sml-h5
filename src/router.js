@@ -99,6 +99,16 @@ export default function (router) {
         require(['./views/user/userCommission'], resolve)
       }
     },
+    '/user/bill': {
+      component (resolve) {
+        require(['./views/user/userBill'], resolve)
+      }
+    },
+    '/user/bill/plan': {
+      component (resolve) {
+        require(['./views/user/bill/plan'], resolve)
+      }
+    },
     '/more': {
       component (resolve) {
         require(['./views/more/more'], resolve)
