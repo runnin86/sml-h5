@@ -66,7 +66,7 @@ export default function (router) {
     },
     '/user/order': {
       component (resolve) {
-        require(['./views/user/order'], resolve)
+        require(['./views/user/userOrder'], resolve)
       }
     },
     '/user/setting': {
