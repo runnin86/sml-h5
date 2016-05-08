@@ -1,5 +1,5 @@
 <template>
-<div class="content bill" :transition="$root.transition">
+<div class="content bill" :transition="transition">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left"
       v-link="{path: '/user', replace: true}">
