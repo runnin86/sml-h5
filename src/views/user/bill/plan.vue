@@ -3,8 +3,11 @@
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left"
       v-link="{path: '/user/bill', query: { pageTransition: 'fade' }, replace: true}">
-    <span class="icon icon-left"></span>
+    <span class="icon icon-left">
+      返回
+    </span>
     </a>
+    <span class="icon icon-search pull-right" ></span>
     <h1 class="title color" v-text="title"></h1>
   </header>
   <div class="list-block">
