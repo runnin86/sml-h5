@@ -3,9 +3,7 @@
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left"
       v-link="{path: '/user/bill', query: { pageTransition: 'fade' }, replace: true}">
-    <span class="icon icon-left">
-      返回
-    </span>
+    <span class="icon icon-left"></span>
     </a>
     <span class="icon icon-search pull-right" ></span>
     <h1 class="title color" v-text="title"></h1>
@@ -42,6 +40,10 @@
       </li>
     </ul>
   </div>
+  <input type="text" @click="showCalendar" v-model="value"
+    placeholder="请输入日期">
+  <calendar :show.sync="show" :value.sync="value"
+    :x="x" :y="y" :begin="begin" :end="end" :range="range"></calendar>
 </div>
 </template>
 
@@ -74,18 +76,36 @@ export default {
       oneLevelNum: 0,
       twoLevelNum: 0,
       threeLevelNum: 0,
-      oneLevelUsers: []
+      oneLevelUsers: [],
+      show: false,
+      type: 'date', // date datetime
+      value: '2015-12-11',
+      begin: '2015-12-20',
+      end: '2015-12-25',
+      x: 0,
+      y: 0,
+      range: true // 是否多选
     }
   },
   methods: {
-    showInfo (id, e) {
-      if (document.getElementById(id).style.display === 'block') {
-        document.getElementById(id).style.display = 'none'
+    showCalendar: function (e) {
+      e.stopPropagation()
+      var that = this
+      that.show = true
+      that.x = e.target.offsetLeft
+      that.y = e.target.offsetTop + e.target.offsetHeight + 8
+      var bindHide = function (e) {
+        e.stopPropagation()
+        that.show = false
+        document.removeEventListener('click', bindHide, false)
       }
-      else {
-        document.getElementById(id).style.display = 'block'
-      }
+      setTimeout(function () {
+        document.addEventListener('click', bindHide, false)
+      }, 500)
     }
+  },
+  components: {
+    calendar: require('../../../components/Calendar')
   }
 }
 </script>
