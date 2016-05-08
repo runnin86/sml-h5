@@ -1,8 +1,8 @@
 <template>
-<div class="content bill" :transition="transition">
+<div class="content bill" :transition="pageTransition">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left"
-      v-link="{path: '/user', replace: true}">
+       @click="goForward('/user', 'bounce')">
     <span class="icon icon-left"></span>
     </a>
     <h1 class="title color" v-text="title"></h1>
@@ -10,7 +10,7 @@
   <div class="list-block" style="margin-top:2.2rem;font-size:0.65rem;">
     <ul>
       <li class="item-content item-link"
-        v-link="{path: '/user/bill/plan', replace: true}">
+        @click="goForward('/user/bill/plan', 'fade')">
         <div class="item-inner">
           <div class="item-title">
             方案记录
@@ -77,16 +77,12 @@ export default {
   },
   // route: {
   //   data ({from, to, next}) {
-  //     console.log(from.path + '->' + to.path)
-  //     if (from.path === '/user/bill/plan') {
-  //       this.switch = 'fade'
-  //     }
   //     next()
   //   }
   // },
   data () {
     return {
-      transition: 'bounce',
+      pageTransition: this.$route.query.pageTransition,
       title: '我的账单',
       oneLevelNum: 0,
       twoLevelNum: 0,
@@ -95,6 +91,12 @@ export default {
     }
   },
   methods: {
+    goForward (url, mod) {
+      this.$set('pageTransition', mod)
+      setTimeout(function () {
+        this.$route.router.go({path: url, replace: false})
+      }.bind(this), 100)
+    }
   }
 }
 </script>

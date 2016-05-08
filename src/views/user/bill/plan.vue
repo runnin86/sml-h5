@@ -1,8 +1,8 @@
 <template>
-<div class="content team" :transition="$root.transition">
+<div class="content team" transition="bounce">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left"
-      v-link="{path: '/user/bill', replace: true}">
+      v-link="{path: '/user/bill', query: { pageTransition: 'fade' }, replace: true}">
     <span class="icon icon-left"></span>
     </a>
     <h1 class="title color" v-text="title"></h1>
