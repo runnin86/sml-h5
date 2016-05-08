@@ -92,7 +92,8 @@
         </li>
       </ul>
       <ul>
-        <li class="item-content item-link">
+        <li class="item-content item-link"
+          v-link="{ path: '/user/team', replace: true}">
           <div class="item-inner">
             <div class="icon-team item-title">
               我的团队

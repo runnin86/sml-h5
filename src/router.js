@@ -89,6 +89,11 @@ export default function (router) {
         require(['./views/user/userQRCode'], resolve)
       }
     },
+    '/user/team': {
+      component (resolve) {
+        require(['./views/user/userTeam'], resolve)
+      }
+    },
     '/more': {
       component (resolve) {
         require(['./views/more/more'], resolve)
