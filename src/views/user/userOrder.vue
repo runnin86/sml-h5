@@ -1,96 +1,98 @@
 <template>
-<header class="bar bar-nav">
-  <a class="button button-link button-nav pull-left" v-link="{path: '/user', replace: true}">
-  <span class="icon icon-left"></span>
-  </a>
-  <h1 class="title color">我的订单</h1>
-</header>
-<div class="content order" distance="55"
-  v-pull-to-refresh="refresh" v-infinite-scroll="loadMore"
-  :style="(!this.user?'background-color:white':'')">
-  <v-layer></v-layer>
-  <!-- 内容区 -->
-  <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;">
-    <v-tab name="tab-planList" status="active" title="我的方案">
-      <div style="margin-top: 0.1rem;height:100%;" class="list">
+<div transition="bounce">
+  <header class="bar bar-nav">
+    <a class="button button-link button-nav pull-left" v-link="{path: '/user', replace: true}">
+    <span class="icon icon-left"></span>
+    </a>
+    <h1 class="title color">我的订单</h1>
+  </header>
+  <div class="content order" distance="55"
+    v-pull-to-refresh="refresh" v-infinite-scroll="loadMore"
+    :style="(!this.user?'background-color:white':'')">
+    <v-layer></v-layer>
+    <!-- 内容区 -->
+    <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;">
+      <v-tab name="tab-planList" status="active" title="我的方案">
+        <div style="margin-top: 0.1rem;height:100%;" class="list">
 
-      </div>
-    </v-tab>
+        </div>
+      </v-tab>
 
-    <v-tab name="tab-hpList" title="乐夺宝">
-      <div style="margin-top:0.1rem;" class="list">
-        <v-card-container v-for="p in hpList | orderBy 'id' -1" style="margin: 0.18rem;">
-          <div class="row">
-            <div v-if="showImg" class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
-              <img :src="p.images| split ','| getArray 0" style="width: 130%;height:130%;">
-            </div>
-            <div v-else class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
-              <img src="/img/乐夺宝/产品图片默认.png" style="width: 130%;height:130%;">
-            </div>
-            <div class="col-78">
-              <card type="content-inner" style="margin-bottom:0.1rem;">
-                <div style="font-size:.8rem;" class="text-sml">{{'第'+p.number+'期 '+p.name}}</div>
-                <div style="font-size:.6rem;" class="text-sml">
-                  本期参与人次:<font color="red"> {{p.payCount}}</font>
-                </div>
-                <div v-if="p.status==0 && !this.isShowTime(p.publicTime).show" class="row"
-                  :style="(p.userId!==user.user_id?'background-color:#EEEEEE':'')" style="margin-top: 0.2rem;">
-                  <div style="margin:0.2rem 0.2rem 0.2rem 0.4rem;">
-                    <span id="knowResult">
+      <v-tab name="tab-hpList" title="乐夺宝">
+        <div style="margin-top:0.1rem;" class="list">
+          <v-card-container v-for="p in hpList | orderBy 'id' -1" style="margin: 0.18rem;">
+            <div class="row">
+              <div v-if="showImg" class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
+                <img :src="p.images| split ','| getArray 0" style="width: 130%;height:130%;">
+              </div>
+              <div v-else class="col-25" style="margin-top:2.2rem;margin-left:6%;width:2.48rem;">
+                <img src="/img/乐夺宝/产品图片默认.png" style="width: 130%;height:130%;">
+              </div>
+              <div class="col-78">
+                <card type="content-inner" style="margin-bottom:0.1rem;">
+                  <div style="font-size:.8rem;" class="text-sml">{{'第'+p.number+'期 '+p.name}}</div>
+                  <div style="font-size:.6rem;" class="text-sml">
+                    本期参与人次:<font color="red"> {{p.payCount}}</font>
+                  </div>
+                  <div v-if="p.status==0 && !this.isShowTime(p.publicTime).show" class="row"
+                    :style="(p.userId!==user.user_id?'background-color:#EEEEEE':'')" style="margin-top: 0.2rem;">
+                    <div style="margin:0.2rem 0.2rem 0.2rem 0.4rem;">
+                      <span id="knowResult">
+                        <div>
+                          中奖号码: <font color="red"> {{p.luckCode}}</font>
+                        </div>
+                        <div>
+                          <span>获奖者: {{p.user_name}}<span>
+                          <span class="pull-right" style="margin-right: 0.6rem;padding: .1rem;">
+                            <font v-if="p.userId!==user.user_id" color="green">已揭晓</font>
+                            <img v-if="p.userId===user.user_id" src="/img/个人中心/胜利2.png"
+                              width=43 height=32>
+                          <span>
+                        </div>
+                        <div>
+                          人次: <font color="red"> {{p.userPayCount}}</font>
+                        </div>
+                        <div>
+                          日期: {{p.publicTime}}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div v-if="p.status==0 && this.isShowTime(p.publicTime).show" class="row">
+                    <span style="margin-top: -2rem;">
+                      <div style="margin-left:0.4rem;">揭晓倒计时</div>
+                      <v-count-down :countTime="this.isShowTime(p.publicTime).time" :id="p.id"></v-count-down>
                       <div>
-                        中奖号码: <font color="red"> {{p.luckCode}}</font>
-                      </div>
-                      <div>
-                        <span>获奖者: {{p.user_name}}<span>
-                        <span class="pull-right" style="margin-right: 0.6rem;padding: .1rem;">
-                          <font v-if="p.userId!==user.user_id" color="green">已揭晓</font>
-                          <img v-if="p.userId===user.user_id" src="/img/个人中心/胜利2.png"
-                            width=43 height=32>
-                        <span>
-                      </div>
-                      <div>
-                        人次: <font color="red"> {{p.userPayCount}}</font>
-                      </div>
-                      <div>
-                        日期: {{p.publicTime}}
                       </div>
                     </span>
                   </div>
-                </div>
-                <div v-if="p.status==0 && this.isShowTime(p.publicTime).show" class="row">
-                  <span style="margin-top: -2rem;">
-                    <div style="margin-left:0.4rem;">揭晓倒计时</div>
-                    <v-count-down :countTime="this.isShowTime(p.publicTime).time" :id="p.id"></v-count-down>
-                    <div>
+                  <div v-if="p.status==1" class="row" style="margin-top: 0.2rem;">
+                    <div class="col-90">
+                      <card type="content-inner" style="padding:0.1rem">
+                        <div class="progress" style="height:10px;">
+                          <span v-if="parseFloat((p.totalCount-p.remainingAmount)/p.totalCount) > 0"
+                            class="blue"
+                            :style="{ height: '8px', width: parseFloat((p.totalCount-p.remainingAmount)/p.totalCount)*100 + '%' }"></span>
+                        </div>
+                      </card>
+                      <card type="header" style="margin-bottom:-0.68rem;">
+                        <span style="font-size:.6rem;">
+                          <div>{{p.totalCount}}</div><div>总需</div>
+                        </span>
+                        <span style="font-size:.6rem;">
+                          <div>{{p.remainingAmount}}</div><div>剩余</div>
+                        </span>
+                      </card>
                     </div>
-                  </span>
-                </div>
-                <div v-if="p.status==1" class="row" style="margin-top: 0.2rem;">
-                  <div class="col-90">
-                    <card type="content-inner" style="padding:0.1rem">
-                      <div class="progress" style="height:10px;">
-                        <span v-if="parseFloat((p.totalCount-p.remainingAmount)/p.totalCount) > 0"
-                          class="blue"
-                          :style="{ height: '8px', width: parseFloat((p.totalCount-p.remainingAmount)/p.totalCount)*100 + '%' }"></span>
-                      </div>
-                    </card>
-                    <card type="header" style="margin-bottom:-0.68rem;">
-                      <span style="font-size:.6rem;">
-                        <div>{{p.totalCount}}</div><div>总需</div>
-                      </span>
-                      <span style="font-size:.6rem;">
-                        <div>{{p.remainingAmount}}</div><div>剩余</div>
-                      </span>
-                    </card>
                   </div>
-                </div>
-              </card>
+                </card>
+              </div>
             </div>
-          </div>
-        </v-card-container>
-      </div>
-    </v-tab>
-  </v-tabs>
+          </v-card-container>
+        </div>
+      </v-tab>
+    </v-tabs>
+  </div>
 </div>
 </template>
 
