@@ -83,7 +83,8 @@
         </li>
       </ul>
       <ul>
-        <li class="item-content item-link">
+        <li class="item-content item-link"
+          v-link="{ path: '/user/commission', replace: true}">
           <div class="item-inner">
             <div class="icon-golds2 item-title">
               我的返佣

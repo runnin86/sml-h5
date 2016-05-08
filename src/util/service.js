@@ -64,5 +64,7 @@ export let userApi = {
   // 我的二维码
   qrcode: URL_COMMON + 'qrcode',
   // 我的团队
-  team: URL_COMMON + 'team'
+  team: URL_COMMON + 'team',
+  // 我的返佣
+  commission: URL_COMMON + 'commissionlist'
 }
