@@ -7,6 +7,7 @@
     </a>
     <h1 class="title color" v-text="title"></h1>
   </header>
+  <!-- 搜索框 -->
   <div class="bar bar-header-secondary">
     <div class="searchbar">
       <a class="searchbar-cancel">取消</a>
@@ -16,7 +17,7 @@
       </div>
     </div>
   </div>
-
+  <!-- 列表 -->
   <div class="list-block">
     <ul>
       <li class="item-content2">
@@ -54,6 +55,7 @@
 
 <script>
 // import {userApi} from '../../../util/service'
+import {dateFilter} from '../../../filters'
 import $ from 'zepto'
 
 export default {
@@ -67,11 +69,12 @@ export default {
       //   obj.params.input[0].value = '32323'
       //   console.log(obj)
       // },
-      // onClose: (obj)=>{
-      //   console.log(obj)
-      // },
+      onClose: (obj)=>{
+        this.queryByDate(obj.value[0])
+      },
       onChange: (obj, val, text)=>{
-        console.log(val + '->' + text)
+        // console.log(val + '->' + text)
+        // this.queryByDate(text)
       }
     })
     // this.$http.post(userApi.team, {}, {
@@ -102,6 +105,10 @@ export default {
     }
   },
   methods: {
+    queryByDate (d) {
+      let qd = dateFilter(d / 1000, 2)
+      console.log(qd)
+    }
   }
 }
 </script>
@@ -116,7 +123,7 @@ export default {
   background-color: #ed8e07;
 }
 .list-block {
-  margin: 2.2rem 0;
+  margin: 4.4rem 0;
   height: 2.9rem;
   font-size:0.66rem;
 
