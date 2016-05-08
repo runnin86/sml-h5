@@ -19,8 +19,7 @@
       </li>
     </ul>
     <ul>
-      <li class="item-content item-link"
-        v-link="{ path: '/user/order', replace: true}">
+      <li class="item-content item-link">
         <div class="item-inner">
           <div class="item-title">
             提现
@@ -30,7 +29,7 @@
     </ul>
     <ul>
       <li class="item-content item-link"
-        v-link="{ path: '/user/commission', replace: true}">
+        @click="goForward('/user/bill/recharge', 'fade')">
         <div class="item-inner">
           <div class="item-title">
             充值
@@ -39,8 +38,7 @@
       </li>
     </ul>
     <ul>
-      <li class="item-content item-link"
-        v-link="{ path: '/user/order', replace: true}">
+      <li class="item-content item-link">
         <div class="item-inner">
           <div class="item-title">
             打赏

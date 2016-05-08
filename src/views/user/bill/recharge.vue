@@ -1,5 +1,5 @@
 <template>
-<div class="content plan" transition="bounce">
+<div class="content recharge" transition="bounce">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left"
       v-link="{path: '/user/bill', query: { pageTransition: 'fade' }, replace: true}">
@@ -67,7 +67,7 @@ export default {
   },
   data () {
     return {
-      title: '方案记录',
+      title: '充值记录',
       oneLevelNum: 0,
       twoLevelNum: 0,
       threeLevelNum: 0,
@@ -75,20 +75,12 @@ export default {
     }
   },
   methods: {
-    showInfo (id, e) {
-      if (document.getElementById(id).style.display === 'block') {
-        document.getElementById(id).style.display = 'none'
-      }
-      else {
-        document.getElementById(id).style.display = 'block'
-      }
-    }
   }
 }
 </script>
 
 <style scoped>
-.plan .content-padded {
+.recharge .content-padded {
   margin: 2.2rem 0 0 0;
   height: 100%;
   padding: .4rem .4rem;
