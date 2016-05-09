@@ -53,11 +53,19 @@
             </div>
             <div>盈利 {{user?userate:'...'}}</div>
           </div>
-          <div class="pull-right r08" style="margin-top:0.4rem;">
+          <div v-if="showsales === 'now'" @click="showsales='last'"
+            class="pull-right r08" style="margin-top:0.4rem;">
             <div class="text-center">
               <img src="/img/个人中心/本月.png" width="80" height="32">
             </div>
             <div>销量 {{user?usersales:'...'}}</div>
+          </div>
+          <div v-if="showsales === 'last'" @click="showsales='now'"
+            class="pull-right r08" style="margin-top:0.4rem;">
+            <div class="text-center">
+              <img src="/img/个人中心/上月.png" width="80" height="32">
+            </div>
+            <div>销量 {{user?lastsales:'...'}}</div>
           </div>
         </li>
       </ul>
@@ -147,6 +155,7 @@ export default {
       loading: false,
       user: JSON.parse(window.localStorage.getItem('user')),
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
+      showsales: 'now',
       userate: 0, // 盈利
       coinmeter: 0, // 本金
       usersales: 0, // 本月销量
