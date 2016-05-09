@@ -17,6 +17,11 @@
           </div>
       </div>
     </v-content>
+    <div class="download-button">
+      <button class="button button-big button-fill" @click="saveAsLocalImage()">
+        <span class="icon icon-download"></span>
+      </button>
+    </div>
   </div>
 </div>
 </template>
@@ -57,6 +62,13 @@ export default {
   components: {
     VContent,
     VQrcode
+  },
+  methods: {
+    saveAsLocalImage () {
+      var myCanvas = document.getElementById('qrCanvas')
+      var image = myCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+      window.location.href = image
+    }
   }
 }
 </script>
@@ -80,5 +92,17 @@ export default {
 }
 .color {
   background-color: #ed8e07;
+}
+.download-button {
+  display: none;
+  margin-top: .8rem;
+  width: 100%;
+  padding: 0 .45rem;
+}
+.download-button button {
+  background-color: #ed8e07;
+  width: 100%;
+  line-height: 2.1rem !important;
+  height: 2.1rem !important;
 }
 </style>

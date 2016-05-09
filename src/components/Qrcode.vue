@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas
+    <canvas id="qrCanvas"
       :style="{height: size + 'px', width: size + 'px'}"
       height={{size}}
       width={{size}}
