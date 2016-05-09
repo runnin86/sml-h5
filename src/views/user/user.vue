@@ -147,9 +147,10 @@ export default {
       loading: false,
       user: JSON.parse(window.localStorage.getItem('user')),
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
-      userate: 0,
-      coinmeter: 0,
-      usersales: 0
+      userate: 0, // 盈利
+      coinmeter: 0, // 本金
+      usersales: 0, // 本月销量
+      lastsales: 0 // 上月销量
     }
   },
   methods: {
@@ -168,6 +169,8 @@ export default {
           this.getUserate(token)
           // 获取用户销量
           this.getUsersales(token)
+          // 获取用户销量(上月)
+          this.getLastsales(token)
           // 加载完毕需要重置
           $.pullToRefreshDone('.pull-to-refresh-content')
           $.hideIndicator()
@@ -246,6 +249,32 @@ export default {
         }
         else {
           console.log('获取用户销量失败:' + msg)
+          // $.alert('会话失效,请重新登录', ()=>{
+          //   window.localStorage.clear()
+          //   window.localStorage.setItem('imageSwitch', true)
+          //   this.$route.router.go({path: '/login?from=user', replace: true})
+          // })
+        }
+      }).catch((e)=>{
+        console.error('获取账户本金失败:' + e)
+      })
+    },
+    /*
+     * 获取用户销量(上月)
+     */
+    getLastsales (token) {
+      this.$http.post(userApi.lastSales, {}, {
+        headers: {
+          'x-token': token
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        if (code === 1) {
+          this.lastsales = result.userFlow
+        }
+        else {
+          console.log('获取用户上月销量失败:' + msg)
           // $.alert('会话失效,请重新登录', ()=>{
           //   window.localStorage.clear()
           //   window.localStorage.setItem('imageSwitch', true)
