@@ -9,13 +9,11 @@
   <div class="content-padded" style="background: white;">
     <p class="color-gray"></p>
     <v-content type="block" >
-      <div class="invite-card" v-if="imgUrl">
+      <div class="invite-card" v-if="qrUrl">
           <div class="invite-card-content" style="height:100%;">
-              <div class="center_code">
-                  <div class="wx_code" style="width:100%;height:100%">
-                      <img :src="imgUrl" height="100%" width="100%" class="img_full">
-                  </div>
-              </div>
+            <v-qrcode id="canvas" :val="qrUrl" style="margin-left:1.6rem;"
+              :size="size" :bg-color="bgColor"
+              :fg-color="fgColor" level="L"></v-qrcode>
           </div>
       </div>
     </v-content>
@@ -25,7 +23,9 @@
 
 <script>
 import VContent from '../../components/Content'
+import VQrcode from '../../components/Qrcode'
 import {userApi} from '../../util/service'
+// import $ from 'zepto'
 
 export default {
   ready () {
@@ -37,7 +37,9 @@ export default {
     })
     .then(({data: {code, msg, result}})=>{
       if (code === 1) {
-        this.$set('imgUrl', result)
+        this.$set('qrUrl', result)
+        // var imgSrc = document.getElementById('canvas').toDataUrl('image/png')
+        // console.log(imgSrc)
       }
     }).catch((e)=>{
       console.error('获取用户二维码失败:' + e)
@@ -46,11 +48,15 @@ export default {
   data () {
     return {
       title: '我的二维码',
-      imgUrl: ''
+      qrUrl: '',
+      bgColor: '#FFFFFF',
+      fgColor: '#000000',
+      size: 260
     }
   },
   components: {
-    VContent
+    VContent,
+    VQrcode
   }
 }
 </script>
@@ -71,20 +77,6 @@ export default {
   border-radius: 8px;
   background-color: #ffffff;
   padding-top: 0.4rem;
-}
-.center_code {
-  width: 100%;
-  margin: 0 auto;
-  /*padding-top: 1rem;*/
-}
-.img_full {
-  width: 100%;
-  height: 100%;
-}
-.center_code .wx_code {
-  margin: 0 auto;
-  width: 50%;
-  height: 50%;
 }
 .color {
   background-color: #ed8e07;
