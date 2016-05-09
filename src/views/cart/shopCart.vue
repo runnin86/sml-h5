@@ -469,10 +469,10 @@ export default {
         //  "spcarlist":[{"multipy":1,"name":"飞鹰计划","pid":"31","sum":2.0}]}}
         for (let i of this.plans) {
           spcarlist.push({
-            'multipy': parseFloat(i.amount),
-            'name': i.planName,
+            'multipy': i.amount,
+            'name': i.expertName,
             'pid': i.pid,
-            'sum': parseFloat(i.amount) * parseFloat(i.planAmount)
+            'sum': i.amount * i.planAmount
           })
         }
         // 组装请求消息体
@@ -484,7 +484,7 @@ export default {
         }
         let postBody = JSON.stringify(planbinfo)
         $.confirm('总计' + this.totalPlans + '元,是否确认付款?', '提示', ()=>{
-          // console.log(postBody)
+          console.log(postBody)
           // 发起支付请求
           this.$http.post(planApi.cartPay, postBody,
             {
