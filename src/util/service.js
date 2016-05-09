@@ -56,7 +56,11 @@ export let userApi = {
   // 我的本金
   coinmeter: URL_COMMON + 'coinmeter',
   // 我的盈利
-  userate: URL_COMMON + 'userate',
+  useRate: URL_COMMON + 'userate',
+  // 我的销量
+  userSales: URL_COMMON + 'nowmflow',
+  // 我的销量(上月)
+  lastSales: URL_COMMON + 'lastmflow',
   // 我的消息
   userMessage: URL_COMMON + 'usermsg',
   // 我的消息(删除)

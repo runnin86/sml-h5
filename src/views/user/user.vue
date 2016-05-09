@@ -167,7 +167,7 @@ export default {
           // 获取用户盈利
           this.getUserate(token)
           // 获取用户销量
-          // this.getUsersales(token)
+          this.getUsersales(token)
           // 加载完毕需要重置
           $.pullToRefreshDone('.pull-to-refresh-content')
           $.hideIndicator()
@@ -182,7 +182,7 @@ export default {
      * 获取用户账户的盈利
      */
     getUserate (token) {
-      this.$http.post(userApi.userate, {}, {
+      this.$http.post(userApi.useRate, {}, {
         headers: {
           'x-token': token
         },
@@ -234,14 +234,15 @@ export default {
      * 获取用户销量
      */
     getUsersales (token) {
-      this.$http.post(userApi.coinmeter,
-        {
+      this.$http.post(userApi.userSales, {}, {
+        headers: {
           'x-token': token
-        })
+        },
+        emulateJSON: true
+      })
       .then(({data: {code, msg, result}})=>{
-        console.log(msg + '-s->' + result)
         if (code === 1) {
-          this.usersales = result.coinmeter
+          this.usersales = result.userFlow
         }
         else {
           console.log('获取用户销量失败:' + msg)
