@@ -208,10 +208,12 @@ export default {
      * 获取账户本金
      */
     getCoinmeter (token) {
-      this.$http.post(userApi.coinmeter,
-        {
+      this.$http.post(userApi.coinmeter, {}, {
+        headers: {
           'x-token': token
-        })
+        },
+        emulateJSON: true
+      })
       .then(({data: {code, msg, result}})=>{
         if (code === 1) {
           this.coinmeter = result.coinmeter
