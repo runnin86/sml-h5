@@ -48,9 +48,9 @@ config.plugins = (config.plugins || []).concat([
   new BrowserSyncPlugin(
     // BrowserSync options
     {
-      host: '192.168.1.14',
+      host: '127.0.0.1',
       port: 8080,
-      proxy: 'http://192.168.1.14:8000/',
+      proxy: 'http://127.0.0.1:8000/',
       logConnections: true,
       notify: false,
       open: false
