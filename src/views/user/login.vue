@@ -5,7 +5,7 @@
     <span class="icon"></span>
       取消
     </a>
-    <h1 class="title" v-text="title"></h1>
+    <h1 class="title color" v-text="title"></h1>
   </header>
   <div class="content-block">
     <div class="login-input">
@@ -119,5 +119,8 @@ export default {
   width: 100%;
   line-height: 2.1rem !important;
   height: 2.1rem !important;
+}
+.color {
+  background-color: #ed8e07;
 }
 </style>
