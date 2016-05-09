@@ -484,7 +484,6 @@ export default {
         }
         let postBody = JSON.stringify(planbinfo)
         $.confirm('总计' + this.totalPlans + '元,是否确认付款?', '提示', ()=>{
-          console.log(postBody)
           // 发起支付请求
           this.$http.post(planApi.cartPay, postBody,
             {
@@ -493,9 +492,9 @@ export default {
               },
               emulateJSON: true
             })
-          .then(({data: {code, msg}})=>{
+          .then(({data: {code, msg, result}})=>{
             if (code === 1) {
-              $.toast(msg)
+              $.toast('购买成功!')
               setTimeout(function () {
                 // 清空购物车
                 this.plans = []
