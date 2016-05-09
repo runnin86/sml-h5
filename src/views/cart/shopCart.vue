@@ -438,11 +438,12 @@ export default {
     },
     delCartPlan (id) {
       // Body :{"dellist":[{"pid":"1ee6d76ff3094c8a82b948def322da58"}]}
-      let dellist = [{'pid': id}]
-      this.$http.delete(planApi.delCart,
-        {
-          'dellist': JSON.stringify(dellist)
-        },
+      // 组装请求消息体
+      let dellist = {
+        'dellist': [{'pid': id}]
+      }
+      let deleteBody = JSON.stringify(dellist)
+      this.$http.delete(planApi.delCart, deleteBody,
         {
           headers: {
             'x-token': window.localStorage.getItem('token')
