@@ -19,7 +19,8 @@
       </li>
     </ul>
     <ul>
-      <li class="item-content item-link">
+      <li class="item-content item-link"
+        @click="goForward('/user/bill/withdraw', 'fade')">
         <div class="item-inner">
           <div class="item-title">
             提现

@@ -12,16 +12,16 @@
       <li class="item-content2">
         <div class="item-inner">
           <div class="item-title2" style="width:40%;">
-              {{t.recharge_date}}
+              {{t.withdraw_date}}
           </div>
           <div class="item-title2"
-            :style="{color:t.recharge_flag==='0'?'red':''}"
+            :style="{color:t.withdraw_status===0?'red':''}"
             style="width:30%;text-align:center;">
             <!-- {{t.recharge_remarks}} -->
-            {{t.recharge_flag==='0'?'失败':'成功'}}
+            {{t.withdraw_status===0?'失败':'成功'}}
           </div>
           <div class="item-title2" style="width:20%;text-align:right;">
-            {{t.recharge_money}}
+            {{t.withdraw_money}}
           </div>
         </div>
       </li>
@@ -37,7 +37,7 @@ import $ from 'zepto'
 export default {
   ready () {
     $.showIndicator()
-    this.$http.post(userApi.myrecharge, {}, {
+    this.$http.post(userApi.mywithdraw, {}, {
       headers: {
         'x-token': window.localStorage.getItem('token')
       },
@@ -50,12 +50,12 @@ export default {
       }
       $.hideIndicator()
     }).catch((e)=>{
-      console.error('获取我的账单(充值记录)失败:' + e)
+      console.error('获取我的账单(提现记录)失败:' + e)
     })
   },
   data () {
     return {
-      title: '充值记录',
+      title: '提现记录',
       list: []
     }
   },

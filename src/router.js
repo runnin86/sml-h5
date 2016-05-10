@@ -114,6 +114,11 @@ export default function (router) {
         require(['./views/user/bill/recharge'], resolve)
       }
     },
+    '/user/bill/withdraw': {
+      component (resolve) {
+        require(['./views/user/bill/withdraw'], resolve)
+      }
+    },
     '/more': {
       component (resolve) {
         require(['./views/more/more'], resolve)
