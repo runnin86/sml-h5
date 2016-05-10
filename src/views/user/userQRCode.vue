@@ -30,10 +30,12 @@
 import VContent from '../../components/Content'
 import VQrcode from '../../components/Qrcode'
 import {userApi} from '../../util/service'
+// import * as qr from '../../util/qrcode'
 // import $ from 'zepto'
 
 export default {
   ready () {
+    // console.log(qr.makeCode('http://naver.com'))
     this.$http.post(userApi.qrcode, {}, {
       headers: {
         'x-token': window.localStorage.getItem('token')
