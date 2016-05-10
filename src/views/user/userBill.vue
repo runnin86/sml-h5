@@ -39,7 +39,8 @@
       </li>
     </ul>
     <ul>
-      <li class="item-content item-link">
+      <li class="item-content item-link"
+        @click="goForward('/user/bill/reward', 'fade')">
         <div class="item-inner">
           <div class="item-title">
             打赏
