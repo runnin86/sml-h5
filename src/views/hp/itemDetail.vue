@@ -30,6 +30,25 @@
               </div>
             </a>
           </li>
+          <li class="item-content item-link" @click="showPartake('hpRole',$event)">
+            <div class="item-inner">
+              <div class="item-title">获奖号码算法</div>
+            </div>
+          </li>
+          <li class="item-content" id="hpRole" style="display: none;">
+            <div style="font-size:0.48rem;">
+              一、取该商品号码购买完时所有商品的最后100条购买时间；
+            </div>
+            <div style="font-size:0.48rem;">
+              二、按时、分、秒、毫秒排列相加在除以该商品总人次后取余数；
+            </div>
+            <div style="font-size:0.48rem;">
+              三、余数在加上10000001 即为中奖的幸运号码；
+            </div>
+            <div style="font-size:0.48rem;">
+              四、余数指整数除法中被除数被除尽部分，如10/4=2 ... 2,2就是余数。
+            </div>
+          </li>
           <li class="item-content item-link" @click="showPartake('partake',$event)">
             <div class="item-inner">
               <div class="item-title">参与码</div>
