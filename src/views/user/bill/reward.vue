@@ -26,6 +26,14 @@
       </li>
     </ul>
   </div>
+  <div v-if="list.length===0" style="width:100%;height:100%;text-align:center;">
+    <div>
+      <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+    </div>
+    <div style="font-size:0.38rem;color:#A9A9A9;">
+      您还没有打赏记录,赶快去打赏吧
+    </div>
+  </div>
 </div>
 </template>
 

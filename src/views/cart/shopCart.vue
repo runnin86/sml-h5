@@ -71,6 +71,14 @@
               </li>
             </ul>
           </div>
+          <div v-if="plans.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+            <div>
+              <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+            </div>
+            <div style="font-size:0.38rem;color:#A9A9A9;">
+              购物车空空如也,赶快去购买方案吧!
+            </div>
+          </div>
         </v-tab>
         <v-tab name="tab-hpList" title="乐夺宝">
           <div class="list-block infinite-list" style="margin-top:0.1rem;">
@@ -121,6 +129,14 @@
                 </div>
               </li>
             </ul>
+          </div>
+          <div v-if="items.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+            <div>
+              <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+            </div>
+            <div style="font-size:0.38rem;color:#A9A9A9;">
+              购物车空空如也,赶快去夺宝吧!
+            </div>
           </div>
         </v-tab>
       </v-tabs>
