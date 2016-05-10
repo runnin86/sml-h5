@@ -8,32 +8,18 @@
     <h1 class="title color" v-text="title"></h1>
   </header>
   <div class="list-block">
-    <ul>
+    <ul v-for="t in list" track-by="$index">
       <li class="item-content2">
         <div class="item-inner">
-          <div class="item-title2">
-            2016年05月08日17:33:53
+          <div class="item-title2" style="width:40%;">
+              {{t.recharge_date}}
           </div>
-          <div class="item-title2">
-            提现
+          <div class="item-title2" style="width:30%;text-align:center;">
+            <!-- {{t.recharge_remarks}} -->
+            {{t.recharge_flag==='0'?'充值':'提现'}}
           </div>
-          <div class="item-title2">
-            1998
-          </div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content2">
-        <div class="item-inner">
-          <div class="item-title2">
-            2016年05月08日17:34:13
-          </div>
-          <div class="item-title2">
-            提现
-          </div>
-          <div class="item-title2">
-            89
+          <div class="item-title2" style="width:20%;text-align:right;">
+            {{t.recharge_money}}
           </div>
         </div>
       </li>
@@ -43,35 +29,32 @@
 </template>
 
 <script>
-// import {userApi} from '../../../util/service'
+import {userApi} from '../../../util/service'
+import $ from 'zepto'
 
 export default {
   ready () {
-    // this.$http.post(userApi.team, {}, {
-    //   headers: {
-    //     'x-token': window.localStorage.getItem('token')
-    //   },
-    //   emulateJSON: true
-    // })
-    // .then(({data: {code, msg, result}})=>{
-    //   if (code === 1) {
-    //     // console.log(result)
-    //     this.$set('oneLevelNum', result.oneLevelNum)
-    //     this.$set('twoLevelNum', result.twoLevelNum)
-    //     this.$set('threeLevelNum', result.threeLevelNum)
-    //     this.$set('oneLevelUsers', result.oneLevelUsers)
-    //   }
-    // }).catch((e)=>{
-    //   console.error('获取我的方案记录失败:' + e)
-    // })
+    $.showIndicator()
+    this.$http.post(userApi.myrecharge, {}, {
+      headers: {
+        'x-token': window.localStorage.getItem('token')
+      },
+      emulateJSON: true
+    })
+    .then(({data: {code, msg, result}})=>{
+      if (code === 1) {
+        // console.log(result)
+        this.$set('list', result)
+      }
+      $.hideIndicator()
+    }).catch((e)=>{
+      console.error('获取我的账单(充值记录)失败:' + e)
+    })
   },
   data () {
     return {
       title: '充值记录',
-      oneLevelNum: 0,
-      twoLevelNum: 0,
-      threeLevelNum: 0,
-      oneLevelUsers: []
+      list: []
     }
   },
   methods: {

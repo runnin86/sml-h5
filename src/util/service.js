@@ -72,5 +72,9 @@ export let userApi = {
   // 我的团队
   team: URL_COMMON + 'team',
   // 我的返佣
-  commission: URL_COMMON + 'commissionlist'
+  commission: URL_COMMON + 'commissionlist',
+  // 我的账单方案记录
+  myplan: URL_COMMON + 'myplan',
+  // 我的账单充值
+  myrecharge: URL_COMMON + 'myrecharge'
 }

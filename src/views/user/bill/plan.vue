@@ -19,32 +19,18 @@
   </div>
   <!-- 列表 -->
   <div class="list-block">
-    <ul>
+    <ul v-for="t in list" track-by="$index">
       <li class="item-content2">
         <div class="item-inner">
-          <div class="item-title2">
-            2016年05月08日17:33:53
+          <div class="item-title2" style="width:10rem;">
+              {{t.planName}}
+            <!--{{t.exType}} -->
+          </div>
+          <div class="item-title2" style="margin-left:-11rem;">
+            {{t.exDate}}
           </div>
           <div class="item-title2">
-            提现
-          </div>
-          <div class="item-title2">
-            1998
-          </div>
-        </div>
-      </li>
-    </ul>
-    <ul>
-      <li class="item-content2">
-        <div class="item-inner">
-          <div class="item-title2">
-            2016年05月08日17:34:13
-          </div>
-          <div class="item-title2">
-            提现
-          </div>
-          <div class="item-title2">
-            89
+            {{t.money}}
           </div>
         </div>
       </li>
@@ -54,7 +40,7 @@
 </template>
 
 <script>
-// import {userApi} from '../../../util/service'
+import {userApi} from '../../../util/service'
 import {dateFilter} from '../../../filters'
 import $ from 'zepto'
 
@@ -77,31 +63,27 @@ export default {
         // this.queryByDate(text)
       }
     })
-    // this.$http.post(userApi.team, {}, {
-    //   headers: {
-    //     'x-token': window.localStorage.getItem('token')
-    //   },
-    //   emulateJSON: true
-    // })
-    // .then(({data: {code, msg, result}})=>{
-    //   if (code === 1) {
-    //     // console.log(result)
-    //     this.$set('oneLevelNum', result.oneLevelNum)
-    //     this.$set('twoLevelNum', result.twoLevelNum)
-    //     this.$set('threeLevelNum', result.threeLevelNum)
-    //     this.$set('oneLevelUsers', result.oneLevelUsers)
-    //   }
-    // }).catch((e)=>{
-    //   console.error('获取我的方案记录失败:' + e)
-    // })
+    $.showIndicator()
+    this.$http.post(userApi.myplan, {}, {
+      headers: {
+        'x-token': window.localStorage.getItem('token')
+      },
+      emulateJSON: true
+    })
+    .then(({data: {code, msg, result}})=>{
+      if (code === 1) {
+        // console.log(result)
+        this.$set('list', result)
+      }
+      $.hideIndicator()
+    }).catch((e)=>{
+      console.error('获取我的账单(方案记录)失败:' + e)
+    })
   },
   data () {
     return {
       title: '方案记录',
-      oneLevelNum: 0,
-      twoLevelNum: 0,
-      threeLevelNum: 0,
-      oneLevelUsers: []
+      list: []
     }
   },
   methods: {
