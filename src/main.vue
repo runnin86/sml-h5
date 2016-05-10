@@ -100,6 +100,9 @@ export default {
     }
   },
   methods: {
+    back () {
+      window.history.go(-1)
+    },
     randomString (len) {
       // 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
       let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'

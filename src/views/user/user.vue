@@ -73,7 +73,7 @@
     <div class="list-block" style="margin-top:0rem;font-size:0.65rem;">
       <ul>
         <li class="item-content item-link"
-          v-link="{ path: '/user/bill', query: { pageTransition: 'bounce' }, replace: true}">
+          v-link="{ path: '/user/bill', query: { pageTransition: 'bounce' }, replace: false}">
           <div class="item-inner">
             <div class="icon-filling item-title">
               我的账单
@@ -83,7 +83,7 @@
       </ul>
       <ul>
         <li class="item-content item-link"
-          v-link="{ path: '/user/order', replace: true}">
+          v-link="{ path: '/user/order', replace: false}">
           <div class="item-inner">
             <div class="icon-order item-title">
               我的订单
@@ -93,7 +93,7 @@
       </ul>
       <ul>
         <li class="item-content item-link"
-          v-link="{ path: '/user/commission', replace: true}">
+          v-link="{ path: '/user/commission', replace: false}">
           <div class="item-inner">
             <div class="icon-golds2 item-title">
               我的返佣
@@ -103,7 +103,7 @@
       </ul>
       <ul>
         <li class="item-content item-link"
-          v-link="{ path: '/user/team', replace: true}">
+          v-link="{ path: '/user/team', replace: false}">
           <div class="item-inner">
             <div class="icon-team item-title">
               我的团队
@@ -112,7 +112,7 @@
         </li>
       </ul>
       <ul style="margin-top:0.8rem;">
-        <li class="item-content item-link" v-link="{ path: '/user/qrCode', replace: true}">
+        <li class="item-content item-link" v-link="{ path: '/user/qrCode', replace: false}">
           <div class="item-inner">
             <div class="icon-qrcode item-title">
               我的二维码
@@ -121,7 +121,7 @@
         </li>
       </ul>
       <ul>
-        <li class="item-content item-link" v-link="{ path: '/user/changePwd', replace: true}">
+        <li class="item-content item-link" v-link="{ path: '/user/changePwd', replace: false}">
           <div class="item-inner">
             <div class="icon-pwd item-title">
               修改密码

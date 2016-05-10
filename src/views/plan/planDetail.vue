@@ -1,7 +1,8 @@
 <template>
 <div class="content" transition="bounce" style="margin-bottom:1.8rem;">
   <header class="bar bar-nav">
-    <a class="button button-link button-nav pull-left" v-link="{path: '/plan', replace: true}">
+    <a class="button button-link button-nav pull-left"
+      @click="this.$root.back()">
     <span class="icon icon-left"></span>
     </a>
     <h1 class="title headerColor">方案详情</h1>
