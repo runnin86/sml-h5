@@ -19,6 +19,8 @@ export let planApi = {
   cartPay: URL_COMMON + 'balspcart',
   // 盈利排行
   rank: URL_COMMON + 'ranktop',
+  // 我的订单方案
+  myplan: URL_COMMON + 'planinfo',
   // 服务器时间
   time: URL_COMMON + 'nowtime'
 }

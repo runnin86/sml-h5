@@ -1,20 +1,67 @@
 <template>
-<div transition="bounce">
+<div class="content" transition="bounce">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left" v-link="{path: '/user', replace: true}">
-    <span class="icon icon-left"></span>
+      <span class="icon icon-left"></span>
     </a>
     <h1 class="title color">我的订单</h1>
   </header>
-  <div class="content order" distance="55"
+  <div class="order" distance="55"
     v-pull-to-refresh="refresh" v-infinite-scroll="loadMore"
     :style="(!this.user?'background-color:white':'')">
     <v-layer></v-layer>
     <!-- 内容区 -->
     <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;">
       <v-tab name="tab-planList" status="active" title="我的方案">
-        <div style="margin-top: 0.1rem;height:100%;" class="list">
-
+        <div style="margin-top:0.1rem;" class="list">
+          <div class="list-block">
+            <ul>
+              <li class="border"
+                v-for="p in planList | orderBy 'purchase_date' -1"
+                v-link="{name: 'planDetail', params: { id: p.plan_id }, activeClass: 'active', replace: false}">
+                <div class="row" style="margin-right:0.4rem;">
+                  <div class="col-50">
+                    <div style="margin-left:0.4rem;">
+                      &nbsp;{{p.expert_name}}
+                      <font style="font-size:0.48rem;">[{{p.plan_name}}]</font>
+                    </div>
+                  </div>
+                  <div class="col-50">
+                    <font class="icon-clock2 pull-right">
+                      <font style="font-size:0.58rem;margin-top:0.18rem;color:#FF4500;">
+                        {{p.purchase_date}}
+                      </font>
+                    </font>
+                  </div>
+                </div>
+                <div class="text-center" style="margin:0.38rem;font-size:0.56rem;">
+                  <img v-if="p.plan_result==='中奖'" src="/img/个人中心/胜利2.png"
+                    width=43 height=32>
+                  <font v-if="p.plan_result===null">
+                      &nbsp;等待开奖&nbsp;
+                  </font>
+                  <font v-else>
+                      &nbsp;{{p.plan_result}}&nbsp;
+                  </font>
+                </div>
+                <div class="row"
+                  :style="{'background-color': p.plan_result==='中奖'?'#FF4500':'#f9f9f9' }"
+                  style="font-size:0.50rem;margin:0.1rem;">
+                  <div class="col-40">
+                    购买金额:{{p.totalPrice}}
+                  </div>
+                  <div class="col-20">
+                    倍数:{{p.totalMultiple}}
+                  </div>
+                  <div class="col-40">
+                    <font class="pull-right" style="margin-right:0.2rem;">
+                      收益:{{p.totalBonus>p.totalPrice?Math.round(parseFloat(p.totalBonus-p.totalPrice)*100)/100:0}}
+                    </font>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </v-tab>
 
@@ -30,8 +77,8 @@
               </div>
               <div class="col-78">
                 <card type="content-inner" style="margin-bottom:0.1rem;">
-                  <div style="font-size:.8rem;" class="text-sml">{{'第'+p.number+'期 '+p.name}}</div>
-                  <div style="font-size:.6rem;" class="text-sml">
+                  <div style="font-size:.8rem;">{{'第'+p.number+'期 '+p.name}}</div>
+                  <div style="font-size:.6rem;">
                     本期参与人次:<font color="red"> {{p.payCount}}</font>
                   </div>
                   <div v-if="p.status==0 && !this.isShowTime(p.publicTime).show" class="row"
@@ -104,7 +151,7 @@ import Card from '../../components/CardItem'
 import VCountDown from '../../components/Countdown'
 import VLayer from '../../components/PullToRefreshLayer'
 import {loader} from '../../util/util'
-import {hpApi} from '../../util/service'
+import {hpApi, planApi} from '../../util/service'
 import $ from 'zepto'
 
 export default {
@@ -112,8 +159,8 @@ export default {
     $.init()
     this.refresh()
     // $('.buttons-tab').fixedTab({offset: 644})
-    $('.content').on('scroll', function () {
-      let top1 = $('.content').scrollTop()
+    $('.order').on('scroll', function () {
+      let top1 = $('.order').scrollTop()
       $('.buttons-tab').css({
         top: top1 - 2,
         'z-index': 100
@@ -127,6 +174,8 @@ export default {
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       userate: 0,
       coinmeter: 0,
+      planList: [],
+      planListPageNum: 0,
       hpList: [],
       hpListPageNum: 0
     }
@@ -148,7 +197,11 @@ export default {
           // 需要清空分页信息
           this.hpList = []
           this.hpListPageNum = 0
-          // 获取用户参与记录
+          this.planList = []
+          this.planListPageNum = 0
+          // 获取用户方案记录
+          this.getPlanList(1)
+          // 获取用户夺宝记录
           this.getHpList(this.user.user_id, 0)
           // 加载完毕需要重置
           $.pullToRefreshDone('.pull-to-refresh-content')
@@ -193,10 +246,53 @@ export default {
       }, 1500)
     },
     loadMorePlan () {
-
+      // 1.加载中 2.pagenum为负数 3.当前记录的条数<当前页数*每页条数
+      if (this.loading || this.planListPageNum === -1 ||
+        (this.planList.length < (this.planListPageNum + 1) * 10)) {
+        // 满足上述3条件的任一条,均不加载更多
+        return
+      }
+      this.loading = true
+      let scroller = $('.list')
+      loader.show()
+      setTimeout(() => {
+        // 查询更多数据
+        this.planListPageNum = this.planListPageNum + 1
+        this.getPlanList(this.planListPageNum)
+        let scrollTop = scroller[0].scrollHeight - scroller.height()
+        scroller.scrollTop(scrollTop)
+        this.loading = false
+        loader.hide()
+      }, 1500)
     },
     /*
-     * 获取用户的所有参与
+     * 获取用户方案记录
+     */
+    getPlanList (num) {
+      this.$http.post(planApi.myplan + '?pagenum=' + num, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        // console.log(msg + '->' + result)
+        if (code === 1) {
+          if (result.length === 0) {
+            this.planListPageNum = -1
+            return
+          }
+          for (var i = 0; i < result.length; i++) {
+            this.planList.push(result[i])
+          }
+        }
+      }).catch((e)=>{
+        console.log('获取用户方案记录失败:')
+        console.error(e)
+      })
+    },
+    /*
+     * 获取用户的所有参与(乐夺宝)
      */
     getHpList (uid, num) {
       if (this.user.user_id) {
@@ -254,5 +350,21 @@ export default {
 }
 .color {
   background-color: #ed8e07;
+}
+.list-block {
+  margin: 0rem 0;
+  height: 2.9rem;
+  font-size:0.72rem;
+
+  ul {
+    height: 2.9rem;
+  }
+}
+.border {
+  margin-bottom: .1rem;
+  /*border-top: 1px dotted;
+  border-bottom: 2px solid transparent;*/
+  border: 1px solid #a0a0a0;
+  border-radius: 0.25rem;
 }
 </style>
