@@ -63,7 +63,8 @@
             </ul>
           </div>
         </div>
-        <div v-if="planList.length===0" style="width:100%;height:100%;text-align:center;">
+        <div :style="{display:planTips}"
+          style="width:100%;height:100%;text-align:center;">
           <div>
             <img src="/img/专家方案/温馨提示.png" height="24" width="152">
           </div>
@@ -145,7 +146,8 @@
             </div>
           </v-card-container>
         </div>
-        <div v-if="hpList.length===0" style="width:100%;height:100%;text-align:center;margin-top:3rem">
+        <div :style="{display:hpTips}"
+          style="width:100%;height:100%;text-align:center;margin-top:3rem">
           <div>
             <img src="/img/专家方案/温馨提示.png" height="24" width="152">
           </div>
@@ -192,8 +194,10 @@ export default {
       coinmeter: 0,
       planList: [],
       planListPageNum: 0,
+      planTips: 'none',
       hpList: [],
-      hpListPageNum: 0
+      hpListPageNum: 0,
+      hpTips: 'none'
     }
   },
   computed: {
@@ -295,6 +299,7 @@ export default {
         // console.log(msg + '->' + result)
         if (code === 1) {
           if (result.length === 0) {
+            this.$set('planTips', 'block')
             this.planListPageNum = -1
             return
           }
@@ -319,6 +324,7 @@ export default {
         .then(({data: {code, msg, results}})=>{
           if (code === 1) {
             if (results.list.length === 0) {
+              this.$set('hpTips', 'block')
               this.hpListPageNum = -1
               return
             }

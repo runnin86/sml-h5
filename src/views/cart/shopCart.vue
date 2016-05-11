@@ -71,7 +71,7 @@
               </li>
             </ul>
           </div>
-          <div v-if="plans.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+          <div v-cloak v-if="plans.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
             <div>
               <img src="/img/专家方案/温馨提示.png" height="24" width="152">
             </div>
@@ -130,7 +130,7 @@
               </li>
             </ul>
           </div>
-          <div v-if="items.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+          <div v-cloak v-if="items.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
             <div>
               <img src="/img/专家方案/温馨提示.png" height="24" width="152">
             </div>

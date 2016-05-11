@@ -36,7 +36,7 @@
       </li>
     </ul>
   </div>
-  <div v-if="list.length===0" style="width:100%;height:100%;text-align:center;">
+  <div v-cloak v-if="list.length===0" style="width:100%;height:100%;text-align:center;">
     <div>
       <img src="/img/专家方案/温馨提示.png" height="24" width="152">
     </div>
