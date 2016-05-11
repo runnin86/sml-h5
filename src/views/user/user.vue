@@ -2,12 +2,12 @@
 <div class="content user" distance="55" v-pull-to-refresh="refresh"
   :style="(!this.user?'background-color:white':'')">
   <v-layer></v-layer>
-  <div v-if="!user" class="submit-button">
+  <!-- <div v-if="!user" class="submit-button">
     <button @click="this.$route.router.go({path: '/login?from=user', replace: true})"
       class="button button-big button-fill">
       登录
     </button>
-  </div>
+  </div> -->
   <div v-else>
     <div class="list-block" style="margin-top:0rem;margin-bottom:0rem;">
       <ul style="background-image: url('/img/个人中心/个人背景图片.png')">
@@ -148,7 +148,12 @@ import $ from 'zepto'
 export default {
   ready () {
     $.init()
-    this.refresh()
+    if (!this.user) {
+      this.$route.router.go({path: '/login?from=user', replace: true})
+    }
+    else {
+      this.refresh()
+    }
   },
   data () {
     return {

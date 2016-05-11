@@ -267,7 +267,7 @@ export default {
         }
         else {
           $.toast(msg)
-          console.error('获取乐夺宝购物车失败:' + msg)
+          // console.error('获取乐夺宝购物车失败:' + msg)
         }
       }).catch((e)=>{
         console.error('无法获取方案购物车:' + e)
@@ -295,7 +295,7 @@ export default {
         }
         else {
           $.toast(msg)
-          console.error('获取乐夺宝购物车失败:' + msg)
+          // console.error('获取乐夺宝购物车失败:' + msg)
         }
       }).catch((e)=>{
         console.error('无法获取乐夺宝购物车:' + e)

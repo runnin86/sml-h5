@@ -253,7 +253,7 @@ export default {
       }
       else {
         $.toast('你尚未登录')
-        this.$route.router.go({path: '/login?from=happyPurchase', replace: true})
+        this.$route.router.go({path: '/login?from=happyPurchase', replace: false})
       }
     },
     refresh () {

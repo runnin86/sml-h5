@@ -1,7 +1,9 @@
 <template>
 <div class="content login" transition="pushtop">
   <header class="bar bar-nav">
-    <a class="button button-link button-nav pull-left" v-link="{path: path, replace: true}">
+    <a class="button button-link button-nav pull-left"
+      @click="this.$root.back()">
+    <!-- <a class="button button-link button-nav pull-left" v-link="{path: path, replace: true}"> -->
     <span class="icon"></span>
       取消
     </a>
