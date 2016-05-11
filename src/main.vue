@@ -2,7 +2,7 @@
   <div class="page page-current">
       <bar v-if="isIndex" class="barHeight">
         <bar-item v-show="showPlan" path="/plan" label="专家方案" icon="plan"></bar-item>
-        <bar-item path="/happyPurchase" label="乐夺宝" icon="gift"></bar-item>
+        <bar-item path="/happyPurchase" label="一元夺宝" icon="gift"></bar-item>
         <bar-item path="/shopCart" label="购物车" icon="cart" :b="cardBadge"></bar-item>
         <bar-item path="/user" label="个人中心" icon="me" :b="userBadge"></bar-item>
         <bar-item path="/more" label="更多" icon="more"></bar-item>

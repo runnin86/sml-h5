@@ -80,7 +80,7 @@
             </div>
           </div>
         </v-tab>
-        <v-tab name="tab-hpList" title="乐夺宝">
+        <v-tab name="tab-hpList" title="一元夺宝">
           <div class="list-block infinite-list" style="margin-top:0.1rem;">
             <ul>
               <li class="item-content" id="cartRecord" style="padding-left:0rem;"
