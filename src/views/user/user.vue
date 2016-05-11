@@ -33,13 +33,13 @@
         </li>
         <li class="item-content" style="margin-top:-0.4rem;">
           <div style="margin-left:-0.4rem;width:48%;">
-            <a href="#" class="button button-dark" @click="doWithDraw()"
+            <a class="button button-dark" @click="doWithDraw()"
               style="color:#FFFFFF;border-color:#FFFFFF">
               提现
             </a>
           </div>
           <div class="r04" style="width:48%;">
-            <a href="#" class="button button-dark" @click="doRecharge()"
+            <a class="button button-dark" @click="doRecharge()"
               style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">
               充值
             </a>
