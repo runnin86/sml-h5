@@ -245,6 +245,7 @@
             }
           }
           else {
+            $.toast(msg)
             console.error('获取方案明细失败:' + msg)
           }
         }).catch(()=>{

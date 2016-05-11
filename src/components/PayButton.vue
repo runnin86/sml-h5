@@ -87,12 +87,9 @@ export default {
           // 设置购物车图标
           this.$root.setCardBadge()
         }
-        else if (code === 0) {
-          // 未登录
-          $.toast('会话失效,请重新登录...')
-        }
         else {
-          console.error('加入购物车失败:' + msg)
+          // 错误
+          $.toast(msg)
         }
       }).catch((e)=>{
         console.error('无法加入购物车:' + e)

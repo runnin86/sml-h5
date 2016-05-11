@@ -102,6 +102,7 @@
 
 <script>
 import {userApi} from '../../util/service'
+import $ from 'zepto'
 
 export default {
   ready () {
@@ -118,6 +119,9 @@ export default {
         this.$set('twoLevelNum', result.twoLevelNum)
         this.$set('threeLevelNum', result.threeLevelNum)
         this.$set('oneLevelUsers', result.oneLevelUsers)
+      }
+      else {
+        $.toast(msg)
       }
     }).catch((e)=>{
       console.error('获取我的团队失败:' + e)

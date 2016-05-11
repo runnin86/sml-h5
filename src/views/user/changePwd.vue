@@ -59,7 +59,7 @@ export default {
             this.newPwd = ''
             this.oldPwd = ''
           }
-          else if (code === 0) {
+          else {
             $.toast(msg)
           }
         }).catch((e)=>{

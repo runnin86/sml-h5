@@ -265,14 +265,8 @@ export default {
             }
           }
         }
-        else if (code === 0) {
-          // 未登录
-          $.toast('你尚未登录...')
-          // setTimeout(function () {
-          //   this.$route.router.go({path: '/user', replace: true})
-          // }.bind(this), 3000)
-        }
         else {
+          $.toast(msg)
           console.error('获取乐夺宝购物车失败:' + msg)
         }
       }).catch((e)=>{
@@ -299,14 +293,8 @@ export default {
             }
           }
         }
-        else if (code === 0) {
-          // 未登录
-          $.toast('你尚未登录...')
-          // setTimeout(function () {
-          //   this.$route.router.go({path: '/user', replace: true})
-          // }.bind(this), 3000)
-        }
         else {
+          $.toast(msg)
           console.error('获取乐夺宝购物车失败:' + msg)
         }
       }).catch((e)=>{
@@ -341,6 +329,9 @@ export default {
         if (code === 1) {
           // 删除成功
           this.refreshCart()
+        }
+        else {
+          $.toast(msg)
         }
       }).catch((e)=>{
         console.error('删除购物车异常:' + e)
@@ -391,7 +382,7 @@ export default {
               }.bind(this), 500)
             }
             else {
-              $.alert(msg)
+              $.toast(msg)
             }
           }).catch((e)=>{
             $.alert('服务器连接中断...')
@@ -434,6 +425,9 @@ export default {
           item.amount = msg.amount
           this.totalItems = this.totalItems - initAmount + amount
         }
+        else {
+          $.toast(msg)
+        }
       }).catch((e)=>{
         console.error('购物车数量加减异常:' + e)
       })
@@ -470,6 +464,9 @@ export default {
        if (code === 1) {
          // 删除成功
          this.refreshCart()
+       }
+       else {
+         $.toast(msg)
        }
      }).catch((e)=>{
        console.log('删除购物车异常:')
@@ -521,7 +518,7 @@ export default {
               }.bind(this), 500)
             }
             else {
-              $.alert(msg)
+              $.toast(msg)
             }
           }).catch((e)=>{
             $.alert('服务器连接中断...')
@@ -568,6 +565,9 @@ export default {
               this.totalPlans += (p.planAmount * p.amount)
             }
           }
+        }
+        else {
+          $.toast(msg)
         }
       }).catch((e)=>{
         console.error('购物车数量加减异常:' + e)

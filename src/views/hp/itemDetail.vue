@@ -198,6 +198,7 @@
             }
           }
           else {
+            $.toast(msg)
             console.error('获取商品信息失败:' + msg)
           }
         }).catch(()=>{

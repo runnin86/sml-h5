@@ -50,6 +50,7 @@
 
 <script>
 import {userApi} from '../../util/service'
+import $ from 'zepto'
 
 export default {
   ready () {
@@ -63,6 +64,9 @@ export default {
       if (code === 1) {
         // console.log(result)
         this.$set('list', result)
+      }
+      else {
+        $.toast(msg)
       }
     }).catch((e)=>{
       console.error('获取我的返佣失败:' + e)

@@ -199,6 +199,7 @@ export default {
           this.$set('itemList', results.list)
         }
         else {
+          $.toast(msg)
           console.error('获取商品列表失败:' + msg)
         }
       }).catch(()=>{
@@ -214,6 +215,7 @@ export default {
           this.$set('itemList10', results.list)
         }
         else {
+          $.toast(msg)
           console.error('获取十元专区商品列表失败:' + msg)
         }
       }).catch((e)=>{
@@ -241,11 +243,8 @@ export default {
             // 设置购物车图标
             this.$root.setCardBadge()
           }
-          else if (code === 0) {
-            // 未登录
-            $.toast('会话失效,请重新登录...')
-          }
           else {
+            $.toast(msg)
             console.error('加入购物车失败:' + msg)
           }
         }).catch((e)=>{

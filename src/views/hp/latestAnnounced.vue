@@ -119,6 +119,9 @@ export default {
             this.ranks.push(results.list[i])
           }
         }
+        else {
+          $.toast(msg)
+        }
       }).catch((e)=>{
         console.error('获取最新揭晓失败:' + e)
       })

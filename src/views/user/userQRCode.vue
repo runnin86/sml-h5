@@ -31,7 +31,7 @@ import VContent from '../../components/Content'
 import VQrcode from '../../components/Qrcode'
 import {userApi} from '../../util/service'
 // import * as qr from '../../util/qrcode'
-// import $ from 'zepto'
+import $ from 'zepto'
 
 export default {
   ready () {
@@ -47,6 +47,9 @@ export default {
         this.$set('qrUrl', result)
         // var imgSrc = document.getElementById('canvas').toDataUrl('image/png')
         // console.log(imgSrc)
+      }
+      else {
+        $.toast(msg)
       }
     }).catch((e)=>{
       console.error('获取用户二维码失败:' + e)

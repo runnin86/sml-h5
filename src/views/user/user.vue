@@ -230,13 +230,15 @@ export default {
         if (code === 1) {
           this.coinmeter = result.coinmeter
         }
-        else {
+        else if (code === 0) {
           console.log('获取用户本金失败:' + msg)
-          // $.alert('会话失效,请重新登录', ()=>{
-          //   window.localStorage.clear()
-          //   window.localStorage.setItem('imageSwitch', true)
-          //   this.$route.router.go({path: '/login?from=user', replace: true})
-          // })
+        }
+        else if (code === 3) {
+          $.alert(msg, ()=>{
+            window.localStorage.clear()
+            window.localStorage.setItem('imageSwitch', true)
+            this.$route.router.go({path: '/login?from=user', replace: true})
+          })
         }
       }).catch((e)=>{
         console.error('获取账户本金失败:' + e)

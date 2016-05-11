@@ -116,8 +116,6 @@ export default {
     setCardBadge () {
       let token = window.localStorage.getItem('token')
       if (token) {
-        // 展示方案的菜单
-        this.showPlan = true
         // 处理购物车图标右上角的数字
         this.cardBadge = 0
         // 获取服务器中的乐夺宝购物车信息
@@ -144,8 +142,12 @@ export default {
             emulateJSON: true
           })
         .then(({data: {code, msg, result}})=>{
-          if (result) {
-            this.cardBadge += result.length
+          if (code === 1) {
+            // 展示方案的菜单
+            this.showPlan = true
+            if (result) {
+              this.cardBadge += result.length
+            }
           }
         }).catch((e)=>{
           console.error('无法获取方案购物车:' + e)

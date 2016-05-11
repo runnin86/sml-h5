@@ -86,6 +86,9 @@ export default {
             this.msglist.push(m)
           }
         }
+        else {
+          $.toast(msg)
+        }
       }).catch((e)=>{
         console.error('获取用户消息失败:' + e)
       })

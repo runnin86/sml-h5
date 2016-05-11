@@ -302,6 +302,9 @@ export default {
             this.planList.push(result[i])
           }
         }
+        else {
+          $.toast(msg)
+        }
       }).catch((e)=>{
         console.log('获取用户方案记录失败:')
         console.error(e)
@@ -322,6 +325,9 @@ export default {
             for (var i = 0; i < results.list.length; i++) {
               this.hpList.push(results.list[i])
             }
+          }
+          else {
+            $.toast(msg)
           }
         }).catch((e)=>{
           console.error('获取用户参与记录失败:' + e)

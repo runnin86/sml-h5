@@ -55,7 +55,7 @@ export default {
           this.$root.setCardBadge()
         }
         else {
-          $.alert('登录失败:' + msg)
+          $.toast(msg)
         }
       }).catch((e)=>{
         $.alert('服务器连接中断...')

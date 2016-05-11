@@ -12,11 +12,27 @@
 </template>
 
 <script>
+import {planApi} from '../util/service'
+
 export default {
   ready () {
-    setTimeout(() => {
-      this.$route.router.go({path: '/plan', replace: true})
-    }, 1500)
+    // 判断用户来展示菜单
+    this.$http.get(planApi.plan, {}, {
+      headers: {
+        'x-token': window.localStorage.getItem('token')
+      },
+      emulateJSON: true
+    })
+    .then(({data: {code, msg}})=>{
+      if (code === 3 || code === 0) {
+        this.$route.router.go({path: '/happyPurchase', replace: true})
+      }
+      else if (code === 1) {
+        this.$route.router.go({path: '/plan', replace: true})
+      }
+    }).catch(()=>{
+      this.$route.router.go({path: '/happyPurchase', replace: true})
+    })
   }
 }
 </script>

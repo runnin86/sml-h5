@@ -195,14 +195,14 @@ export default {
           this.$set('rangeList', result.rangeList)
         }
         else if (code === 0) {
-          window.localStorage.removeItem('user')
-          window.localStorage.removeItem('token')
-          window.localStorage.removeItem('imageSwitch')
-          window.localStorage.setItem('imageSwitch', true)
-          this.$route.router.go({path: '/happyPurchase', replace: true})
+          $.toast(msg)
         }
-        else {
-          console.error('获取方案失败:' + msg)
+        else if (code === 3) {
+          $.alert(msg, ()=>{
+            window.localStorage.clear()
+            window.localStorage.setItem('imageSwitch', true)
+            this.$route.router.go({path: '/login?from=user', replace: true})
+          })
         }
       }).catch(()=>{
         $.alert('服务器连接中断...')
@@ -250,12 +250,9 @@ export default {
             // 设置购物车图标
             this.$root.setCardBadge()
           }
-          else if (code === 0) {
-            // 未登录
-            $.toast(msg)
-          }
           else {
-            console.error('加入购物车失败:' + msg)
+            // 错误信息
+            $.toast(msg)
           }
         }).catch((e)=>{
           console.error('无法加入购物车:' + e)

@@ -57,23 +57,6 @@
 
 export default {
   ready () {
-    // this.$http.post(userApi.bill, {}, {
-    //   headers: {
-    //     'x-token': window.localStorage.getItem('token')
-    //   },
-    //   emulateJSON: true
-    // })
-    // .then(({data: {code, msg, result}})=>{
-    //   if (code === 1) {
-    //     // console.log(result)
-    //     this.$set('oneLevelNum', result.oneLevelNum)
-    //     this.$set('twoLevelNum', result.twoLevelNum)
-    //     this.$set('threeLevelNum', result.threeLevelNum)
-    //     this.$set('oneLevelUsers', result.oneLevelUsers)
-    //   }
-    // }).catch((e)=>{
-    //   console.error('获取我的团队失败:' + e)
-    // })
   },
   // route: {
   //   data ({from, to, next}) {

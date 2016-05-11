@@ -55,6 +55,9 @@ export default {
         // console.log(result)
         this.$set('list', result)
       }
+      else {
+        $.toast(msg)
+      }
       $.hideIndicator()
     }).catch((e)=>{
       console.error('获取我的账单(打赏记录)失败:' + e)
