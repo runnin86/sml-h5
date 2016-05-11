@@ -9,18 +9,19 @@
   <div class="list-block">
     <ul v-for="t in list | orderBy 'order_id' -1">
       <li class="item-content2">
-        <div class="item-inner">
+        <div class="item-inner"
+          :style="{color:t.status===0?'#FF4500':(t.status===1?'#DCDCDC':'')}">
           <div class="item-title2">
             <div>
               {{t.from_user_phone}}
-              <font>({{t.status}})</font>
+              <font>({{t.status===0?'可提现':(t.status===1?'已提现':'')}})</font>
             </div>
             <div style="font-size:0.48rem;">
               <span>
-                用户所属:上级{{t.oneLevelPhone}}
+                用户所属:{{t.oneLevelPhone === ''?'':'上级' + t.oneLevelPhone}}
               </span>
               <span>
-                上上级:{{t.twoLevelPhone}}
+                {{t.oneLevelPhone === ''?'直属上级':''}}
               </span>
             </div>
           </div>
@@ -31,15 +32,24 @@
       </li>
     </ul>
   </div>
+  <div v-if="list.length === 0"
+    style="width:100%;height:100%;text-align:center;">
+    <div>
+      <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+    </div>
+    <div style="font-size:0.38rem;color:#A9A9A9;">
+      您还没有返佣记录哦
+    </div>
+  </div>
 </div>
-<div class="toolBarCart">
+<div class="toolBarCart" v-if="list.length>0">
   <div class="list-block">
     <ul>
       <li class="item-content bottomLi">
         <div class="item-inner" style="padding-left:0.75rem;">
-          <div class="item-title">共{{list.length}}条可提现 总额:2000</div>
+          <div class="item-title">共{{withDrawLength}}条可提现 总额:{{withDrawMoney}}</div>
           <div class="toPay-button">
-            <button class="button button-fill button-success" @click="payHP()">提现</button>
+            <button class="button button-fill button-success" @click="doWithDraw()">提现</button>
           </div>
         </div>
       </li>
@@ -63,6 +73,14 @@ export default {
     .then(({data: {code, msg, result}})=>{
       if (code === 1) {
         // console.log(result)
+        for (var i = 0; i < result.length; i++) {
+          let ob = result[i]
+          if (ob.status === 0) {
+            // 0可提,1已提
+            this.withDrawLength += 1
+            this.withDrawMoney += ob.total_fee
+          }
+        }
         this.$set('list', result)
       }
       else {
@@ -75,11 +93,15 @@ export default {
   data () {
     return {
       title: '我的返佣',
-      list: []
-
+      list: [],
+      withDrawLength: 0,
+      withDrawMoney: 0
     }
   },
   methods: {
+    doWithDraw () {
+      $.toast('开发中,敬请期待...')
+    }
   }
 }
 </script>
@@ -177,6 +199,6 @@ export default {
 .bottomLi {
   background-color: #FFFFF0;
   font-size: 0.7rem;
-  height: 2.6rem;
+  height: 2.46rem;
 }
 </style>
