@@ -33,10 +33,16 @@
         </li>
         <li class="item-content" style="margin-top:-0.4rem;">
           <div style="margin-left:-0.4rem;width:48%;">
-            <a href="#" class="button button-dark" style="color:#FFFFFF;border-color:#FFFFFF">提现</a>
+            <a href="#" class="button button-dark" @click="doWithDraw()"
+              style="color:#FFFFFF;border-color:#FFFFFF">
+              提现
+            </a>
           </div>
           <div class="r04" style="width:48%;">
-            <a href="#" class="button button-dark" style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">充值</a>
+            <a href="#" class="button button-dark" @click="doRecharge()"
+              style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">
+              充值
+            </a>
           </div>
         </li>
         <li class="item-content"
@@ -300,6 +306,59 @@ export default {
       }).catch((e)=>{
         console.error('获取账户本金失败:' + e)
       })
+    },
+    doRecharge (type) {
+      $.toast('充值功能暂未开放,敬请期待!')
+    },
+    doWithDraw () {
+      let wdModals = {
+        title: '请输入提现金额',
+        text: '您可以提现的金额为:' + this.userate + '元',
+        afterText: '<div class="widthDraw-input">' +
+                     '<input id="widthDrawMoney" type="number" placeholder="请输入金额" min=10 max=99999>' +
+                   '</div>',
+        buttons: [
+          {
+            text: '取消'
+          },
+          {
+            text: '确定',
+            bold: true,
+            onClick: ()=> {
+              let money = document.getElementById('widthDrawMoney').value
+              if ((Math.round(parseFloat(money) * 100) / 100) < 10) {
+                $.toast('提现金额不能少于10元')
+              }
+              else {
+                let token = window.localStorage.getItem('token')
+                this.$http.post(userApi.withdraw,
+                  {
+                    wtype: 1,
+                    wmoney: money
+                  }, {
+                    headers: {
+                      'x-token': token
+                    },
+                    emulateJSON: true
+                  })
+                .then(({data: {code, msg, result}})=>{
+                  if (code === 1) {
+                    // $.toast('恭喜您，提现成功！(请您保持电话畅通，工作人员会在3个工作日内与您联系)')
+                    $.toast('恭喜您，提现成功!</br>工作人员会在3个工作日内与您联系', 2000, 'hightToast')
+                    this.getUserate(token)
+                  }
+                  else {
+                    $.toast('提现失败:' + msg)
+                  }
+                }).catch((e)=>{
+                  console.error('个人中心盈利提现失败:' + e)
+                })
+              }
+            }
+          }
+        ]
+      }
+      $.modal(wdModals)
     }
   },
   components: {
@@ -428,5 +487,22 @@ export default {
   font-family: iconfont-sml !important;
   font-size: 1rem;
   content: "\e602";
+}
+.widthDraw-input input{
+  width: 100%;
+  height: 2.15rem;
+  font-size: .7rem;
+  padding: .4rem .5rem;
+  background-color: #fff;
+  margin-top: .8rem;
+  margin-bottom: .3rem;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .2rem;
+}
+.hightToast {
+  height: 4rem;
+  font-size: 0.68rem;
+  /*margin: 0 auto;*/
+  /*text-align: center;*/
 }
 </style>
