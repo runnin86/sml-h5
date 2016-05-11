@@ -1,6 +1,12 @@
 <template>
 <div class="content invite" transition="bounce">
-  <v-nav :path="path" :title="title"></v-nav>
+  <header class="bar bar-nav">
+    <a class="button button-link button-nav pull-left"
+      @click="this.$root.back()">
+    <span class="icon icon-left"></span>
+    </a>
+    <h1 class="title color" v-text="title"></h1>
+  </header>
   <div class="list-block" style="margin: 2.35rem 0">
     <ul>
       <li class="item-content item-link" @click="showMsg('registerHelp',$event)">
@@ -54,7 +60,6 @@
 </template>
 
 <script>
-import VNav from '../../components/Nav'
 // import $ from 'zepto'
 
 export default {
@@ -84,8 +89,7 @@ export default {
   },
   data () {
     return {
-      title: '帮助',
-      path: '/happyPurchase'
+      title: '帮助'
     }
   },
   methods: {
@@ -97,9 +101,6 @@ export default {
         document.getElementById(id).style.display = 'block'
       }
     }
-  },
-  components: {
-    VNav
   }
 }
 </script>
@@ -120,5 +121,8 @@ export default {
 .helpMsgText {
   font-size: 0.6rem;
   color: gray;
+}
+.color {
+  background-color: #ed8e07;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
 <div class="rank" transition="bounce">
-  <v-nav :path="path" :title="title"></v-nav>
+  <v-nav :path="path" :title="title" class="color"></v-nav>
   <div v-pull-to-refresh="refresh" v-infinite-scroll="loadMore">
     <v-layer></v-layer>
     <v-list type="media" class-name="inset">
@@ -181,5 +181,8 @@ export default {
 }
 #knowResult{
   font-size: 0.48rem;
+}
+.color {
+  background-color: #ed8e07;
 }
 </style>
