@@ -136,11 +136,7 @@ export default {
     return {
       banner: [],
       scrollmsg: [{
-        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">欢迎参与活动,参与多多,奖品多多,就怕你不来............</div>'
-      }, {
-        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">2016年04月30日海魔希特拉被勇士133****9281干掉了!</div>'
-      }, {
-        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">恭喜133****3322获得了大奖</div>'
+        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">温馨提示：理想投注，长跟场红</div>'
       }],
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',

@@ -12,12 +12,16 @@
       <bar-item path="/happyPurchase/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
     </bar>
 
-    <!-- 盈利滚动展示 -->
-    <card type="content" class-name="scrollText">
-      <!-- <div>
-        <marquee scrollamount="10" direction="left"
-          scrolldelay="5" style="margin-top:0.2rem;">最新动态：</marquee>
-      </div> -->
+    <!-- 中奖滚动展示 -->
+    <card type="content" class-name="scrollHP">
+      <div class="row">
+        <div class="col-10" style="line-height:2rem;">
+          <img src="/img/专家方案/喇叭.png" style="height:1rem;margin-left:0.2rem;margin-bottom:-0.2rem;">
+        </div>
+        <div class="col-90">
+          <slider :banner="scrollmsg" :vertical="true" :animate-time=800 style="z-index:9999;height:2rem;"></slider>
+        </div>
+      </div>
     </card>
 
     <!-- 内容区 -->
@@ -150,6 +154,7 @@ export default {
     $.init()
     document.title = '一元夺宝'
     this.getBanner()
+    this.getLatestTop10()
     this.refresh()
     $.refreshScroller()
   },
@@ -160,7 +165,10 @@ export default {
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       itemList: [],
-      itemList10: []
+      itemList10: [],
+      scrollmsg: [{
+        content: '<div class="scrollMsgText">一元夺宝，精彩无限!</div>'
+      }]
     }
   },
   computed: {
@@ -267,6 +275,43 @@ export default {
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       }.bind(this), 1345)
+    },
+    getLatestTop10 () {
+      this.$http.get(hpApi.oneBuyNewPublic + '?pagenum=' + 0)
+      .then(({data: {code, msg, results}})=>{
+        if (code === 1) {
+          if (results.list.length >= 0) {
+            this.scrollmsg = []
+            for (var i = 0; i < results.list.length; i++) {
+              let info = results.list[i]
+              // 速来挑战!->即刻来秒!->想中戳我!
+              // info.payCount
+              if (info.user_name) {
+                let name = info.user_name
+                // 首字*
+                // let first = name.substr(0, 1)
+                // let finalName = name.replace(first, '*')
+                // 首字之外全部*
+                let unFirst = name.substr(1, name.length)
+                let rv = ''
+                for (let i = 0; i < name.length - 1; i++) {
+                  rv += '*'
+                }
+                let finalName = name.replace(unFirst, rv)
+                let msg = '恭喜 ' + finalName + ' ' + info.price + '元夺得' + info.name
+                this.scrollmsg.push({
+                  content: '<div class="scrollMsgText">' + msg + '</div>'
+                })
+              }
+            }
+          }
+        }
+        else {
+          console.error('乐夺宝首页获取最新揭晓失败!')
+        }
+      }).catch((e)=>{
+        console.error('获取最新揭晓失败:' + e)
+      })
     }
   },
   components: {
@@ -372,5 +417,44 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.scrollHP{
+  background-color:#66CC66;
+  /*height:1.6rem;*/
+  z-index:10;
+}
+.scrollHP:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: auto;
+  top: auto;
+  height: 1px;
+  width: 100%;
+  background-color: #e1e1e1;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+.scrollHP:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  right: auto;
+  height: 1px;
+  width: 100%;
+  background-color: #e1e1e1;
+  display: block;
+  z-index: 15;
+  -webkit-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+}
+.scrollMsgText {
+  font-size:0.72em;
+  line-height:2rem;
 }
 </style>
