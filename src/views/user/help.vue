@@ -92,7 +92,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .list-block {
   height: 2.9rem;
   font-size: 0.72rem;
