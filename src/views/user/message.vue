@@ -34,6 +34,14 @@
         </li>
       </ul>
     </div>
+    <div v-cloak v-if="msglist.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+      <div>
+        <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+      </div>
+      <div style="font-size:0.38rem;color:#A9A9A9;">
+        暂时没有消息哦!
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -78,12 +86,14 @@ export default {
       })
       .then(({data: {code, msg, result}})=>{
         if (code === 1) {
-          if (result.msglist.length === 0) {
-            this.pagenum = -1
-            return
-          }
-          for (let m of result.msglist) {
-            this.msglist.push(m)
+          if (result.msglist) {
+            if (result.msglist.length === 0) {
+              this.pagenum = -1
+              return
+            }
+            for (let m of result.msglist) {
+              this.msglist.push(m)
+            }
           }
         }
         else {

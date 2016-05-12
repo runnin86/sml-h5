@@ -55,6 +55,15 @@
       </li>
     </ul>
     <br>
+    <div  style="width:100%;height:100%;text-align:center;margin-top:1rem;">
+      <div>
+        <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+      </div>
+      <div style="font-size:0.58rem;color:#A9A9A9;">
+        如果您的问题未能解决，您可以联系客服人员</br>
+        客服电话：<a href="tel:400-8710-088">400-8710-088</a>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -64,28 +73,6 @@
 
 export default {
   ready () {
-    console.log(2)
-    // $.ajax({
-    //   type: 'get',
-    //   // url: 'http://api.douban.com/v2/book/1139336',
-    //   url: 'http://192.168.1.22:9587/api/v1/sml/oneBuyProject',
-    //   dataType: 'jsonp',
-    //   jsonp: 'callback',
-    //   jsonpCallback: 'success_jsonpCallback',
-    //   success: function (data, status, xhr) {
-    //     console.log(data)
-    //     // console.log(status)
-    //     // console.log(xhr)
-    //   },
-    //   error: function () {
-    //     console.log('请求出错')
-    //   }
-    // })
-    this.$http.get('http://192.168.1.22:9587/api/v1/sml/oneBuyProject')
-    .then(({data: {code, msg, results}})=>{
-      console.log(results)
-      // this.$set('banner', data)
-    })
   },
   data () {
     return {
@@ -108,6 +95,7 @@ export default {
 <style>
 .list-block {
   height: 2.9rem;
+  font-size: 0.72rem;
 
   ul {
     height: 2.9rem;
@@ -124,5 +112,17 @@ export default {
 }
 .color {
   background-color: #ed8e07;
+}
+a:link {
+  color: #000000;
+  text-decoration: none;
+}
+a:visited {
+  color: #000000;
+  text-decoration: none;
+}
+a:hover {
+  color: #999999;
+  text-decoration: underline;
 }
 </style>

@@ -28,11 +28,6 @@ export default function (router) {
         require(['./views/hp/itemDetail'], resolve)
       }
     },
-    '/happyPurchase/help': {
-      component (resolve) {
-        require(['./views/hp/help'], resolve)
-      }
-    },
     '/latestAnnounced': {
       component (resolve) {
         require(['./views/hp/latestAnnounced'], resolve)
@@ -92,6 +87,11 @@ export default function (router) {
     '/user/team': {
       component (resolve) {
         require(['./views/user/userTeam'], resolve)
+      }
+    },
+    '/user/help': {
+      component (resolve) {
+        require(['./views/user/help'], resolve)
       }
     },
     '/user/commission': {

@@ -9,7 +9,7 @@
     <bar class="home-bar">
       <bar-item path="/latestAnnounced" label="最新揭晓" img="/img/乐夺宝/最新揭晓.png" h=42 i=38></bar-item>
       <!-- <bar-item path="/user/tasks" label="充值" img="/img/专家方案/充值.png" h=42 i=38></bar-item> -->
-      <bar-item path="/happyPurchase/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
+      <bar-item path="/user/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
     </bar>
 
     <!-- 中奖滚动展示 -->
