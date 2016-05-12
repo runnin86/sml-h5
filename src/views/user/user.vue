@@ -117,7 +117,7 @@
           </div>
         </li>
       </ul>
-      <ul style="margin-top:0.8rem;">
+      <!-- <ul style="margin-top:0.8rem;">
         <li class="item-content item-link" v-link="{ path: '/user/qrCode', replace: false}">
           <div class="item-inner">
             <div class="icon-qrcode item-title">
@@ -125,13 +125,24 @@
             </div>
           </div>
         </li>
-      </ul>
-      <ul>
+      </ul> -->
+      <ul style="margin-top:0.8rem;">
         <li class="item-content item-link" v-link="{ path: '/user/changePwd', replace: false}">
           <div class="item-inner">
             <div class="icon-pwd item-title">
               修改密码
             </div>
+          </div>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <div class="item-link item-content">
+              <div class="item-inner" v-link="{ path: '/user/about', replace: false}">
+                  <div class="icon-about item-title">
+                    关于收米拉
+                  </div>
+              </div>
           </div>
         </li>
       </ul>
@@ -482,6 +493,11 @@ export default {
   font-family: iconfont-sml !important;
   font-size: 1rem;
   content: "\e64f";
+}
+.icon-about:before {
+  font-family: iconfont-sml !important;
+  font-size: 1rem;
+  content: "\e603";
 }
 .icon-qrcode:before {
   font-family: iconfont-sml !important;
