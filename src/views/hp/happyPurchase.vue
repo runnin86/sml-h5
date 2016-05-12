@@ -41,7 +41,7 @@
               <div class="col-66">
                 <div style="width: 114%;"
                   v-link="{name: 'itemDetail', params: { id: item.id }, query:{ number: item.number }, activeClass: 'active', replace: false}">
-                  <card type="content-inner">
+                  <card type="content-inner" style="padding-bottom:0.2rem;">
                     <div style="font-size:.8rem;" class="text-sml">第{{item.number}}期 {{item.name}}</div>
                     <div style="font-size:.6rem;" class="text-sml">{{item.content}}</div>
                   </card>
@@ -56,7 +56,7 @@
                           :style="{ height: '8px', width: parseFloat((item.totalCount-item.codeCount)/item.totalCount)*100 + '%' }"></span>
                       </div>
                     </card>
-                    <card type="header">
+                    <card type="header" style="padding-top:0.2rem;padding-bottom:1rem;">
                       <span style="font-size:.6rem;">
                         <div>{{item.totalCount}}</div><div>总需</div>
                       </span>
@@ -66,7 +66,7 @@
                     </card>
                   </div>
                   <div class="col-26"
-                    style="margin-top:1rem;float:right;margin-right:0.6rem;">
+                    style="margin-top:0.6rem;float:right;margin-right:0.6rem;">
                     <img src="/img/购物车/icon_addcar_big_black.png"
                       width="40" height="40" @click="addToCart(item)"
                       style="border:solid 0px #02DF82;border-radius: 50px;overflow:hidden;">
