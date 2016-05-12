@@ -193,6 +193,7 @@ export default {
   },
   ready () {
     $.init()
+    document.title = '购物车'
     this.refreshCart()
   },
   data () {

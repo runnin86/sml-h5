@@ -127,6 +127,7 @@ Vue.filter('residualTime', function (dtime) {
 export default {
   ready () {
     $.init()
+    document.title = '购买方案'
     this.getBanner()
     this.getRangeList()
     $.refreshScroller()
@@ -264,7 +265,7 @@ export default {
       }
     },
     recharge () {
-      $.alert('充值提示')
+      $.toast('充值功能暂未开放,敬请期待!')
     },
     isValidate (dtime) {
       // 计算时间差

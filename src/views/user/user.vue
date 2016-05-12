@@ -165,6 +165,7 @@ import $ from 'zepto'
 export default {
   ready () {
     $.init()
+    document.title = '个人中心'
     if (!this.user) {
       this.$route.router.go({path: '/login?from=user', replace: true})
     }

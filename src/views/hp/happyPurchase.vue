@@ -148,6 +148,7 @@ import $ from 'zepto'
 export default {
   ready () {
     $.init()
+    document.title = '一元夺宝'
     this.getBanner()
     this.refresh()
     $.refreshScroller()
