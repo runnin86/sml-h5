@@ -60,47 +60,110 @@
 
 <script>
 import {userApi} from '../../util/service'
+import md5 from 'md5'
 import $ from 'zepto'
 
 export default {
   ready () {
-    this.$http.post(userApi.commission, {}, {
-      headers: {
-        'x-token': window.localStorage.getItem('token')
-      },
-      emulateJSON: true
-    })
-    .then(({data: {code, msg, result}})=>{
-      if (code === 1) {
-        // console.log(result)
-        for (var i = 0; i < result.length; i++) {
-          let ob = result[i]
-          if (ob.status === 0) {
-            // 0可提,1已提
-            this.withDrawLength += 1
-            this.withDrawMoney += ob.total_fee
-          }
-        }
-        this.$set('list', result)
-      }
-      else {
-        $.toast(msg)
-      }
-    }).catch((e)=>{
-      console.error('获取我的返佣失败:' + e)
-    })
+    this.load()
   },
   data () {
     return {
       title: '我的返佣',
+      user: JSON.parse(window.localStorage.getItem('user')),
       list: [],
       withDrawLength: 0,
       withDrawMoney: 0
     }
   },
   methods: {
+    load () {
+      this.$http.post(userApi.commission, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        if (code === 1) {
+          this.withDrawLength = 0
+          this.withDrawMoney = 0
+          // console.log(result)
+          for (var i = 0; i < result.length; i++) {
+            let ob = result[i]
+            if (ob.status === 0) {
+              // 0可提,1已提
+              this.withDrawLength += 1
+              this.withDrawMoney += ob.total_fee
+            }
+          }
+          this.$set('list', result)
+        }
+        else {
+          $.toast(msg)
+        }
+      }).catch((e)=>{
+        console.error('获取我的返佣失败:' + e)
+      })
+    },
     doWithDraw () {
-      $.toast('开发中,敬请期待...')
+      let wdModals = {
+        title: '',
+        text: '为保障您的财产安全,提取佣金前需要输入您的登录密码。',
+        afterText: '<div class="widthDraw-input">' +
+                     '<input type="password" id="checkPwd" placeholder="密码">' +
+                   '</div>',
+        buttons: [
+          {
+            text: '取消'
+          },
+          {
+            text: '确定',
+            bold: true,
+            onClick: ()=> {
+              let pwd = document.getElementById('checkPwd').value
+              let userPwd = this.user.user_pass
+              if (md5(pwd) === userPwd) {
+                $.confirm('提取所有佣金:' + this.withDrawMoney + '元?',
+                  () => {
+                    // 发送返佣提现请求
+                    let token = window.localStorage.getItem('token')
+                    this.$http.post(userApi.withdraw,
+                      {
+                        wtype: 2,
+                        wmoney: this.withDrawMoney
+                      }, {
+                        headers: {
+                          'x-token': token
+                        },
+                        emulateJSON: true
+                      })
+                    .then(({data: {code, msg, result}})=>{
+                      if (code === 1) {
+                        // $.toast('恭喜您，提现成功！(请您保持电话畅通，工作人员会在3个工作日内与您联系)')
+                        $.toast('恭喜您，提现成功!</br>工作人员会在3个工作日内与您联系', 2000, 'hightToast')
+                        this.load()
+                      }
+                      else {
+                        $.toast('提现失败:' + msg)
+                      }
+                    }).catch((e)=>{
+                      console.error('我的返佣提现失败:' + e)
+                    })
+                  },
+                  () => {
+                    // 取消
+                  }
+                )
+              }
+              else {
+                $.toast('输入密码错误')
+              }
+            }
+          }
+        ]
+      }
+      $.modal(wdModals)
     }
   }
 }
@@ -200,5 +263,22 @@ export default {
   background-color: #FFFFF0;
   font-size: 0.7rem;
   height: 2.46rem;
+}
+.widthDraw-input input{
+  width: 100%;
+  height: 2.15rem;
+  font-size: .7rem;
+  padding: .4rem .5rem;
+  background-color: #fff;
+  margin-top: .8rem;
+  margin-bottom: .3rem;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .2rem;
+}
+.hightToast {
+  height: 4rem;
+  font-size: 0.68rem;
+  /*margin: 0 auto;*/
+  /*text-align: center;*/
 }
 </style>

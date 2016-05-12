@@ -81,6 +81,6 @@ export let userApi = {
   mywithdraw: URL_COMMON + 'mywithdraw',
   // 我的账单打赏
   myreward: URL_COMMON + 'reward',
-  // 盈利提现
+  // wtype  1：盈利提现 2:返佣提现
   withdraw: URL_COMMON + 'withdraw'
 }
