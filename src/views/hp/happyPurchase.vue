@@ -148,6 +148,7 @@ import $ from 'zepto'
 export default {
   ready () {
     $.init()
+    this.getBanner()
     this.refresh()
     $.refreshScroller()
   },
@@ -172,14 +173,12 @@ export default {
       this.$http.get(hpApi.banner)
       .then(({data: {code, msg, info}})=>{
         if (code === 1) {
-          if (info.length > 0) {
+          if (info.length > 0 && this.showImg) {
             let img = []
             for (var i = 0; i < info.length; i++) {
-              if (this.showImg) {
-                img.push({
-                  content: info[i].img
-                })
-              }
+              img.push({
+                content: info[i].img
+              })
             }
             this.$set('banner', img)
           }
@@ -261,7 +260,6 @@ export default {
       setTimeout(function () {
         this.itemList = []
         this.itemList10 = []
-        this.getBanner()
         this.getItemList()
         this.getItemList10()
         // 加载完毕需要重置
