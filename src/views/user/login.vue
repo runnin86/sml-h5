@@ -16,7 +16,9 @@
     </div>
   </div>
   <div class="submit-button">
-    <button class="button button-big button-fill" @click="login()">登录</button>
+    <button class="button button-big button-fill"
+      :class="submit?'button-fill':'disabled'"
+      @click="login()">登录</button>
   </div>
 </div>
 </template>
@@ -32,7 +34,8 @@ export default {
       title: '登录',
       path: '/' + this.$route.query.from,
       userName: '',
-      password: ''
+      password: '',
+      submit: false
     }
   },
   methods: {
@@ -63,6 +66,22 @@ export default {
         $.alert('服务器连接中断...')
         console.error('无法连接服务器:' + e)
       })
+    }
+  },
+  watch: {
+    'userName': {
+      handler: function (newVal, oldVal) {
+        if (this.userName && this.password) {
+          this.submit = true
+        }
+      }
+    },
+    'password': {
+      handler: function (newVal, oldVal) {
+        if (this.userName && this.password) {
+          this.submit = true
+        }
+      }
     }
   }
 }
