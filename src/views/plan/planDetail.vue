@@ -8,7 +8,7 @@
     <h1 class="title headerColor">方案详情</h1>
   </header>
   <div class="list-block">
-    <ul>
+    <ul style="background-image:url('/img/专家方案/头像背景.png')">
       <li class="item-content">
         <div style="width:100%;">
           <span style="margin-left:-0.4rem;">
@@ -140,7 +140,7 @@
 <div class="toolBarDetail">
   <div class="submit-button">
     <button v-show="!showPayBtn" class="button button-big button-fill"
-      :class="disabledPayBtn?'disabled':''" @click="popPay()">购买方案</button>
+      :class="disabledPayBtn?'disabled':''" @click="popPay()">购买服务</button>
   </div>
 </div>
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
