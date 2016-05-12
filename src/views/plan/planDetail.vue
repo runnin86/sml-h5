@@ -88,9 +88,7 @@
       </li>
       <li class="item-content2 fafafa" id="planContent" style="display: none;">
         <div class="item-inner">
-          <div class="item-title2" style="font-size:0.58rem;margin-left:0.4rem;">
-            {{{plan.plan_content}}}
-          </div>
+          <textarea readonly="readonly" class="planContentTextArea">{{{plan.plan_content}}}</textarea>
         </div>
       </li>
     </ul>
@@ -362,5 +360,13 @@
   z-index: 15;
   -webkit-transform-origin: 50% 0%;
   transform-origin: 50% 0%;
+}
+.planContentTextArea{
+  font-size:0.58rem;
+  margin-left:0.4rem;
+  width:100%;
+  outline: 0 none;
+  border-color: rgba(82, 168, 236, 0.8);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
 }
 </style>
