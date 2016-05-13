@@ -146,14 +146,21 @@
       :class="disabledPayBtn?'disabled':''" @click="popPay()">购买服务</button>
   </div>
 </div>
+<!-- 购买按钮 -->
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
   v-on:click="closeModal">
   <v-plan-pay-button :amount="plan.plan_amount" :title="title" :show="showPayBtn" :plan="plan"></v-plan-pay-button>
+</div>
+<!-- 打赏按钮 -->
+<div :class="['modal-overlay', showRewardBtn ? 'modal-overlay-visible' : '']"
+  v-on:click="closeRewardBtn">
+  <v-reward-button :amount="plan.plan_amount" :title="title" :show="showRewardBtn" :plan="plan"></v-reward-button>
 </div>
 </template>
 
 <script>
   import VPlanPayButton from '../../components/PlanPayButton'
+  import VRewardButton from '../../components/RewardButton'
   import {planApi} from '../../util/service'
   import {getDateDiff} from '../../util/util'
   import $ from 'zepto'
@@ -190,6 +197,7 @@
         serviceTime: '',
         residualTime: '',
         showPayBtn: false,
+        showRewardBtn: false,
         disabledPayBtn: false,
         showImg: window.localStorage.getItem('imageSwitch') === 'true',
         userId: window.localStorage.getItem('user') ? JSON.parse(window.localStorage.getItem('user')).user_id : null,
@@ -264,11 +272,15 @@
         })
       },
       reward () {
-        console.log(3232)
+        this.showRewardBtn = true
+      },
+      closeRewardBtn () {
+        this.showRewardBtn = false
       }
     },
     components: {
-      VPlanPayButton
+      VPlanPayButton,
+      VRewardButton
     }
   }
 </script>
