@@ -1,11 +1,13 @@
 <template>
 <div class="content" transition="bounce" style="margin-bottom:1.8rem;">
   <header class="bar bar-nav">
-    <a class="button button-link button-nav pull-left"
+    <a class="button button-link button-nav pull-left back"
       @click="this.$root.back()">
-    <span class="icon icon-left"></span>
+      <span class="icon icon-left"></span>
     </a>
-    <!-- <a class="icon icon-refresh pull-right"></a> -->
+    <a class="icon pull-right" @click="reward()">
+      <img src="/img/专家方案/打赏按钮.png" width="30" height="30">
+    </a>
     <h1 class="title headerColor">方案详情</h1>
   </header>
   <div class="list-block">
@@ -260,6 +262,9 @@
           $.pullToRefreshDone('.pull-to-refresh-content')
           $.hideIndicator()
         })
+      },
+      reward () {
+        console.log(3232)
       }
     },
     components: {
