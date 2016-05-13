@@ -5,6 +5,7 @@
       @click="this.$root.back()">
     <span class="icon icon-left"></span>
     </a>
+    <!-- <a class="icon icon-refresh pull-right"></a> -->
     <h1 class="title headerColor">方案详情</h1>
   </header>
   <div class="list-block">
@@ -53,7 +54,7 @@
           奖金:{{summary.totalProfit}}
         </div>
       </li>
-      <li class="item-content"
+      <li class="item-content" v-if="!plan.plan_content"
         style="margin-top:-0.6rem;background-color:#3c3d42;">
         <div style="width:180%;">
           <span class="icon-histogram"
@@ -65,8 +66,8 @@
           <span class="pull-right icon-piechart r04"
             style="font-size:1rem;color:red;">
             <font style="font-size:0.68rem;color:#FFFFFF;"
-              v-if="plan.range_saleLimit-plan.saledAmount>0">
-              限购剩余 {{plan.range_saleLimit-plan.saledAmount}} 元
+              v-if="plan.range_salelimit>0">
+              限购剩余 {{plan.range_salelimit}} 元
             </font>
             <font style="font-size:0.68rem;color:#FFFFFF;" v-else>
               不限购
@@ -86,7 +87,7 @@
           </div>
         </div>
       </li>
-      <li class="item-content2 fafafa" id="planContent" style="display: none;">
+      <li id="planContent" class="item-content2 fafafa" style="display: none;">
         <div class="item-inner">
           <textarea readonly="readonly" class="planContentTextArea">{{{plan.plan_content}}}</textarea>
         </div>
@@ -196,6 +197,12 @@
     },
     methods: {
       showInfo (id, e) {
+        if (id === 'planContent') {
+          if (!this.plan.plan_content) {
+            $.toast('方案截止后，才可观看!')
+            return
+          }
+        }
         if (document.getElementById(id).style.display === 'block') {
           document.getElementById(id).style.display = 'none'
         }
