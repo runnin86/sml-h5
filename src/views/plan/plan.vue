@@ -155,14 +155,12 @@ export default {
       this.$http.get(planApi.banner)
       .then(({data: {code, msg, info}})=>{
         if (code === 1) {
-          if (info.length > 0) {
+          if (info.length > 0 && this.showImg) {
             let img = []
             for (var i = 0; i < info.length; i++) {
-              if (this.showImg) {
-                img.push({
-                  content: info[i].img
-                })
-              }
+              img.push({
+                content: info[i].img
+              })
             }
             this.$set('banner', img)
           }
