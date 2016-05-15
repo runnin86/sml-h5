@@ -27,7 +27,7 @@
       </li>
     </ul>
   </div>
-  <div v-cloak v-if="list.length===0" style="width:100%;height:100%;text-align:center;">
+  <div v-cloak v-if="showWarning" style="width:100%;height:100%;text-align:center;">
     <div>
       <img src="/img/专家方案/温馨提示.png" height="24" width="152">
     </div>
@@ -54,7 +54,13 @@ export default {
     .then(({data: {code, msg, result}})=>{
       if (code === 1) {
         // console.log(result)
-        this.$set('list', result)
+        if (result.length > 0) {
+          this.$set('showWarning', false)
+          this.$set('list', result)
+        }
+        else {
+          this.$set('showWarning', true)
+        }
       }
       else {
         $.toast(msg)
@@ -67,7 +73,8 @@ export default {
   data () {
     return {
       title: '提现记录',
-      list: []
+      list: [],
+      showWarning: false
     }
   },
   methods: {

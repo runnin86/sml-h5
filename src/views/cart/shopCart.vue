@@ -71,7 +71,7 @@
               </li>
             </ul>
           </div>
-          <div v-cloak v-if="plans.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+          <div v-cloak v-if="showPlanWarning" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
             <div>
               <img src="/img/专家方案/温馨提示.png" height="24" width="152">
             </div>
@@ -130,7 +130,7 @@
               </li>
             </ul>
           </div>
-          <div v-cloak v-if="items.length===0" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+          <div v-cloak v-if="showHpWarning" style="width:100%;height:100%;text-align:center;margin-top:2rem;">
             <div>
               <img src="/img/专家方案/温馨提示.png" height="24" width="152">
             </div>
@@ -204,7 +204,9 @@ export default {
       totalItems: 0,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       showTab: 'plan',
-      loading: false
+      loading: false,
+      showPlanWarning: false,
+      showHpWarning: false
     }
   },
   watch: {
@@ -260,10 +262,14 @@ export default {
           this.plans = []
           this.totalPlans = 0
           if (result.length > 0) {
+            this.$set('showPlanWarning', false)
             for (let p of result) {
               this.totalPlans += (p.planAmount * p.amount)
               this.plans.push(p)
             }
+          }
+          else {
+            this.$set('showPlanWarning', true)
           }
         }
         else {
@@ -288,10 +294,14 @@ export default {
           this.items = []
           this.totalItems = 0
           if (info.length > 0) {
+            this.$set('showHpWarning', false)
             for (let i of info) {
               this.totalItems += i.amount
               this.items.push(i)
             }
+          }
+          else {
+            this.$set('showHpWarning', true)
           }
         }
         else {

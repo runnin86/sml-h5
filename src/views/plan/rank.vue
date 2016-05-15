@@ -29,8 +29,8 @@
       <div>
         <img src="/img/专家方案/温馨提示.png" height="24" width="152">
       </div>
-      <div v-cloak v-if="ranks.length===0"  style="font-size:0.38rem;color:#A9A9A9;">
-        购物车空空如也,赶快去购买方案吧!
+      <div v-cloak v-if="showWarning"  style="font-size:0.38rem;color:#A9A9A9;">
+        暂时没有排行信息
       </div>
       <div v-cloak v-else style="font-size:0.38rem;color:#A9A9A9;">
         本排行榜为周排行,每周一凌晨更新上周的排名信息
@@ -72,11 +72,12 @@ export default {
     })
     .then(({data: data})=>{
       console.log(data)
-      // if (code === 1) {
-      //   this.$set('planList', results.list)
+      // if (result.length > 0) {
+      //   this.$set('showWarning', false)
+      //   this.$set('ranks', result)
       // }
       // else {
-      //   console.error('获取方案失败:' + msg)
+      //   this.$set('showWarning', true)
       // }
     }).catch(()=>{
       console.error('无法连接服务器-获取盈利排行')
@@ -86,6 +87,7 @@ export default {
     return {
       title: '盈利排行',
       path: '/plan',
+      showWarning: false,
       ranks: [
         {
           photo: '/img/个人中心/默认头像.png',

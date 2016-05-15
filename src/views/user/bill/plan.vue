@@ -36,7 +36,7 @@
       </li>
     </ul>
   </div>
-  <div v-cloak v-if="list.length===0" style="width:100%;height:100%;text-align:center;">
+  <div v-cloak v-if="showWarning" style="width:100%;height:100%;text-align:center;">
     <div>
       <img src="/img/专家方案/温馨提示.png" height="24" width="152">
     </div>
@@ -71,36 +71,49 @@ export default {
         // this.queryByDate(text)
       }
     })
-    $.showIndicator()
-    this.$http.post(userApi.myplan, {}, {
-      headers: {
-        'x-token': window.localStorage.getItem('token')
-      },
-      emulateJSON: true
-    })
-    .then(({data: {code, msg, result}})=>{
-      if (code === 1) {
-        // console.log(result)
-        this.$set('list', result)
-      }
-      else {
-        $.toast(msg)
-      }
-      $.hideIndicator()
-    }).catch((e)=>{
-      console.error('获取我的账单(方案记录)失败:' + e)
-    })
+    this.loadData()
   },
   data () {
     return {
       title: '方案记录',
-      list: []
+      list: [],
+      showWarning: false
     }
   },
   methods: {
     queryByDate (d) {
       let qd = dateFilter(d / 1000, 2)
       console.log(qd)
+    },
+    /*
+     * 读取数据
+     */
+    loadData () {
+      $.showIndicator()
+      this.$http.post(userApi.myplan, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        if (code === 1) {
+          // console.log(result)
+          if (result.length > 0) {
+            this.$set('showWarning', false)
+            this.$set('list', result)
+          }
+          else {
+            this.$set('showWarning', true)
+          }
+        }
+        else {
+          $.toast(msg)
+        }
+        $.hideIndicator()
+      }).catch((e)=>{
+        console.error('获取我的账单(方案记录)失败:' + e)
+      })
     }
   }
 }
