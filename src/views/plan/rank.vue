@@ -1,64 +1,39 @@
 <template>
 <div class="rank" transition="bounce">
   <v-nav :path="path" :title="title" class="headerColor"></v-nav>
-  <v-tabs type="tab" class-name="rank-tabs">
-    <v-tab name="point" title="盈利排行" status="active"
+  <v-tab name="point" title="盈利排行" status="active"
     distance="55" v-pull-to-refresh="refreshPoint">
-      <v-layer></v-layer>
-      <v-content type="block-title">
-        <span style="float:left;margin-left: .2rem;">积分排行榜</span>
-        <span style="float:right;margin-right: .2rem;">排名</span>
-      </v-content>
-      <v-list type="media" class-name="inset">
-        <li class="item-content" v-for="rank in ranks">
-          <div class="item-media">
-          <img :src="rank.avatar" style='width: 2.2rem;'>
+    <v-layer></v-layer>
+    <v-content type="block-title">
+      <span style="float:left;margin-left: .2rem;">方案收益</span>
+      <span style="float:right;margin-right: .2rem;">排名</span>
+    </v-content>
+    <v-list type="media" class-name="inset">
+      <li class="item-content" v-for="rank in ranks">
+        <div class="item-media">
+          <img :src="rank.photo" style='width: 2.2rem;'>
+        </div>
+        <div class="item-inner">
+          <div class="item-title-row">
+            <div class="item-title" v-text="rank.nickname"></div>
           </div>
-          <div class="item-inner">
-            <div class="item-title-row">
-              <div class="item-title" v-text="rank.nickname"></div>
-            </div>
-            <div class="rank-num" :style="rank.color">{{ $index+1 }}</div>
-            <div class="item-subtitle">总积分：{{rank.point}}</div>
+          <div class="rank-num" :style="rank.color">{{ $index+1 }}</div>
+          <div class="item-subtitle" style="font-size:0.68rem;max-width:90%;">
+            <span style="width:42%;display:inline-block;">方案数:{{rank.planCount}}</span>
+            <span style="width:40%;">收益:{{rank.rate}}</span>
           </div>
-        </li>
-      </v-list>
-    </v-tab>
-    <v-tab name="invite" title="邀请排行"
-    distance="55" v-pull-to-refresh="refreshInvite">
-      <v-layer></v-layer>
-      <v-content type="block-title">
-        <span style="float:left;margin-left: .2rem;">邀请排行榜</span>
-        <span style="float:right;margin-right: .2rem;">排名</span>
-      </v-content>
-      <v-list type="media" class-name="inset">
-        <li class="item-content" v-for="rank in ranks">
-          <div class="item-media">
-          <img :src="rank.avatar" style='width: 2.2rem;'>
-          </div>
-          <div class="item-inner">
-            <div class="item-title-row">
-              <div class="item-title" v-text="rank.nickname"></div>
-            </div>
-            <div class="rank-num" :style="rank.color">{{ $index+1 }}</div>
-            <div class="item-subtitle">总邀请：{{rank.point}}</div>
-          </div>
-        </li>
-      </v-list>
-    </v-tab>
-  </v-tabs>
+        </div>
+      </li>
+    </v-list>
+  </v-tab>
 </div>
 </template>
 
 <script>
 import $ from 'zepto'
-import VBar from '../../components/Bar'
 import VNav from '../../components/Nav'
 import VContent from '../../components/Content'
-import VButton from '../../components/Button'
-import VIcon from '../../components/Iconfont'
 import VList from '../../components/List'
-import VTabs from '../../components/Tabs'
 import VTab from '../../components/Tab'
 import VLayer from '../../components/PullToRefreshLayer'
 import {planApi} from '../../util/service'
@@ -91,22 +66,32 @@ export default {
       path: '/plan',
       ranks: [
         {
-          avatar: 'http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg',
+          photo: '/img/个人中心/默认头像.png',
           nickname: 'A',
-          point: 1300,
+          planCount: 550,
+          rate: 193819,
           color: 'background-color: red;'
         },
         {
-          avatar: 'http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg',
+          photo: '/img/个人中心/默认头像.png',
           nickname: 'B',
-          point: 1200,
+          planCount: 310,
+          rate: 128901,
           color: 'background-color: blue;'
         },
         {
-          avatar: 'http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg',
+          photo: '/img/个人中心/默认头像.png',
           nickname: 'C',
-          point: 1100,
+          planCount: 420,
+          rate: 8888,
           color: 'background-color: purple;'
+        },
+        {
+          photo: '/img/个人中心/默认头像.png',
+          nickname: 'D',
+          planCount: 39,
+          rate: 6666,
+          color: 'background-color: gray;'
         }
       ]
     }
@@ -130,13 +115,9 @@ export default {
     }
   },
   components: {
-    VBar,
     VNav,
     VContent,
     VList,
-    VButton,
-    VIcon,
-    VTabs,
     VTab,
     VLayer
   }
@@ -177,7 +158,7 @@ export default {
   margin-top: 2.2rem;
 }
 #point, #invite  {
-  top: 2.2rem;
+  top: 0rem;
 }
 .headerColor {
   background-color: #ed8e07;
