@@ -138,7 +138,7 @@
       <ul>
         <li>
           <div class="item-link item-content">
-              <div class="item-inner" v-link="{ path: '/user/about', replace: false}">
+              <div class="item-inner" v-link="{ path: '/more/about', replace: false}">
                   <div class="icon-about item-title">
                     关于收米拉
                   </div>
