@@ -1,8 +1,8 @@
 <template>
 <div class="rank" transition="bounce">
   <v-nav :path="path" :title="title" class="headerColor"></v-nav>
-  <v-tab name="point" title="盈利排行" status="active"
-    distance="55" v-pull-to-refresh="refreshPoint">
+  <v-tab name="rankTable" title="盈利排行" status="active"
+    distance="55" v-pull-to-refresh="refreshRank">
     <v-layer></v-layer>
     <v-content type="block-title">
       <span style="float:left;margin-left: .2rem;">方案收益</span>
@@ -25,7 +25,29 @@
         </div>
       </li>
     </v-list>
+    <div style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+      <div>
+        <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+      </div>
+      <div v-cloak v-if="ranks.length===0"  style="font-size:0.38rem;color:#A9A9A9;">
+        购物车空空如也,赶快去购买方案吧!
+      </div>
+      <div v-cloak v-else style="font-size:0.38rem;color:#A9A9A9;">
+        本排行榜为周排行,每周一凌晨更新上周的排名信息
+      </div>
+    </div>
   </v-tab>
+</div>
+<div class="topTips">
+  <div class="list-block">
+    <ul>
+      <li class="topLi">
+        <!-- <div class="item-inner"> -->
+          <div class="item-title">您上周的盈利金额为3019.11 未上榜</div>
+        <!-- </div> -->
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 
@@ -97,15 +119,7 @@ export default {
     }
   },
   methods: {
-    refreshPoint () {
-      $.showIndicator()
-      setTimeout(function () {
-        console.log('refresh')
-        $.pullToRefreshDone('.pull-to-refresh-content')
-        $.hideIndicator()
-      }, 1500)
-    },
-    refreshInvite () {
+    refreshRank () {
       $.showIndicator()
       setTimeout(function () {
         console.log('refresh')
@@ -124,7 +138,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .rank {
   position: absolute;
   top: 0;
@@ -153,14 +167,23 @@ export default {
   display: inline-block;
   font-size: .8rem;
 }
-.rank-tabs .buttons-tab {
-  z-index: 10;
-  margin-top: 2.2rem;
-}
-#point, #invite  {
-  top: 0rem;
+#rankTable  {
+  top: 0.8rem;
 }
 .headerColor {
   background-color: #ed8e07;
+}
+.topTips {
+  position:absolute;
+  top: 1.6rem;
+  width:100%;
+}
+.topLi {
+  background-color: #616268;
+  color: #FFFFF0;
+  font-size: 0.58rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  text-align:center;
 }
 </style>
