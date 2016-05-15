@@ -128,10 +128,8 @@ export default {
   ready () {
     $.init()
     document.title = '购买方案'
-    this.getBanner()
-    this.getScrollmsg()
-    this.getRangeList()
-    $.refreshScroller()
+    this.refresh()
+    // $.refreshScroller()
   },
   data () {
     return {
@@ -154,7 +152,9 @@ export default {
     refresh () {
       $.showIndicator()
       setTimeout(function () {
-        this.rangeList = []
+        this.getBanner()
+        this.getScrollmsg()
+        this.getRangeList()
         this.getRangeList()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
@@ -191,16 +191,28 @@ export default {
         },
         emulateJSON: true
       })
-      .then(({data: data})=>{
-        console.log(data)
-        // if (code === 1) {
-        //   this.$set('planList', results.list)
-        // }
-        // else {
-        //   console.error('获取方案失败:' + msg)
-        // }
+      .then(({data: {code, msg, result}})=>{
+        // console.log(data)
+        // content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">温馨提示：理性投注，长跟场红</div>'
+        if (code === 1) {
+          console.log(msg)
+          this.scrollmsg = []
+          for (var i = 0; i < result.length; i++) {
+            let obj = result[i]
+            // 隐藏手机号码中间四位
+            let phone = obj.bs_userId.substr(3, 4)
+            let lphone = obj.bs_userId.replace(phone, '****')
+            let scrollText = {content: '<div class="scrollText">用户 ' +
+              lphone + '，上期盈利 ' + (obj.winbonus ? obj.winbonus : 0.0) + ' 元</div>'}
+            this.scrollmsg.push(scrollText)
+            // console.log(obj.bs_userId + '->' + obj.winbonus)
+          }
+        }
+        else {
+          console.error('获取滚动消息失败:' + msg)
+        }
       }).catch(()=>{
-        console.error('无法连接服务器-获取盈利排行')
+        console.error('无法连接服务器-获取滚动消息')
       })
     },
     /*
@@ -394,5 +406,10 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.scrollText {
+  font-size:0.72em;
+  line-height:2rem;
+  color:#FFFFFF;
 }
 </style>

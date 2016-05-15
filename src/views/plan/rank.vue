@@ -4,6 +4,15 @@
   <v-tab name="rankTable" title="盈利排行" status="active"
     distance="55" v-pull-to-refresh="refreshRank">
     <v-layer></v-layer>
+    <div class="topTips">
+      <div class="list-block">
+        <ul>
+          <li class="topLi">
+            <div class="item-title">您上周的盈利金额为3019.11 未上榜</div>
+          </li>
+        </ul>
+      </div>
+    </div>
     <v-content type="block-title">
       <span style="float:left;margin-left: .2rem;">方案收益</span>
       <span style="float:right;margin-right: .2rem;">排名</span>
@@ -11,16 +20,16 @@
     <v-list type="media" class-name="inset">
       <li class="item-content" v-for="rank in ranks">
         <div class="item-media">
-          <img :src="rank.photo" style='width: 2.2rem;'>
+          <img src="/img/个人中心/默认头像.png" style='width: 2.2rem;'>
         </div>
         <div class="item-inner">
           <div class="item-title-row">
-            <div class="item-title" v-text="rank.nickname"></div>
+            <div class="item-title" v-text="rank.bs_userId"></div>
           </div>
-          <div class="rank-num" :style="rank.color">{{ $index+1 }}</div>
+          <div class="rank-num" :style="'' | color $index+1">{{ $index+1 }}</div>
           <div class="item-subtitle" style="font-size:0.68rem;max-width:90%;">
             <span style="width:42%;display:inline-block;">方案数:{{rank.planCount}}</span>
-            <span style="width:40%;">收益:{{rank.rate}}</span>
+            <span style="width:40%;">收益:{{rank.winbonus}}</span>
           </div>
         </div>
       </li>
@@ -38,20 +47,10 @@
     </div>
   </v-tab>
 </div>
-<div class="topTips">
-  <div class="list-block">
-    <ul>
-      <li class="topLi">
-        <!-- <div class="item-inner"> -->
-          <div class="item-title">您上周的盈利金额为3019.11 未上榜</div>
-        <!-- </div> -->
-      </li>
-    </ul>
-  </div>
-</div>
 </template>
 
 <script>
+import Vue from 'vue'
 import $ from 'zepto'
 import VNav from '../../components/Nav'
 import VContent from '../../components/Content'
@@ -59,6 +58,25 @@ import VList from '../../components/List'
 import VTab from '../../components/Tab'
 import VLayer from '../../components/PullToRefreshLayer'
 import {planApi} from '../../util/service'
+
+Vue.filter('color', function (val, num) {
+  let col = '#95CACA'
+  switch (num)
+  {
+    case 1:
+      col = 'red'
+      break
+    case 2:
+      col = 'blue'
+      break
+    case 3:
+      col = 'purple'
+      break
+    default:
+      break
+  }
+  return {background: col}
+})
 
 export default {
   ready () {
@@ -70,15 +88,17 @@ export default {
       },
       emulateJSON: true
     })
-    .then(({data: data})=>{
-      console.log(data)
-      // if (result.length > 0) {
-      //   this.$set('showWarning', false)
-      //   this.$set('ranks', result)
-      // }
-      // else {
-      //   this.$set('showWarning', true)
-      // }
+    .then(({data: {code, msg, result}})=>{
+      // console.log(data)
+      // bs_userId
+      // winbonus
+      if (result.length > 0) {
+        this.$set('showWarning', false)
+        this.$set('ranks', result)
+      }
+      else {
+        this.$set('showWarning', true)
+      }
     }).catch(()=>{
       console.error('无法连接服务器-获取盈利排行')
     })
@@ -89,34 +109,34 @@ export default {
       path: '/plan',
       showWarning: false,
       ranks: [
-        {
-          photo: '/img/个人中心/默认头像.png',
-          nickname: 'A',
-          planCount: 550,
-          rate: 193819,
-          color: 'background-color: red;'
-        },
-        {
-          photo: '/img/个人中心/默认头像.png',
-          nickname: 'B',
-          planCount: 310,
-          rate: 128901,
-          color: 'background-color: blue;'
-        },
-        {
-          photo: '/img/个人中心/默认头像.png',
-          nickname: 'C',
-          planCount: 420,
-          rate: 8888,
-          color: 'background-color: purple;'
-        },
-        {
-          photo: '/img/个人中心/默认头像.png',
-          nickname: 'D',
-          planCount: 39,
-          rate: 6666,
-          color: 'background-color: gray;'
-        }
+        // {
+        //   photo: '/img/个人中心/默认头像.png',
+        //   nickname: 'A',
+        //   planCount: 550,
+        //   rate: 193819,
+        //   color: 'background: red;'
+        // },
+        // {
+        //   photo: '/img/个人中心/默认头像.png',
+        //   nickname: 'B',
+        //   planCount: 310,
+        //   rate: 128901,
+        //   color: 'background: blue;'
+        // },
+        // {
+        //   photo: '/img/个人中心/默认头像.png',
+        //   nickname: 'C',
+        //   planCount: 420,
+        //   rate: 8888,
+        //   color: 'background: purple;'
+        // },
+        // {
+        //   photo: '/img/个人中心/默认头像.png',
+        //   nickname: 'D',
+        //   planCount: 39,
+        //   rate: 6666,
+        //   color: 'background: gray;'
+        // }
       ]
     }
   },
@@ -142,6 +162,7 @@ export default {
 
 <style scoped>
 .rank {
+  font-family: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -151,7 +172,7 @@ export default {
   -webkit-overflow-scrolling: touch;
 }
 .rank .content-block-title {
-  margin: .75rem .75rem .5rem;
+  margin: 1.25rem .75rem -1rem;
 }
 .rank .list-block.inset {
   margin-left: .35rem;
@@ -170,14 +191,14 @@ export default {
   font-size: .8rem;
 }
 #rankTable  {
-  top: 0.8rem;
+  top: .42rem;
 }
 .headerColor {
   background-color: #ed8e07;
 }
 .topTips {
   position:absolute;
-  top: 1.6rem;
+  top: 0.36rem;
   width:100%;
 }
 .topLi {
@@ -187,5 +208,8 @@ export default {
   height: 1.2rem;
   line-height: 1.2rem;
   text-align:center;
+}
+.list-block {
+  margin: 1.4rem 0;
 }
 </style>
