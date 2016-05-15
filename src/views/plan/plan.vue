@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <div class="content home" distance="55" v-pull-to-refresh="getRangeList">
+  <div class="content home" distance="55" v-pull-to-refresh="refresh">
     <v-layer></v-layer>
     <!-- 轮播图 -->
     <slider :banner="banner" :vertical="false" style="z-index:9999;"></slider>
@@ -129,6 +129,7 @@ export default {
     $.init()
     document.title = '购买方案'
     this.getBanner()
+    this.getScrollmsg()
     this.getRangeList()
     $.refreshScroller()
   },
@@ -150,6 +151,16 @@ export default {
     }
   },
   methods: {
+    refresh () {
+      $.showIndicator()
+      setTimeout(function () {
+        this.rangeList = []
+        this.getRangeList()
+        // 加载完毕需要重置
+        $.pullToRefreshDone('.pull-to-refresh-content')
+        $.hideIndicator()
+      }.bind(this), 1345)
+    },
     getBanner () {
       // 获取banner的图片数据
       this.$http.get(planApi.banner)
@@ -170,6 +181,26 @@ export default {
         }
       }).catch(()=>{
         console.error('无法连接服务器获取banner')
+      })
+    },
+    getScrollmsg () {
+      // 获取方案
+      this.$http.get(planApi.rank, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: data})=>{
+        console.log(data)
+        // if (code === 1) {
+        //   this.$set('planList', results.list)
+        // }
+        // else {
+        //   console.error('获取方案失败:' + msg)
+        // }
+      }).catch(()=>{
+        console.error('无法连接服务器-获取盈利排行')
       })
     },
     /*
