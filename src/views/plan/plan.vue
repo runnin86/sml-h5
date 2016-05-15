@@ -135,7 +135,7 @@ export default {
     return {
       banner: [],
       scrollmsg: [{
-        content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">温馨提示：理性投注，长跟场红</div>'
+        content: '<div class="scrollText">温馨提示：理性投注，长跟长红</div>'
       }],
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
