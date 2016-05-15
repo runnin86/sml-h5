@@ -18,7 +18,7 @@
       <span style="float:right;margin-right: .2rem;">排名</span>
     </v-content>
     <v-list type="media" class-name="inset">
-      <li class="item-content" v-for="rank in ranks">
+      <li class="item-content" v-for="rank in ranks" track-by="$index">
         <div class="item-media">
           <img src="/img/个人中心/默认头像.png" style='width: 2.2rem;'>
         </div>
@@ -26,7 +26,7 @@
           <div class="item-title-row">
             <div class="item-title" v-text="rank.bs_userId"></div>
           </div>
-          <div class="rank-num" :style="'' | color $index+1">{{ $index+1 }}</div>
+          <div class="rank-num" :style="$index+1 | color">{{ $index+1 }}</div>
           <div class="item-subtitle" style="font-size:0.68rem;max-width:90%;">
             <span style="width:42%;display:inline-block;">方案数:{{rank.planCount}}</span>
             <span style="width:40%;">收益:{{rank.winbonus}}</span>
@@ -59,9 +59,9 @@ import VTab from '../../components/Tab'
 import VLayer from '../../components/PullToRefreshLayer'
 import {planApi} from '../../util/service'
 
-Vue.filter('color', function (val, num) {
+Vue.filter('color', function (val) {
   let col = '#95CACA'
-  switch (num)
+  switch (val)
   {
     case 1:
       col = 'red'
