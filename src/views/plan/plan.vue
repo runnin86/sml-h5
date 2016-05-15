@@ -128,15 +128,18 @@ export default {
   ready () {
     $.init()
     document.title = '购买方案'
+    this.scrollmsg.push({
+      content: '<div class="scrollMsgText">温馨提示：理性投注，长跟长红</div>'
+    })
+    this.getBanner()
+    this.getScrollmsg()
     this.refresh()
     // $.refreshScroller()
   },
   data () {
     return {
       banner: [],
-      scrollmsg: [{
-        content: '<div class="scrollText">温馨提示：理性投注，长跟长红</div>'
-      }],
+      scrollmsg: [],
       loading: false,
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       rangeList: [],
@@ -152,9 +155,6 @@ export default {
     refresh () {
       $.showIndicator()
       setTimeout(function () {
-        this.getBanner()
-        this.getScrollmsg()
-        this.getRangeList()
         this.getRangeList()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
@@ -202,7 +202,7 @@ export default {
             // 隐藏手机号码中间四位
             let phone = obj.bs_userId.substr(3, 4)
             let lphone = obj.bs_userId.replace(phone, '****')
-            let scrollText = {content: '<div class="scrollText">用户 ' +
+            let scrollText = {content: '<div class="scrollMsgText">用户 ' +
               lphone + '，上期盈利 ' + (obj.winbonus ? obj.winbonus : 0.0) + ' 元</div>'}
             this.scrollmsg.push(scrollText)
             // console.log(obj.bs_userId + '->' + obj.winbonus)
@@ -407,7 +407,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.scrollText {
+.scrollMsgText {
   font-size:0.72em;
   line-height:2rem;
   color:#FFFFFF;
