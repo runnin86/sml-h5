@@ -24,71 +24,64 @@
       </span>
       <span class="sml-actions-modal-button">
         <div class="sml-modal-buttons">
-          <span class="sml-modal-button" @click="this.amount<2?1:this.amount-=1"
+          <span class="sml-modal-button" @click="this.amount<9?8.8:this.amount=parseFloat(this.amount)-1"
             style="width:20%;font-size:2.2rem;color:#f5d996;">-</span>
           <span class="sml-modal-button" style="width:60%">
-            <input v-model="amount"
-              type="number" min=1 max=9999
-              style="ime-mode:disabled;height:1.8rem;width:100%;text-align:center;color:red;"
-              onKeyPress="if(event.keyCode < 48 || event.keyCode > 57) event.returnValue = false;"
-              onKeyUp="this.value=this.value.replace(/\D/g,'')"/>
+            <input v-model="amount" readonly="true" type="text"
+              style="height:1.8rem;width:100%;text-align:center;color:red;"/>
           </span>
-          <span class="sml-modal-button" @click="this.amount+=1"
+          <span class="sml-modal-button" @click="this.amount=parseFloat(this.amount)+1"
             style="width:20%;font-size:1.6rem;color:#f5d996;">+</span>
         </div>
       </span>
       <span class="sml-actions-modal-label">
-        需&nbsp;<font style="color:#f5d996;">{{amount}}</font>&nbsp;元
+        赏&nbsp;<font style="color:#f5d996;">{{amount}}</font>&nbsp;元
       </span>
     </div>
     <div class="sml-actions-modal-group">
-      <span class="sml-actions-modal-button bg-danger" @click="addToCart(this.plan)">打赏</span>
+      <span class="sml-actions-modal-button bg-danger" @click="payReward(this.plan)">打赏</span>
     </div>
   </div>
 </template>
 
 <script>
-// import {planApi} from '../util/service'
+import {planApi} from '../util/service'
 import $ from 'zepto'
 export default {
   props: {
-    amount: 8,
+    amount: 0,
     show: false,
     plan: ''
   },
   methods: {
-    addToCart: function (plan) {
-      if (parseFloat(this.amount) <= 0) {
-        $.toast('请输入有效倍数')
-        return
-      }
-      this.$parent.closeRewardBtn()
-      // 添加至购物车
-      // this.$http.post(planApi.upCart,
-      //   {
-      //     'pid': plan.plan_id,
-      //     'amt': this.amount
-      //   },
-      //   {
-      //     headers: {
-      //       'x-token': window.localStorage.getItem('token')
-      //     },
-      //     emulateJSON: true
-      //   })
-      // .then(({data: {code, msg}})=>{
-      //   if (code === 1) {
-      //     this.$parent.closeModal()
-      //     $.toast('已加入购物车')
-      //     // 设置购物车图标
-      //     this.$root.setCardBadge()
-      //   }
-      //   else {
-      //     // 错误信息
-      //     $.toast(msg)
-      //   }
-      // }).catch((e)=>{
-      //   console.error('无法加入购物车:' + e)
-      // })
+    payReward: function (plan) {
+      $.confirm('您要给[' + plan.expert_name + ']打赏</br>￥' + this.amount + '', '提示', ()=>{
+        // 打赏
+        this.$http.post(planApi.doreward,
+          {
+            'pid': plan.plan_id,
+            'amount': this.amount
+          },
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg}})=>{
+          if (code === 1) {
+            this.$parent.closeRewardBtn()
+          }
+          // 结果信息
+          $.toast(msg)
+          this.$parent.showRewardBtn = false
+        }).catch((e)=>{
+          console.error('无法打赏:' + e)
+        })
+      }, ()=>{
+        this.$parent.showRewardBtn = false
+        // confirm取消
+      })
     }
   }
 }

@@ -23,6 +23,8 @@ export let planApi = {
   rank: URL_COMMON + 'ranktop',
   // 我的订单方案
   myplan: URL_COMMON + 'planinfo',
+  // 打赏
+  doreward: URL_COMMON + 'doreward',
   // 服务器时间
   time: URL_COMMON + 'nowtime'
 }

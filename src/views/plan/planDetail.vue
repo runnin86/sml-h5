@@ -154,7 +154,7 @@
 <!-- 打赏按钮 -->
 <div :class="['modal-overlay', showRewardBtn ? 'modal-overlay-visible' : '']"
   v-on:click="closeRewardBtn">
-  <v-reward-button :amount="plan.plan_amount" :title="title" :show="showRewardBtn" :plan="plan"></v-reward-button>
+  <v-reward-button :amount="8.8" :title="title" :show="showRewardBtn" :plan="plan"></v-reward-button>
 </div>
 </template>
 
