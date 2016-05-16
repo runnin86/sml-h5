@@ -31,9 +31,9 @@ export default {
 </script>
 <style scoped>
 .tab-item.active {
-  /*color:  #ed8e07 !important;*/
+  color:  #ed8e07 !important;
   /*color: #0894ec;*/
-  color: rgb(216, 65, 65);
+  /*color: rgb(216, 65, 65);*/
 }
 .tab-item.inactive {
 }
