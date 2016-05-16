@@ -292,7 +292,7 @@ export default {
                 // let first = name.substr(0, 1)
                 // let finalName = name.replace(first, '*')
                 // 首字之外全部*
-                let unFirst = name.substr(1, name.length)
+                let unFirst = name.substr(name.length > 2 ? 2 : 1, name.length)
                 let rv = ''
                 for (let i = 0; i < name.length - 1; i++) {
                   rv += '*'

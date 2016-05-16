@@ -1,7 +1,7 @@
 <template>
 <div class="rank" transition="bounce">
   <v-nav :path="path" :title="title" class="headerColor"></v-nav>
-  <v-tab name="rankTable" title="盈利排行" status="active"
+  <v-tab name="rankTable" title="周盈利排行" status="active"
     distance="55" v-pull-to-refresh="refreshRank">
     <v-layer></v-layer>
     <div class="topTips">
@@ -93,6 +93,7 @@ export default {
       // bs_userId
       // winbonus
       if (result.length > 0) {
+        // console.log(result)
         this.$set('showWarning', false)
         this.$set('ranks', result)
       }
@@ -105,7 +106,7 @@ export default {
   },
   data () {
     return {
-      title: '盈利排行',
+      title: '周盈利排行',
       path: '/plan',
       showWarning: false,
       ranks: [

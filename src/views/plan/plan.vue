@@ -7,7 +7,7 @@
 
     <!-- 快捷入口 -->
     <bar class="home-bar">
-      <bar-item path="/plan/rank" label="盈利排行" img="/img/专家方案/盈利排行.png" h=42 i=38></bar-item>
+      <bar-item path="/plan/rank" label="周盈利排行" img="/img/专家方案/盈利排行.png" h=42 i=38></bar-item>
       <bar-item label="充值" img="/img/专家方案/充值.png" h=42 i=38 @click="recharge()"></bar-item>
       <bar-item path="/user/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
     </bar>
@@ -126,31 +126,31 @@ Vue.filter('residualTime', function (dtime) {
 
 export default {
   init () {
-    console.log('初始化')
+    // console.log('初始化')
   },
   created () {
-    console.log('创建')
+    // console.log('创建')
   },
   beforeCompile () {
-    console.log('编译之前')
+    // console.log('编译之前')
   },
   compiled () {
-    console.log('编译结束')
+    // console.log('编译结束')
   },
   attached () {
-    console.log('插入DOM')
+    // console.log('插入DOM')
   },
   detached () {
-    console.log('删除DOM')
+    // console.log('删除DOM')
   },
   beforeDestory () {
-    console.log('销毁之前')
+    // console.log('销毁之前')
   },
   destroyed () {
-    console.log('销毁')
+    // console.log('销毁')
   },
   ready () {
-    console.log('准备')
+    // console.log('准备')
     $.init()
     document.title = '购买方案'
     this.scrollmsg.push({
