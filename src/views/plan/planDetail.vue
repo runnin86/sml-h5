@@ -149,7 +149,7 @@
 <!-- 购买按钮 -->
 <div :class="['modal-overlay', showPayBtn ? 'modal-overlay-visible' : '']"
   v-on:click="closeModal">
-  <v-plan-pay-button :amount="plan.plan_amount" :title="title" :show="showPayBtn" :plan="plan"></v-plan-pay-button>
+  <v-plan-pay-button :amount="1" :title="title" :show="showPayBtn" :plan="plan"></v-plan-pay-button>
 </div>
 <!-- 打赏按钮 -->
 <div :class="['modal-overlay', showRewardBtn ? 'modal-overlay-visible' : '']"
