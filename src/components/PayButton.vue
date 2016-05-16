@@ -32,7 +32,7 @@
       </span>
     </div>
     <div class="actions-modal-group">
-      <span class="actions-modal-button bg-danger" @click="addToCart(this.item)">确认</span>
+      <span class="actions-modal-button bg-danger" @click="payHP(this.item)">确认</span>
     </div>
   </div>
   <!-- <nav class="bar bar-nav">
@@ -54,7 +54,7 @@ export default {
     item: ''
   },
   methods: {
-    addToCart: function (item) {
+    payHP (item) {
       if (parseFloat(this.amount) % parseFloat(item.price) > 0) {
         $.toast('参与人次必须是' + item.price + '的倍数')
         return
@@ -67,32 +67,46 @@ export default {
         $.toast('请输入有效金额')
         return
       }
-      // 添加至购物车
-      this.$http.post(hpApi.redisCart,
-        {
-          'projectId': item.id,
-          'number': item.number,
-          'amount': this.amount
-        },
-        {
-          headers: {
-            'x-token': window.localStorage.getItem('token')
-          },
-          emulateJSON: true
+      // 购物车商品数组
+      let spcarlist = [{
+        'name': item.name,
+        'number': item.number,
+        'payCount': this.amount,
+        'projectId': item.id,
+        'recharge_money': this.amount
+      }]
+      // 组装请求消息体
+      let spcarInfos = {
+        'spcarInfos': {
+          'totalmoney': this.amount,
+          'spcarlist': spcarlist
+        }
+      }
+      let postBody = JSON.stringify(spcarInfos)
+      $.confirm('总计' + this.amount + '元,是否确认付款?', '提示', ()=>{
+        // console.log(postBody)
+        // 发起支付请求
+        this.$http.post(hpApi.cartPay, postBody,
+          {
+            headers: {
+              'x-token': window.localStorage.getItem('token')
+            },
+            emulateJSON: true
+          })
+        .then(({data: {code, msg}})=>{
+          if (code === 1) {
+            $.toast(msg)
+            this.$parent.closeModal()
+          }
+          else {
+            $.toast(msg)
+          }
+        }).catch((e)=>{
+          $.alert('服务器连接中断...')
+          console.error(e)
         })
-      .then(({data: {code, msg}})=>{
-        if (code === 1) {
-          this.$parent.closeModal()
-          $.toast('已加入购物车')
-          // 设置购物车图标
-          this.$root.setCardBadge()
-        }
-        else {
-          // 错误
-          $.toast(msg)
-        }
-      }).catch((e)=>{
-        console.error('无法加入购物车:' + e)
+      }, ()=>{
+        // confirm取消
       })
     }
   }

@@ -125,7 +125,32 @@ Vue.filter('residualTime', function (dtime) {
 })
 
 export default {
+  init () {
+    console.log('初始化')
+  },
+  created () {
+    console.log('创建')
+  },
+  beforeCompile () {
+    console.log('编译之前')
+  },
+  compiled () {
+    console.log('编译结束')
+  },
+  attached () {
+    console.log('插入DOM')
+  },
+  detached () {
+    console.log('删除DOM')
+  },
+  beforeDestory () {
+    console.log('销毁之前')
+  },
+  destroyed () {
+    console.log('销毁')
+  },
   ready () {
+    console.log('准备')
     $.init()
     document.title = '购买方案'
     this.scrollmsg.push({
