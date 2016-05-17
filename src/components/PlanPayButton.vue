@@ -78,6 +78,7 @@ export default {
           else if (code === 2) {
             // 结算异常
             $.toast(msg)
+            this.$parent.showPayBtn = false
           }
           else if (code === 0) {
             let errorTips = ''
@@ -89,6 +90,7 @@ export default {
               errorTips = msg
             }
             $.toast(errorTips)
+            this.$parent.showPayBtn = false
           }
         }).catch((e)=>{
           $.alert('结算异常...')

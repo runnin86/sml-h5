@@ -94,6 +94,7 @@ export default {
           }
           else {
             $.toast(msg)
+            this.$parent.showPayBtn = false
           }
         }).catch((e)=>{
           $.alert('结算异常...')
