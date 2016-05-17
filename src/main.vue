@@ -118,9 +118,9 @@ export default {
     })
     // 在需要配置分享内容的时候调用
     // wxShareConfig('123')
-    if (window.localStorage.getItem('imageSwitch') === null) {
-      window.localStorage.setItem('imageSwitch', true)
-    }
+    // if (window.localStorage.getItem('imageSwitch') === null) {
+    window.localStorage.setItem('imageSwitch', true)
+    // }
     // 设置购物车图标
     this.setCardBadge()
   },

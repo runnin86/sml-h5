@@ -24,7 +24,7 @@
                 <div class="item-title label">加载图片</div>
                 <div class="item-input">
                   <label class="label-switch pull-right">
-                    <input type="checkbox" v-model="showImg">
+                    <input type="checkbox" v-model="showImg" disabled="true">
                     <div class="checkbox"></div>
                   </label>
                 </div>
