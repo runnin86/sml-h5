@@ -90,6 +90,7 @@ export default {
         })
       }, ()=>{
         // confirm取消
+        this.$parent.showPayBtn = false
       })
     }
   }
