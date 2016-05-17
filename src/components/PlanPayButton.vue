@@ -80,12 +80,21 @@ export default {
             emulateJSON: true
           })
         .then(({data: {code, msg, result}})=>{
+          console.log(code)
+          console.log(msg)
+          console.log(result)
           if (code === 1) {
             $.toast('购买成功!')
             this.$parent.closeModal()
           }
-          else {
+          else if (code === 2) {
+            // 结算异常
             $.toast(msg)
+          }
+          else if (code === 0) {
+            let errObj = result[0]
+            let errorTips = errObj.expert_name ? '专家[' + errObj.expert_name + '],' : '' + errObj.msg
+            $.toast(errorTips)
           }
         }).catch((e)=>{
           $.alert('服务器连接中断...')

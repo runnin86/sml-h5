@@ -205,8 +205,8 @@ export default {
       setTimeout(function () {
         this.$root.loadBannerForHP()
         this.$root.loadScrollMsgForHP()
-        // this.getItemList()
-        // this.getItemList10()
+        this.$root.loadHpList()
+        this.$root.loadHpList10()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()

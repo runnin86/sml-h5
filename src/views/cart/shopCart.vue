@@ -210,12 +210,12 @@ export default {
     }
   },
   watch: {
-    'items': {
-      handler: function (val, oldVal) {
-        // console.log('进入深度观察')
-      },
-      deep: true
-    }
+    // 'items': {
+    //   handler: function (val, oldVal) {
+    //     // console.log('进入深度观察')
+    //   },
+    //   deep: true
+    // }
   },
   computed: {
     length () {
@@ -528,8 +528,14 @@ export default {
                 this.refreshCart()
               }.bind(this), 500)
             }
-            else {
+            else if (code === 2) {
+              // 结算异常
               $.toast(msg)
+            }
+            else if (code === 0) {
+              let errObj = result[0]
+              let errorTips = errObj.expert_name ? '专家[' + errObj.expert_name + '],' : '' + errObj.msg
+              $.toast(errorTips)
             }
           }).catch((e)=>{
             $.alert('服务器连接中断...')

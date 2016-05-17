@@ -50,6 +50,11 @@ export default {
     this.loadScrollMsgForHP()
     this.loadHpList()
     this.loadHpList10()
+    if (window.localStorage.getItem('user')) {
+      this.loadBannerForPlan()
+      this.loadScrollMsgForPlan()
+      this.loadRangeList()
+    }
     // 微信配置参数
     $.sign = {
       appId: 'wxadccc645716a9348',
@@ -177,9 +182,6 @@ export default {
           })
         .then(({data: {code, msg, result}})=>{
           if (code === 1) {
-            this.loadBannerForPlan()
-            this.loadScrollMsgForPlan()
-            this.loadRangeList()
             // 展示方案的菜单
             this.showPlan = true
             if (result) {

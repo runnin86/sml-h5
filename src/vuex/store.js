@@ -184,6 +184,7 @@ const mutations = {
     })
   },
   hpList () {
+    console.log('获取商品列表-乐夺宝!')
     // 获取商品列表
     Vue.http.get(hpApi.home)
     .then(({data: {code, msg, results, count, pagenum}})=>{
@@ -200,6 +201,7 @@ const mutations = {
     })
   },
   hpList10 () {
+    console.log('获取商品列表10元区-乐夺宝!')
     // 获取商品列表
     Vue.http.get(hpApi.home + '?price=10')
     .then(({data: {code, msg, results, count, pagenum}})=>{
