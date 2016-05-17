@@ -26,7 +26,7 @@ const mutations = {
    * 获取banner-方案
    */
   bannerForPlan () {
-    console.log('刷新banner-方案!')
+    // console.log('刷新banner-方案!')
     // 获取banner的图片数据-方案
     Vue.http.get(planApi.banner)
     .then(({data: {code, msg, info}})=>{
@@ -52,7 +52,7 @@ const mutations = {
    * 获取滚动提示消息-方案
    */
   scrollMsgForPlan (state) {
-    console.log('刷新滚动消息-方案!')
+    // console.log('刷新滚动消息-方案!')
     // 获取滚动消息(方案)
     Vue.http.get(planApi.rank, {}, {
       headers: {
@@ -88,7 +88,7 @@ const mutations = {
    * 获取方案区间列表
    */
   rangeList () {
-    console.log('获取方案区间列表-方案!')
+    // console.log('获取方案区间列表-方案!')
     // 获取方案
     Vue.http.get(planApi.plan, {}, {
       headers: {
@@ -121,7 +121,7 @@ const mutations = {
    * 获取banner-乐夺宝
    */
   bannerForHP () {
-    console.log('刷新banner-乐夺宝!')
+    // console.log('刷新banner-乐夺宝!')
     Vue.http.get(hpApi.banner)
     .then(({data: {code, msg, info}})=>{
       if (code === 1) {
@@ -145,7 +145,7 @@ const mutations = {
    * 获取滚动提示消息-乐夺宝
    */
   scrollMsgForHP () {
-    console.log('刷新滚动消息-乐夺宝!')
+    // console.log('刷新滚动消息-乐夺宝!')
     Vue.http.get(hpApi.oneBuyNewPublic + '?pagenum=' + 0)
     .then(({data: {code, msg, results}})=>{
       if (code === 1) {
@@ -184,7 +184,7 @@ const mutations = {
     })
   },
   hpList () {
-    console.log('获取商品列表-乐夺宝!')
+    // console.log('获取商品列表-乐夺宝!')
     // 获取商品列表
     Vue.http.get(hpApi.home)
     .then(({data: {code, msg, results, count, pagenum}})=>{
@@ -198,10 +198,11 @@ const mutations = {
     }).catch(()=>{
       $.alert('服务器连接中断...')
       console.error('无法连接服务器-获取商品列表')
+    }).finally(()=>{
     })
   },
   hpList10 () {
-    console.log('获取商品列表10元区-乐夺宝!')
+    // console.log('获取商品列表10元区-乐夺宝!')
     // 获取商品列表
     Vue.http.get(hpApi.home + '?price=10')
     .then(({data: {code, msg, results, count, pagenum}})=>{

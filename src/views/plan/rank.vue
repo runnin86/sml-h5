@@ -8,7 +8,7 @@
       <div class="list-block">
         <ul>
           <li class="topLi">
-            <div class="item-title">您上周的盈利金额为3019.11 未上榜</div>
+            <div class="item-title">您上周的盈利金额为{{userRank.winBonus>0?userRank.winBonus:'0 未上榜'}}</div>
           </li>
         </ul>
       </div>
@@ -24,17 +24,17 @@
         </div>
         <div class="item-inner">
           <div class="item-title-row">
-            <div class="item-title" v-text="rank.bs_userId"></div>
+            <div class="item-title" v-text="rank.userId | phone"></div>
           </div>
           <div class="rank-num" :style="$index+1 | color">{{ $index+1 }}</div>
           <div class="item-subtitle" style="font-size:0.68rem;max-width:90%;">
-            <span style="width:42%;display:inline-block;">方案数:{{rank.planCount}}</span>
-            <span style="width:40%;">收益:{{rank.winbonus}}</span>
+            <span style="width:42%;display:inline-block;">方案数:{{rank.pNum}}</span>
+            <span style="width:40%;">收益:{{rank.winBonus}}</span>
           </div>
         </div>
       </li>
     </v-list>
-    <div style="width:100%;height:100%;text-align:center;margin-top:2rem;">
+    <div style="width:100%;text-align:center;margin-top:2rem;margin-bottom:6rem;">
       <div>
         <img src="/img/专家方案/温馨提示.png" height="24" width="152">
       </div>
@@ -61,6 +61,10 @@ import {planApi} from '../../util/service'
 
 Vue.filter('color', function (val) {
   let col = '#95CACA'
+  let left = '0.35rem'
+  if (val > 9) {
+    left = '0.15rem'
+  }
   switch (val)
   {
     case 1:
@@ -75,40 +79,29 @@ Vue.filter('color', function (val) {
     default:
       break
   }
-  return {background: col}
+  return [{'background': col, 'padding-left': left}]
+})
+
+/*
+ * 隐藏手机号码中间四位
+ */
+Vue.filter('phone', function (val) {
+  let phone = val.substr(3, 4)
+  let lphone = val.replace(phone, '****')
+  return lphone
 })
 
 export default {
   ready () {
     $.init()
-    // 获取方案
-    this.$http.get(planApi.rank, {}, {
-      headers: {
-        'x-token': window.localStorage.getItem('token')
-      },
-      emulateJSON: true
-    })
-    .then(({data: {code, msg, result}})=>{
-      // console.log(data)
-      // bs_userId
-      // winbonus
-      if (result.length > 0) {
-        // console.log(result)
-        this.$set('showWarning', false)
-        this.$set('ranks', result)
-      }
-      else {
-        this.$set('showWarning', true)
-      }
-    }).catch(()=>{
-      console.error('无法连接服务器-获取盈利排行')
-    })
+    this.getRank()
   },
   data () {
     return {
       title: '周盈利排行',
       path: '/plan',
       showWarning: false,
+      userRank: '',
       ranks: [
         // {
         //   photo: '/img/个人中心/默认头像.png',
@@ -145,10 +138,35 @@ export default {
     refreshRank () {
       $.showIndicator()
       setTimeout(function () {
-        console.log('refresh')
+        this.getRank()
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
-      }, 1500)
+      }.bind(this), 1500)
+    },
+    getRank () {
+      // 获取排名信息
+      this.$http.get(planApi.rankweek, {}, {
+        headers: {
+          'x-token': window.localStorage.getItem('token')
+        },
+        emulateJSON: true
+      })
+      .then(({data: {code, msg, result}})=>{
+        // console.log(data)
+        // rankList->pNum,userId,winbonus
+        // userRank->bs_userId,winBonus
+        if (result.rankList.length > 0) {
+          // console.log(result)
+          this.$set('showWarning', false)
+          this.$set('ranks', result.rankList)
+          this.$set('userRank', result.userRank[0])
+        }
+        else {
+          this.$set('showWarning', true)
+        }
+      }).catch(()=>{
+        console.error('无法连接服务器-获取盈利排行')
+      })
     }
   },
   components: {
@@ -184,7 +202,6 @@ export default {
   min-width: 1.2rem;
   line-height: 1.2rem;
   border-radius: 50%;
-  padding-left: .35rem;
   color: white;
   margin-top: -.7rem;
   vertical-align: top;

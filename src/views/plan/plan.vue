@@ -152,6 +152,14 @@ export default {
     // console.log('准备')
     $.init()
     document.title = '购买方案'
+    $.showIndicator()
+    setTimeout(function () {
+      // 每次进入需要重新读取方案列表
+      this.$root.loadRangeList()
+      // 加载完毕需要重置
+      $.pullToRefreshDone('.pull-to-refresh-content')
+      $.hideIndicator()
+    }.bind(this), 100)
     $.refreshScroller()
     // 获取服务器时间
     this.$http.get(planApi.time, {}, {

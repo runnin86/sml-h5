@@ -153,6 +153,14 @@ export default {
   ready () {
     $.init()
     document.title = '一元夺宝'
+    $.showIndicator()
+    setTimeout(function () {
+      // 每次进入需要重新读取方案列表
+      this.$root.loadHpList()
+      // 加载完毕需要重置
+      $.pullToRefreshDone('.pull-to-refresh-content')
+      $.hideIndicator()
+    }.bind(this), 100)
     $.refreshScroller()
   },
   data () {

@@ -21,6 +21,8 @@ export let planApi = {
   cartPay: URL_COMMON + 'balspcart',
   // 盈利排行
   rank: URL_COMMON + 'ranktop',
+  // 周盈利排行
+  rankweek: URL_COMMON + 'rankweek',
   // 我的订单方案
   myplan: URL_COMMON + 'planinfo',
   // 打赏
