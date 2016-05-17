@@ -129,6 +129,8 @@ export default {
       isIndex: true,
       cardBadge: 0,
       userBadge: 0,
+      planScrolltop: 0,
+      hpScrolltop: 0,
       showPlan: false
     }
   },

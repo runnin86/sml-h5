@@ -150,6 +150,7 @@ export default {
   },
   ready () {
     // console.log('准备')
+    $('.content').scrollTop(this.$root.planScrolltop)
     $.init()
     document.title = '购买方案'
     $.showIndicator()

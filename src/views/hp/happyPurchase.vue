@@ -151,6 +151,7 @@ import $ from 'zepto'
 
 export default {
   ready () {
+    $('.content').scrollTop(this.$root.hpScrolltop)
     $.init()
     document.title = '一元夺宝'
     $.showIndicator()
