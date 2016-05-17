@@ -152,8 +152,7 @@ export default {
     // console.log('准备')
     $.init()
     document.title = '购买方案'
-    // this.refresh()
-    // $.refreshScroller()
+    $.refreshScroller()
     // 获取服务器时间
     this.$http.get(planApi.time, {}, {
       headers: {
@@ -171,7 +170,6 @@ export default {
   },
   data () {
     return {
-      loading: false,
       serviceTime: ''
     }
   },
@@ -196,6 +194,7 @@ export default {
     addToCart (pid, e) {
       e.stopPropagation()
       if (pid === 0) {
+        $.toast('已截止,不可购买')
         return
       }
       if (window.localStorage.getItem('user')) {
