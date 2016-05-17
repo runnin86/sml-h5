@@ -96,7 +96,7 @@ export default {
             $.toast(msg)
           }
         }).catch((e)=>{
-          $.alert('服务器连接中断...')
+          $.alert('结算异常...')
           console.error(e)
         })
       }, ()=>{

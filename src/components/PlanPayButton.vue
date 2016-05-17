@@ -80,12 +80,18 @@ export default {
             $.toast(msg)
           }
           else if (code === 0) {
-            let errObj = result[0]
-            let errorTips = errObj.expert_name ? '专家[' + errObj.expert_name + '],' : '' + errObj.msg
+            let errorTips = ''
+            if (result) {
+              let errObj = result[0]
+              errorTips = (errObj.expert_name ? '专家[' + errObj.expert_name + '],' : '') + errObj.msg
+            }
+            else {
+              errorTips = msg
+            }
             $.toast(errorTips)
           }
         }).catch((e)=>{
-          $.alert('服务器连接中断...')
+          $.alert('结算异常...')
           console.error(e)
         })
       }, ()=>{
