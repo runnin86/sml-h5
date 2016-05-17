@@ -52,27 +52,15 @@ export default {
         $.toast('请输入有效倍数')
         return
       }
-      // 购物车方案数组
-      let spcarlist = []
-      // {"planbinfo":{"totalmoney":2.0,
-      //  "spcarlist":[{"multipy":1,"name":"飞鹰计划","pid":"31","sum":2.0}]}}
-      spcarlist.push({
-        'multipy': this.amount,
-        'name': plan.expert_name,
-        'pid': plan.plan_id,
-        'sum': this.amount * plan.plan_amount
-      })
       // 组装请求消息体
       let planbinfo = {
-        'planbinfo': {
-          'totalmoney': this.amount * plan.plan_amount,
-          'spcarlist': spcarlist
-        }
+        'pmp': this.amount,
+        'pid': plan.plan_id
       }
       let postBody = JSON.stringify(planbinfo)
       $.confirm('总计' + this.amount * plan.plan_amount + '元,是否确认付款?', '提示', ()=>{
         // 发起支付请求
-        this.$http.post(planApi.cartPay, postBody,
+        this.$http.post(planApi.buyPlan, postBody,
           {
             headers: {
               'x-token': window.localStorage.getItem('token')
@@ -80,9 +68,9 @@ export default {
             emulateJSON: true
           })
         .then(({data: {code, msg, result}})=>{
-          console.log(code)
-          console.log(msg)
-          console.log(result)
+          // console.log(code)
+          // console.log(msg)
+          // console.log(result)
           if (code === 1) {
             $.toast('购买成功!')
             this.$parent.closeModal()

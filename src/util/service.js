@@ -19,6 +19,8 @@ export let planApi = {
   queryCart: URL_COMMON + 'quespcart',
   // 购物车支付
   cartPay: URL_COMMON + 'balspcart',
+  // 详情页支付
+  buyPlan: URL_COMMON + 'buyplan',
   // 盈利排行
   rank: URL_COMMON + 'ranktop',
   // 周盈利排行
@@ -37,8 +39,6 @@ export let hpApi = {
   banner: URL_COMMON + 'slider?type=1yg',
   // 获取首页商品
   home: URL_COMMON + 'oneBuyProject',
-  // 参与记录
-  partake_record: URL_COMMON + 'ptpay',
   // 中奖信息
   winner_info: URL_COMMON + 'oneBuyCycle',
   // 个人参与记录
@@ -52,7 +52,9 @@ export let hpApi = {
   // 添加到购物车-post,查询购物车-get,删除购物车-delete,更新购物车-put.(redis)
   redisCart: URL_COMMON + 'shoppingCart',
   // 购物车支付
-  cartPay: URL_COMMON + 'shoppingCartPay'
+  cartPay: URL_COMMON + 'shoppingCartPay',
+  // 详情页支付
+  ptpay: URL_COMMON + 'ptpay'
 }
 
 // 用户公用接口地址

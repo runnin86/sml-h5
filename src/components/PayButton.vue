@@ -68,25 +68,19 @@ export default {
         return
       }
       // 购物车商品数组
-      let spcarlist = [{
-        'name': item.name,
-        'number': item.number,
-        'payCount': this.amount,
-        'projectId': item.id,
-        'recharge_money': this.amount
-      }]
-      // 组装请求消息体
       let spcarInfos = {
-        'spcarInfos': {
-          'totalmoney': this.amount,
-          'spcarlist': spcarlist
-        }
+        'recharge_money': this.amount,
+        'projectId': item.id,
+        'payCount': this.amount,
+        'phone': '',
+        'userId': '',
+        'number': item.number
       }
       let postBody = JSON.stringify(spcarInfos)
       $.confirm('总计' + this.amount + '元,是否确认付款?', '提示', ()=>{
         // console.log(postBody)
         // 发起支付请求
-        this.$http.post(hpApi.cartPay, postBody,
+        this.$http.post(hpApi.ptpay, postBody,
           {
             headers: {
               'x-token': window.localStorage.getItem('token')
