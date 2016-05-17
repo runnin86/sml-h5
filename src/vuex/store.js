@@ -82,7 +82,6 @@ const mutations = {
    * 获取方案区间列表
    */
   rangeList () {
-    $.showIndicator()
     // 获取方案
     Vue.http.get(planApi.plan, {}, {
       headers: {
@@ -109,9 +108,6 @@ const mutations = {
       $.alert('服务器连接中断...')
       console.error('无法连接服务器-获取方案')
     }).finally(()=>{
-      // 加载完毕需要重置
-      $.pullToRefreshDone('.pull-to-refresh-content')
-      $.hideIndicator()
     })
   }
 }

@@ -152,6 +152,9 @@ export default function (router) {
       let depath = toPath === '/' || toPath === '/latestAnnounced'
       router.app.isIndex = depath ? 0 : 1
     }
+    if (toPath === '/plan' && !window.localStorage.getItem('token')) {
+      this.$route.router.go({path: '/happyPurchase', replace: true})
+    }
     next()
   })
 
