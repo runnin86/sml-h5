@@ -3,7 +3,7 @@
   <div class="content home" distance="55" v-pull-to-refresh="refresh">
     <v-layer></v-layer>
     <!-- 轮播图 -->
-    <slider :banner="banner" :vertical="false" style="z-index:9999;"></slider>
+    <slider :banner="$root.planBanner" :vertical="false" style="z-index:9999;"></slider>
 
     <!-- 快捷入口 -->
     <bar class="home-bar">
@@ -11,7 +11,6 @@
       <bar-item label="充值" img="/img/专家方案/充值.png" h=42 i=38 @click="recharge()"></bar-item>
       <bar-item path="/user/help" label="帮助" img="/img/专家方案/帮助.png" h=42 i=38></bar-item>
     </bar>
-
     <!-- 盈利滚动展示 -->
     <card type="content" class-name="scrollPlan">
       <div class="row">
@@ -19,16 +18,16 @@
           <img src="/img/专家方案/喇叭.png" style="height:1rem;margin-left:0.2rem;margin-bottom:-0.2rem;">
         </div>
         <div class="col-90">
-          <slider :banner="scrollmsg" :vertical="true" :animate-time=800 style="z-index:9999;height:2rem;"></slider>
+          <slider :banner="$root.planScrollMsg" :vertical="true" :animate-time=800 style="z-index:9999;height:2rem;"></slider>
         </div>
       </div>
     </card>
 
     <!-- 内容区 -->
     <div style="margin-bottom:4rem;">
-      <v-card-container v-for="r in rangeList | orderBy 'id' -1"
+      <v-card-container v-for="r in $root.rangeList | orderBy 'id' -1"
         style="margin: 0.18rem;background-color:#f9f9f9;">
-        <div v-if="r.plans.length>0">
+        <div v-if="length>0">
           <card type="header" style="font-size:0.68rem;background-color:#ffffff;">
             <div style="width:180%;">
               <span class="icon-histogram" style="font-size:1rem;color:red;">
@@ -153,142 +152,46 @@ export default {
     // console.log('准备')
     $.init()
     document.title = '购买方案'
-    this.scrollmsg.push({
-      content: '<div class="scrollMsgText">温馨提示：理性投注，长跟长红</div>'
-    })
-    this.getBanner()
-    this.getScrollmsg()
-    this.refresh()
+    // this.refresh()
     // $.refreshScroller()
+    // 获取服务器时间
+    this.$http.get(planApi.time, {}, {
+      headers: {
+        'x-token': window.localStorage.getItem('token')
+      },
+      emulateJSON: true
+    })
+    .then(({data: {code, msg, result}})=>{
+      if (code === 1) {
+        this.$set('serviceTime', result)
+      }
+    }).catch(()=>{
+      console.error('无法连接服务器-获取服务器时间')
+    })
   },
   data () {
     return {
-      banner: [],
-      scrollmsg: [],
       loading: false,
-      showImg: window.localStorage.getItem('imageSwitch') === 'true',
-      rangeList: [],
       serviceTime: ''
     }
   },
   computed: {
     length () {
-      return this.rangeList.length
+      return this.$root.rangeList.length
     }
   },
   methods: {
     refresh () {
       $.showIndicator()
       setTimeout(function () {
-        this.getRangeList()
+        // 调用根节点的查询
+        this.$root.loadBannerForPlan()
+        this.$root.loadScrollMsgForPlan()
+        this.$root.loadRangeList()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       }.bind(this), 1345)
-    },
-    getBanner () {
-      // 获取banner的图片数据
-      this.$http.get(planApi.banner)
-      .then(({data: {code, msg, info}})=>{
-        if (code === 1) {
-          if (info.length > 0 && this.showImg) {
-            let img = []
-            for (var i = 0; i < info.length; i++) {
-              img.push({
-                content: info[i].img
-              })
-            }
-            this.$set('banner', img)
-          }
-        }
-        else {
-          console.error('获取banner失败:' + msg)
-        }
-      }).catch(()=>{
-        console.error('无法连接服务器获取banner')
-      })
-    },
-    getScrollmsg () {
-      // 获取方案
-      this.$http.get(planApi.rank, {}, {
-        headers: {
-          'x-token': window.localStorage.getItem('token')
-        },
-        emulateJSON: true
-      })
-      .then(({data: {code, msg, result}})=>{
-        // console.log(data)
-        // content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">温馨提示：理性投注，长跟场红</div>'
-        if (code === 1) {
-          console.log(msg)
-          this.scrollmsg = []
-          for (var i = 0; i < result.length; i++) {
-            let obj = result[i]
-            // 隐藏手机号码中间四位
-            let phone = obj.bs_userId.substr(3, 4)
-            let lphone = obj.bs_userId.replace(phone, '****')
-            let scrollText = {content: '<div class="scrollMsgText">用户 ' +
-              lphone + '，上期盈利 ' + (obj.winbonus ? obj.winbonus : 0.0) + ' 元</div>'}
-            this.scrollmsg.push(scrollText)
-            // console.log(obj.bs_userId + '->' + obj.winbonus)
-          }
-        }
-        else {
-          console.error('获取滚动消息失败:' + msg)
-        }
-      }).catch(()=>{
-        console.error('无法连接服务器-获取滚动消息')
-      })
-    },
-    /*
-     * 获取方案区间列表
-     */
-    getRangeList () {
-      $.showIndicator()
-      // 获取方案
-      this.$http.get(planApi.plan, {}, {
-        headers: {
-          'x-token': window.localStorage.getItem('token')
-        },
-        emulateJSON: true
-      })
-      .then(({data: {code, msg, result}})=>{
-        if (code === 1) {
-          // console.log(result.rangeList)
-          this.$set('rangeList', result.rangeList)
-        }
-        else if (code === 0) {
-          $.toast(msg)
-        }
-        else if (code === 3) {
-          $.alert(msg, ()=>{
-            window.localStorage.clear()
-            window.localStorage.setItem('imageSwitch', true)
-            this.$route.router.go({path: '/login?from=user', replace: true})
-          })
-        }
-      }).catch(()=>{
-        $.alert('服务器连接中断...')
-        console.error('无法连接服务器-获取方案')
-      }).finally(()=>{
-        // 加载完毕需要重置
-        $.pullToRefreshDone('.pull-to-refresh-content')
-        $.hideIndicator()
-      })
-      // 获取服务器时间
-      this.$http.get(planApi.time, {}, {
-        headers: {
-          'x-token': window.localStorage.getItem('token')
-        },
-        emulateJSON: true
-      })
-      .then(({data: {code, msg, result}})=>{
-        if (code === 1) {
-          this.$set('serviceTime', result)
-        }
-      }).catch(()=>{
-        console.error('无法连接服务器-获取服务器时间')
-      })
     },
     addToCart (pid, e) {
       e.stopPropagation()

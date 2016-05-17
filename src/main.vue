@@ -16,11 +16,26 @@
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
 import {hpApi, planApi} from './util/service'
+import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList} from './vuex/actions'
+import store from './vuex/store'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
 import wx from 'wx'
 
 export default {
+  vuex: {
+    actions: {
+      loadScrollMsgForPlan,
+      loadBannerForPlan,
+      loadRangeList
+    },
+    getters: {
+      // 注意在这里你需要'getCount'函数本身而不是它的执行结果'getCount()'
+      planScrollMsg: state => state.planScrollMsg,
+      planBanner: state=> state.planBanner,
+      rangeList: state=> state.rangeList
+    }
+  },
   ready () {
     // 微信配置参数
     $.sign = {
@@ -120,7 +135,9 @@ export default {
       if (token) {
         // 处理购物车图标右上角的数字
         this.cardBadge = 0
-        // 获取服务器中的乐夺宝购物车信息
+        /*
+         * 获取服务器中的乐夺宝购物车信息
+         */
         this.$http.get(hpApi.redisCart, {},
           {
             headers: {
@@ -135,7 +152,9 @@ export default {
         }).catch((e)=>{
           console.error('无法获取乐夺宝购物车:' + e)
         })
-        // 获取服务器中的方案购物车信息
+        /*
+         * 获取服务器中的方案购物车信息
+         */
         this.$http.post(planApi.queryCart, {},
           {
             headers: {
@@ -145,6 +164,9 @@ export default {
           })
         .then(({data: {code, msg, result}})=>{
           if (code === 1) {
+            this.loadBannerForPlan()
+            this.loadScrollMsgForPlan()
+            this.loadRangeList()
             // 展示方案的菜单
             this.showPlan = true
             if (result) {
@@ -160,7 +182,11 @@ export default {
   components: {
     Bar,
     BarItem
-  }
+  },
+  /*
+   * 在根组件加入 store，让它的子组件和 store 连接
+   */
+  store: store
 }
 </script>
 
