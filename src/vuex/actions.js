@@ -8,3 +8,11 @@ export const loadScrollMsgForPlan = ({ dispatch }) => dispatch('scrollMsgForPlan
 export const loadBannerForPlan = ({ dispatch }) => dispatch('bannerForPlan')
 
 export const loadRangeList = ({dispatch}) => dispatch('rangeList')
+
+export const loadBannerForHP = ({dispatch}) => dispatch('bannerForHP')
+
+export const loadScrollMsgForHP = ({ dispatch }) => dispatch('scrollMsgForHP')
+
+export const loadHpList = ({dispatch}) => dispatch('hpList')
+
+export const loadHpList10 = ({dispatch}) => dispatch('hpList10')

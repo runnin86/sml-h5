@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {planApi} from '../util/service'
+import {planApi, hpApi} from '../util/service'
 import $ from 'zepto'
 
 Vue.use(Vuex)
@@ -12,6 +12,12 @@ const state = {
     content: '<div class="scrollMsgText">温馨提示：理性投注，长跟长红</div>'
   }],
   rangeList: [],
+  hpBanner: [],
+  hpScrollmsg: [{
+    content: '<div class="scrollMsgText">一元夺宝，精彩无限!</div>'
+  }],
+  hpList: [],
+  hpList10: [],
   showImg: window.localStorage.getItem('imageSwitch') === 'true'
 }
 
@@ -82,6 +88,7 @@ const mutations = {
    * 获取方案区间列表
    */
   rangeList () {
+    console.log('获取方案区间列表-方案!')
     // 获取方案
     Vue.http.get(planApi.plan, {}, {
       headers: {
@@ -108,6 +115,103 @@ const mutations = {
       $.alert('服务器连接中断...')
       console.error('无法连接服务器-获取方案')
     }).finally(()=>{
+    })
+  },
+  /*
+   * 获取banner-乐夺宝
+   */
+  bannerForHP () {
+    console.log('刷新banner-乐夺宝!')
+    Vue.http.get(hpApi.banner)
+    .then(({data: {code, msg, info}})=>{
+      if (code === 1) {
+        state.hpBanner = []
+        if (info.length > 0 && state.showImg) {
+          for (var i = 0; i < info.length; i++) {
+            state.hpBanner.push({
+              content: info[i].img
+            })
+          }
+        }
+      }
+      else {
+        console.error('获取乐夺宝banner失败:' + msg)
+      }
+    }).catch(()=>{
+      console.error('无法连接服务器获取乐夺宝banner')
+    })
+  },
+  /*
+   * 获取滚动提示消息-乐夺宝
+   */
+  scrollMsgForHP () {
+    console.log('刷新滚动消息-乐夺宝!')
+    Vue.http.get(hpApi.oneBuyNewPublic + '?pagenum=' + 0)
+    .then(({data: {code, msg, results}})=>{
+      if (code === 1) {
+        state.hpScrollmsg = []
+        if (results.list.length >= 0) {
+          for (var i = 0; i < results.list.length; i++) {
+            let info = results.list[i]
+            // 速来挑战!->即刻来秒!->想中戳我!
+            // info.payCount
+            if (info.user_name) {
+              let name = info.user_name
+              // 首字*
+              // let first = name.substr(0, 1)
+              // let finalName = name.replace(first, '*')
+              // 首字之外全部*
+              let unFirst = name.substr(name.length > 2 ? 2 : 1, name.length)
+              let rv = ''
+              for (let i = 0; i < name.length - 1; i++) {
+                rv += '*'
+              }
+              let finalName = name.replace(unFirst, rv)
+              let msg = '恭喜 ' + finalName + ' ' + info.price + '元夺得' + info.name
+              state.hpScrollmsg.push({
+                content: '<div class="scrollMsgText">' + msg + '</div>'
+              })
+            }
+          }
+        }
+      }
+      else {
+        console.error('获取乐夺宝滚动消息失败:' + msg)
+      }
+    }).catch((e)=>{
+      console.log('无法连接服务器-获取乐夺宝滚动消息')
+      console.error(e)
+    })
+  },
+  hpList () {
+    // 获取商品列表
+    Vue.http.get(hpApi.home)
+    .then(({data: {code, msg, results, count, pagenum}})=>{
+      if (code === 1) {
+        state.hpList = results.list
+      }
+      else {
+        $.toast(msg)
+        console.error('获取商品列表失败:' + msg)
+      }
+    }).catch(()=>{
+      $.alert('服务器连接中断...')
+      console.error('无法连接服务器-获取商品列表')
+    })
+  },
+  hpList10 () {
+    // 获取商品列表
+    Vue.http.get(hpApi.home + '?price=10')
+    .then(({data: {code, msg, results, count, pagenum}})=>{
+      if (code === 1) {
+        state.hpList10 = results.list
+      }
+      else {
+        $.toast(msg)
+        console.error('获取十元专区商品列表失败:' + msg)
+      }
+    }).catch((e)=>{
+      console.error('无法连接服务器-获取十元专区商品列表:' + e)
     })
   }
 }

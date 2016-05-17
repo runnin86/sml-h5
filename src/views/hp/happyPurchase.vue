@@ -3,7 +3,7 @@
   <div class="content home" distance="55" v-pull-to-refresh="refresh">
     <v-layer></v-layer>
     <!-- 轮播图 -->
-    <slider :banner="banner" style="z-index:9999;"></slider>
+    <slider :banner="$root.hpBanner" style="z-index:9999;"></slider>
 
     <!-- 快捷入口 -->
     <bar class="home-bar">
@@ -19,7 +19,7 @@
           <img src="/img/专家方案/喇叭.png" style="height:1rem;margin-left:0.2rem;margin-bottom:-0.2rem;">
         </div>
         <div class="col-90">
-          <slider :banner="scrollmsg" :vertical="true" :animate-time=800 style="z-index:9999;height:2rem;"></slider>
+          <slider :banner="$root.hpScrollmsg" :vertical="true" :animate-time=800 style="z-index:9999;height:2rem;"></slider>
         </div>
       </div>
     </card>
@@ -28,7 +28,7 @@
     <v-tabs type="tab" class-name="article-tabs">
       <v-tab name="all-items" title="全部商品" status="active">
         <div style="margin-bottom:4rem;">
-          <v-card-container v-for="item in itemList | orderBy 'id' -1" style="margin: 0.18rem;">
+          <v-card-container v-for="item in $root.itemList | orderBy 'id' -1" style="margin: 0.18rem;">
             <div class="row">
               <div v-if="showImg" class="col-25" style="margin-left:4%;"
                 v-link="{name: 'itemDetail', params: { id: item.id }, query:{ number: item.number }, activeClass: 'active', replace: false}">
@@ -79,7 +79,7 @@
       </v-tab>
       <v-tab name="ten-items" title="十元专区">
         <div style="margin-bottom:4rem;" class="list">
-          <v-card-container v-for="item in itemList10 | orderBy 'id' -1" style="margin: 0.18rem;">
+          <v-card-container v-for="item in $root.itemList10 | orderBy 'id' -1" style="margin: 0.18rem;">
             <div class="row">
               <div v-if="showImg" class="col-25" style="margin-left:4%;"
                 v-link="{name: 'itemDetail', params: { id: item.id }, query:{ number: item.number }, activeClass: 'active', replace: false}">
@@ -153,83 +153,19 @@ export default {
   ready () {
     $.init()
     document.title = '一元夺宝'
-    this.getBanner()
-    this.getLatestTop10()
-    this.refresh()
     $.refreshScroller()
   },
   data () {
     return {
-      // title: '任务列表',
-      banner: [],
-      loading: false,
-      showImg: window.localStorage.getItem('imageSwitch') === 'true',
-      itemList: [],
-      itemList10: [],
-      scrollmsg: [{
-        content: '<div class="scrollMsgText">一元夺宝，精彩无限!</div>'
-      }]
+      showImg: window.localStorage.getItem('imageSwitch') === 'true'
     }
   },
   computed: {
     length () {
-      return this.itemList.length
+      return this.$root.itemList.length
     }
   },
   methods: {
-    getBanner () {
-      // 获取banner的图片数据
-      this.$http.get(hpApi.banner)
-      .then(({data: {code, msg, info}})=>{
-        if (code === 1) {
-          if (info.length > 0 && this.showImg) {
-            let img = []
-            for (var i = 0; i < info.length; i++) {
-              img.push({
-                content: info[i].img
-              })
-            }
-            this.$set('banner', img)
-          }
-        }
-        else {
-          console.error('获取banner失败:' + msg)
-        }
-      }).catch(()=>{
-        console.error('无法连接服务器获取banner')
-      })
-    },
-    getItemList () {
-      // 获取商品列表
-      this.$http.get(hpApi.home)
-      .then(({data: {code, msg, results, count, pagenum}})=>{
-        if (code === 1) {
-          this.$set('itemList', results.list)
-        }
-        else {
-          $.toast(msg)
-          console.error('获取商品列表失败:' + msg)
-        }
-      }).catch(()=>{
-        $.alert('服务器连接中断...')
-        console.error('无法连接服务器-获取商品列表')
-      })
-    },
-    getItemList10 () {
-      // 获取商品列表
-      this.$http.get(hpApi.home + '?price=10')
-      .then(({data: {code, msg, results, count, pagenum}})=>{
-        if (code === 1) {
-          this.$set('itemList10', results.list)
-        }
-        else {
-          $.toast(msg)
-          console.error('获取十元专区商品列表失败:' + msg)
-        }
-      }).catch((e)=>{
-        console.error('无法连接服务器-获取十元专区商品列表:' + e)
-      })
-    },
     addToCart (item) {
       if (window.localStorage.getItem('user')) {
         // 添加至购物车
@@ -267,51 +203,14 @@ export default {
     refresh () {
       $.showIndicator()
       setTimeout(function () {
-        this.itemList = []
-        this.itemList10 = []
-        this.getItemList()
-        this.getItemList10()
+        this.$root.loadBannerForHP()
+        this.$root.loadScrollMsgForHP()
+        // this.getItemList()
+        // this.getItemList10()
         // 加载完毕需要重置
         $.pullToRefreshDone('.pull-to-refresh-content')
         $.hideIndicator()
       }.bind(this), 1345)
-    },
-    getLatestTop10 () {
-      this.$http.get(hpApi.oneBuyNewPublic + '?pagenum=' + 0)
-      .then(({data: {code, msg, results}})=>{
-        if (code === 1) {
-          if (results.list.length >= 0) {
-            this.scrollmsg = []
-            for (var i = 0; i < results.list.length; i++) {
-              let info = results.list[i]
-              // 速来挑战!->即刻来秒!->想中戳我!
-              // info.payCount
-              if (info.user_name) {
-                let name = info.user_name
-                // 首字*
-                // let first = name.substr(0, 1)
-                // let finalName = name.replace(first, '*')
-                // 首字之外全部*
-                let unFirst = name.substr(name.length > 2 ? 2 : 1, name.length)
-                let rv = ''
-                for (let i = 0; i < name.length - 1; i++) {
-                  rv += '*'
-                }
-                let finalName = name.replace(unFirst, rv)
-                let msg = '恭喜 ' + finalName + ' ' + info.price + '元夺得' + info.name
-                this.scrollmsg.push({
-                  content: '<div class="scrollMsgText">' + msg + '</div>'
-                })
-              }
-            }
-          }
-        }
-        else {
-          console.error('乐夺宝首页获取最新揭晓失败!')
-        }
-      }).catch((e)=>{
-        console.error('获取最新揭晓失败:' + e)
-      })
     }
   },
   components: {

@@ -16,7 +16,7 @@
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
 import {hpApi, planApi} from './util/service'
-import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList} from './vuex/actions'
+import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10} from './vuex/actions'
 import store from './vuex/store'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
@@ -27,16 +27,29 @@ export default {
     actions: {
       loadScrollMsgForPlan,
       loadBannerForPlan,
-      loadRangeList
+      loadRangeList,
+      loadBannerForHP,
+      loadScrollMsgForHP,
+      loadHpList,
+      loadHpList10
     },
     getters: {
       // 注意在这里你需要'getCount'函数本身而不是它的执行结果'getCount()'
       planScrollMsg: state => state.planScrollMsg,
       planBanner: state=> state.planBanner,
-      rangeList: state=> state.rangeList
+      rangeList: state=> state.rangeList,
+      hpBanner: state=> state.hpBanner,
+      hpScrollmsg: state => state.hpScrollmsg,
+      itemList: state => state.hpList,
+      itemList10: sate => sate.hpList10
     }
   },
   ready () {
+    // 获取乐夺宝的banner,滚动展示,商品列表
+    this.loadBannerForHP()
+    this.loadScrollMsgForHP()
+    this.loadHpList()
+    this.loadHpList10()
     // 微信配置参数
     $.sign = {
       appId: 'wxadccc645716a9348',

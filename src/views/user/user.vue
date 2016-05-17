@@ -229,11 +229,12 @@ export default {
         }
         else {
           console.log('获取用户利润失败:' + msg)
-          // $.alert('会话失效,请重新登录', ()=>{
-          //   window.localStorage.clear()
-          //   window.localStorage.setItem('imageSwitch', true)
-          //   this.$route.router.go({path: '/login?from=user', replace: true})
-          // })
+          $.alert(msg, ()=>{
+            window.localStorage.clear()
+            window.localStorage.setItem('imageSwitch', true)
+            this.$route.router.go({path: this.path, replace: true})
+            this.$route.router.go({path: '/login?from=user', replace: true})
+          })
         }
       }).catch((e)=>{
         console.error('获取账户盈利失败:' + e)
