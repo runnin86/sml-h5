@@ -6,7 +6,8 @@
       v-infinite-scroll="loadMore">
       <div>
         <!-- 轮播图 -->
-        <slider :banner="banner" style="z-index:9999;"></slider>
+        <slider :banner="banner" class="detailSlider"
+          style="z-index:9999;background-color:#FFFFFF;"></slider>
       </div>
       <div class="list-block media-list" style="margin:0rem;">
         <ul>
@@ -291,7 +292,11 @@
     }
   }
 </script>
-<style scoped>
+<style>
+.detailSlider li {
+  background-size: contain !important;
+  width: 375px;
+}
 .list-block {
   margin: .3rem 0;
 }

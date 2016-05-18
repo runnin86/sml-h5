@@ -53,21 +53,21 @@ export default {
     height: 100%;
     overflow: hidden;
   }
+}
 
-  li {
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-pack: start;
-    list-style: none;
+#islider li {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-pack: start;
+  list-style: none;
+}
 
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
+#islider li img{
+  width: 100%;
+  height: auto;
 }
 </style>
