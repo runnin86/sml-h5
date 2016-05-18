@@ -11,9 +11,26 @@
     <div class="invite-card">
         <div class="invite-card-content" style="height:100%;">
             <div class="center_code">
-                <div class="wx_code" style="width:100%;height:100%">
-                    <img src="/favicon.ico" height="64" width="64">
+                <div class="wx_code" style="width:100%;height:100%;margin-top:.6rem;">
+                    <img src="/img/64X64.png" height="64" width="64">
                 </div>
+            </div>
+            <div class="url" style="margin-left: .4rem;height:auto;margin-bottom: .8rem;">
+              <p style="font-size:0.52rem;margin-left:.8rem;margin-right:.8rem;">
+                足彩收米拉致力为用户提供最专业的足球分析服务，打造最精准的赛事分析。</br>
+                <font style="font-weight: bold;">强大的分析团队：</font>
+                团队成员至少拥有十年以上的看球和赛事分析经验，熟悉各大足球联赛体系，
+                广视角、多层级、更深度组合出击，完美诠释直击赛果。</br>
+                <font style="font-weight: bold;">先进的管理团队：</font>
+                公司管理层长期浸淫互联网，准确把脉互联网+的发展方向，
+                简洁高效的扁平化管理，缜密多元的发展计划。</br>
+                <font style="font-weight: bold;">工作环境：</font>
+                窗明几净宽敞大气的办公室，配长期无节制的点心饮料，无障碍的员工间沟通，
+                合理化建议的快速实施，融洽多彩的的工作氛围。</br>
+                <font style="font-weight: bold;">公司目标：</font>
+                打造最专业、最精准的互联网足球赛事分析，建立国内最优秀的足球大数据资料库。</br>
+                公司愿景：携手足球爱好者完成足球资讯大社区的组建。
+              </p>
             </div>
         </div>
     </div>
