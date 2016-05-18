@@ -49,6 +49,14 @@
       </li>
     </v-list>
   </div>
+  <div v-cloak v-if="ranks.length===0" style="width:100%;height:100%;text-align:center;margin-top:6rem;">
+    <div>
+      <img src="/img/专家方案/温馨提示.png" height="24" width="152">
+    </div>
+    <div style="font-size:0.38rem;color:#A9A9A9;">
+      揭晓内容敬请期待
+    </div>
+  </div>
 </div>
 </template>
 

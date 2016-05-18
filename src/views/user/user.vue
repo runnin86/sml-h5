@@ -51,27 +51,27 @@
             <div class="text-center">
               <img src="/img/个人中心/我的本金.png" width="32" height="32">
             </div>
-            <div>本金 {{user?coinmeter:'...'}}</div>
+            <div>本金 {{user?(coinmeter?coinmeter:0):'...'}}</div>
           </div>
           <div class="center2" style="margin-top:0.4rem;">
             <div class="text-center">
               <img src="/img/个人中心/我的盈利.png" width="32" height="32">
             </div>
-            <div>盈利 {{user?userate:'...'}}</div>
+            <div>盈利 {{user?(userate?userate:0):'...'}}</div>
           </div>
           <div v-if="showsales === 'now'" @click="showsales='last'"
             class="pull-right r08" style="margin-top:0.4rem;">
             <div class="text-center">
               <img src="/img/个人中心/本月.png" width="80" height="32">
             </div>
-            <div>销量 {{user?usersales:'...'}}</div>
+            <div>销量 {{user?(usersales?usersales:0):'...'}}</div>
           </div>
           <div v-if="showsales === 'last'" @click="showsales='now'"
             class="pull-right r08" style="margin-top:0.4rem;">
             <div class="text-center">
               <img src="/img/个人中心/上月.png" width="80" height="32">
             </div>
-            <div>销量 {{user?lastsales:'...'}}</div>
+            <div>销量 {{user?(lastsales?lastsales:0):'...'}}</div>
           </div>
         </li>
       </ul>
