@@ -295,7 +295,7 @@
 <style>
 .detailSlider li {
   background-size: contain !important;
-  width: 375px;
+  width: 100%;
 }
 .list-block {
   margin: .3rem 0;
