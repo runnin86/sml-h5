@@ -84,7 +84,7 @@
           <div class="item-title2">
             方案内容
             <font style="font-size:0.48rem;color:gray;">
-              (销售截止后才可查看)
+              (方案内容在销售截止后才可观看)
             </font>
           </div>
         </div>
@@ -209,7 +209,7 @@
       showInfo (id, e) {
         if (id === 'planContent') {
           if (!this.plan.plan_content) {
-            $.toast('方案截止后，才可观看!')
+            $.toast('方案销售截止后，才可观看!')
             return
           }
         }
@@ -231,7 +231,7 @@
           this.showPayBtn = true
         }
         else {
-          $.toast('请登录后购买方案...')
+          $.toast('请登录后购买服务...')
         }
       },
       loadPlan () {
