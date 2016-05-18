@@ -143,7 +143,7 @@
 <div class="toolBarDetail">
   <div class="submit-button">
     <button v-show="!showPayBtn" class="button button-big button-fill"
-      :class="disabledPayBtn?'disabled':''" @click="popPay()">购买服务</button>
+      :class="disabledPayBtn?'disabled':''" @click="popPay()">购买方案</button>
   </div>
 </div>
 <!-- 购买按钮 -->
@@ -231,7 +231,7 @@
           this.showPayBtn = true
         }
         else {
-          $.toast('请登录后购买服务...')
+          $.toast('请登录后购买方案...')
         }
       },
       loadPlan () {

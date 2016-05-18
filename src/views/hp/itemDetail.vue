@@ -16,42 +16,42 @@
                 <div class="item-title-row">
                   <div class="item-title">第{{itemInfo.number}}期 {{itemInfo.name}}</div>
                 </div>
-                <div class="item-text">{{itemInfo.content}}</div>
-                <div class="progress" style="height:10px;margin-top:0.8rem;">
+                <div class="item-text miniFont6">{{itemInfo.content}}</div>
+                <div class="progress" style="height:8px;margin-top:-0.2rem;">
                   <span v-if="parseFloat((itemInfo.totalCount-itemInfo.codeCount)/itemInfo.totalCount) > 0"
                     class="red"
-                    :style="{ height: '8px', width: parseFloat((itemInfo.totalCount-itemInfo.codeCount)/itemInfo.totalCount)*100 + '%' }"></span>
-
+                    :style="{ height: '8px', width: parseFloat((itemInfo.totalCount-itemInfo.codeCount)/itemInfo.totalCount)*100 + '%' }">
+                  </span>
                 </div>
                 <div class="item-title-row" style="margin-bottom:0.5rem;">
-                  <div class="item-text"><div>{{itemInfo.totalCount}}</div><div>总需</div></div>
-                  <div class="item-text"><div>{{itemInfo.codeCount}}</div><div>剩余</div></div>
+                  <div class="item-text miniFont7"><div>{{itemInfo.totalCount}}</div><div>总需</div></div>
+                  <div class="item-text miniFont7"><div>{{itemInfo.codeCount}}</div><div>剩余</div></div>
                 </div>
               </div>
             </a>
           </li>
           <li class="item-content item-link" @click="showPartake('hpRole',$event)">
             <div class="item-inner">
-              <div class="item-title">获奖号码算法</div>
+              <div class="item-title miniFont6">获奖号码算法</div>
             </div>
           </li>
-          <li class="item-content" id="hpRole" style="display: none;">
-            <div style="font-size:0.48rem;">
+          <li class="item-content" id="hpRole" style="display: none;font-size:0.48rem;">
+            <div>
               一、取该商品号码购买完时所有商品的最后100条购买时间；
             </div>
-            <div style="font-size:0.48rem;">
+            <div>
               二、按时、分、秒、毫秒排列相加在除以该商品总人次后取余数；
             </div>
-            <div style="font-size:0.48rem;">
+            <div>
               三、余数在加上10000001 即为中奖的幸运号码；
             </div>
-            <div style="font-size:0.48rem;">
+            <div>
               四、余数指整数除法中被除数被除尽部分，如10/4=2 ... 2,2就是余数。
             </div>
           </li>
           <li class="item-content item-link" @click="showPartake('partake',$event)">
             <div class="item-inner">
-              <div class="item-title">参与码</div>
+              <div class="item-title miniFont6">参与码</div>
             </div>
           </li>
           <li class="item-content" id="partake" style="display: none;">
@@ -85,7 +85,7 @@
         <ul>
           <li class="item-content" style="padding-left:0rem;">
             <div class="item-inner" style="padding-left:0.75rem;">
-              <div class="item-title">参与记录</div>
+              <div class="item-title miniFont6">参与记录</div>
             </div>
           </li>
         </ul>
@@ -106,7 +106,7 @@
                 </div>
               </div>
               <div class="item-title pull-left">
-                <div style="margin-bottom:0.3rem;">IP:192.178.128.122</div>
+                <!-- <div style="margin-bottom:0.3rem;">IP:192.178.128.122</div> -->
                 <div style="margin-top:0.3rem;">{{r.time}}</div>
               </div>
               <div class="item-after">人次:{{r.count}}</div>
@@ -327,5 +327,11 @@
 }
 .color {
   background-color: #ed8e07;
+}
+.miniFont6 {
+  font-size: .6rem;
+}
+.miniFont7 {
+  font-size: .7rem;
 }
 </style>

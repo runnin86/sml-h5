@@ -8,7 +8,7 @@
     <h1 class="title color" v-text="title"></h1>
   </header>
   <div class="list-block" style="margin: 2.35rem 0">
-    <ul>
+    <!-- <ul>
       <li class="item-content item-link" @click="showMsg('registerHelp',$event)">
         <div class="item-inner">
           <div class="item-title">注册不成功</div>
@@ -37,19 +37,21 @@
           </div>
         </div>
       </li>
-    </ul>
+    </ul> -->
     <ul>
       <li class="item-content item-link" @click="showMsg('withdrawHelp',$event)">
         <div class="item-inner">
           <div class="item-title">提现问题</div>
         </div>
       </li>
-      <li class="item-content" id="withdrawHelp" style="display: none;background-color: #EEEEEE;">
+      <li class="item-content" id="withdrawHelp" style="display: none;background-color: #FFECEC;">
         <div class="item-inner">
           <div class="helpMsgText">
-            注充值问题充值问题充值问题充值问题充值问题充值问题充值问题充值问题充值问题
-            充值问题
-            充值问题充值问题充值问题充值问题充值问题
+            在个人中心可以对盈利进行提现，提现金额10元起。</br>
+            1、提现成功</br>
+            请您保持电话畅通，工作人员会在1~3个工作日与您联系</br>
+            2、提现失败</br>
+            请打电话和客服人员进行沟通，客服电话：<a href="tel:400-8710-088">400-8710-088</a>
           </div>
         </div>
       </li>

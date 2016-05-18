@@ -4,7 +4,7 @@
   <v-tab name="rankTable" title="周盈利排行" status="active"
     distance="55" v-pull-to-refresh="refreshRank">
     <v-layer></v-layer>
-    <div class="topTips">
+    <div class="topTips" v-if="length>0">
       <div class="list-block">
         <ul>
           <li class="topLi">
@@ -13,7 +13,7 @@
         </ul>
       </div>
     </div>
-    <v-content type="block-title">
+    <v-content type="block-title" v-if="length>0">
       <span style="float:left;margin-left: .2rem;">方案收益</span>
       <span style="float:right;margin-right: .2rem;">排名</span>
     </v-content>
@@ -175,6 +175,11 @@ export default {
     VList,
     VTab,
     VLayer
+  },
+  computed: {
+    length () {
+      return this.ranks.length
+    }
   }
 }
 </script>
