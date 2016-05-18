@@ -69,7 +69,7 @@
             style="font-size:1rem;color:red;">
             <font style="font-size:0.68rem;color:#FFFFFF;"
               v-if="plan.range_salelimit>0">
-              限购剩余 {{plan.range_salelimit}} 元
+              限购剩余 {{plan.range_salelimit-plan.saledAmount}} 元
             </font>
             <font style="font-size:0.68rem;color:#FFFFFF;" v-else>
               不限购
@@ -116,7 +116,7 @@
         </div>
       </li>
       <li class="item-content2" id="expertHistory" style="display: block;font-size:0.6rem;">
-        <div v-for="h in expertHistory | orderBy 'plan_status' -1"
+        <div v-for="h in expertHistory | orderBy 'plan_status' 1"
           class="item-inner item-title2 fafafa"
           :style="(h.planResult!=='胜'?'':'color:#FF2D2D')">
           <div>
@@ -124,7 +124,7 @@
             {{h.effective_time.substr(5, 5)}}
           </div>
           <div>
-            <span class="icon-histogram">
+            <span :class="h.rangeName?'icon-histogram':''">
               {{h.rangeName}}
             </span>
           </div>
