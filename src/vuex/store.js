@@ -63,7 +63,7 @@ const mutations = {
     .then(({data: {code, msg, result}})=>{
       // console.log(data)
       // content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">温馨提示：理性投注，长跟场红</div>'
-      if (code === 1) {
+      if (code === 1 && result.length > 0) {
         state.planScrollMsg = []
         for (var i = 0; i < result.length; i++) {
           let obj = result[i]
@@ -149,8 +149,8 @@ const mutations = {
     Vue.http.get(hpApi.oneBuyNewPublic + '?pagenum=' + 0)
     .then(({data: {code, msg, results}})=>{
       if (code === 1) {
-        state.hpScrollmsg = []
-        if (results.list.length >= 0) {
+        if (results.list.length > 0) {
+          state.hpScrollmsg = []
           for (var i = 0; i < results.list.length; i++) {
             let info = results.list[i]
             // 速来挑战!->即刻来秒!->想中戳我!
