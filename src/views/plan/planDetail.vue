@@ -119,21 +119,22 @@
         <div v-for="h in expertHistory | orderBy 'plan_status' 1"
           class="item-inner item-title2 fafafa"
           :style="(h.planResult!=='胜'?'':'color:#FF2D2D')">
-          <div>
+          <div style="width:20%;">
             <!-- 01/05 -->
             {{h.effective_time.substr(5, 5)}}
           </div>
-          <div>
+          <div style="width:45%;">
             <span :class="h.rangeName?'icon-histogram':''">
               {{h.rangeName}}
             </span>
           </div>
-          <div>
+          <div style="width:30%;">
             <div class="icon-golds">
               {{h.plan_amount}}.00元
             </div>
           </div>
-          <div :class="h.planResult==='胜'?'icon-right2':(h.planResult==='负'?'icon-wrong2':'icon-cancel2')"></div>
+          <div style="width:5%;"
+            :class="h.planResult==='胜'?'icon-right2':(h.planResult==='负'?'icon-wrong2':'icon-cancel2')"></div>
         </div>
       </li>
     </ul>
