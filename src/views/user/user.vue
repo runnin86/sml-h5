@@ -172,7 +172,7 @@ import VCountDown from '../../components/Countdown'
 import VLayer from '../../components/PullToRefreshLayer'
 import {userApi} from '../../util/service'
 import $ from 'zepto'
-
+var refreshMsg
 export default {
   ready () {
     $.init()
@@ -183,11 +183,15 @@ export default {
     else {
       this.refresh()
     }
-    setInterval(()=> {
+    refreshMsg = setInterval(function () {
       // 30秒定时查询
       // 从vuex中获取用户未读消息
       this.$root.loadUserUnreadMsg()
-    }, 30000)
+    }.bind(this), 15000)
+  },
+  destroyed () {
+    // console.log('销毁')
+    window.clearInterval(refreshMsg)
   },
   data () {
     return {

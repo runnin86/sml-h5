@@ -153,7 +153,7 @@ export default {
         scroller.scrollTop(scrollTop)
         this.loading = false
         loader.hide()
-      }, 1500)
+      }, 500)
     }
   }
 }
