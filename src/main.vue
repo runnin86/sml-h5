@@ -16,7 +16,7 @@
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
 import {hpApi, planApi} from './util/service'
-import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10, setShowImg} from './vuex/actions'
+import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10, loadUserUnreadMsg, setShowImg} from './vuex/actions'
 import store from './vuex/store'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
@@ -32,6 +32,7 @@ export default {
       loadScrollMsgForHP,
       loadHpList,
       loadHpList10,
+      loadUserUnreadMsg,
       setShowImg
     },
     getters: {
@@ -43,7 +44,8 @@ export default {
       hpScrollmsg: state => state.hpScrollmsg,
       itemList: state => state.hpList,
       itemList10: sate => sate.hpList10,
-      showImg: state => state.showImg
+      showImg: state => state.showImg,
+      userUnreadMsg: state => state.userUnreadMsg
     }
   },
   ready () {

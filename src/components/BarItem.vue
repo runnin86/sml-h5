@@ -7,7 +7,7 @@
     </span>
     <span v-else class="icon" :class="iconClass"></span>
     <span class="tab-label" v-text="label" :style="{top: t + 'rem'}"></span>
-    <span class="badge" v-if="b>0" v-text="b>99?'...':b"></span>
+    <span class="badge" v-if="b>0" v-text="b>99?'99':b"></span>
   </a>
 </template>
 <script>

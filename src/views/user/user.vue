@@ -13,10 +13,21 @@
       <ul style="background-image: url('/img/个人中心/个人背景图片.png')">
         <li class="item-content">
           <div style="width:100%;color:#FFFFFF;font-size:1.2rem;">
-            <span class="icon icon-settings pull-right r08"
-              v-link="{ path: '/user/setting', replace: false}"></span>
-            <span class="icon icon-message pull-right r08"
-              v-link="{ path: '/user/message', replace: false}"></span>
+            <a v-link="{ path: '/user/setting', replace: false}">
+              <span class="pull-right r08">
+                <img src="/img/个人中心/设置按钮.png" class="img-responsive"
+                  width="22" height="22">
+              </span>
+            </a>
+            <a v-link="{ path: '/user/message', replace: false}">
+              <span class="pull-right r08">
+                <img src="/img/个人中心/信息按钮.png" class="img-responsive"
+                  width="27" height="18">
+              </span>
+              <span class="pull-right badge-user"
+                v-if="this.$root.userUnreadMsg.length>0"
+                v-text="this.$root.userUnreadMsg.length>99?'99':this.$root.userUnreadMsg.length"></span>
+            </a>
           </div>
         </li>
         <li class="item-content" style="margin-top:-0.4rem;margin-left:-0.76rem;">
@@ -203,6 +214,8 @@ export default {
           this.getUsersales(token)
           // 获取用户销量(上月)
           this.getLastsales(token)
+          // 从vuex中获取用户未读消息
+          this.$root.loadUserUnreadMsg()
           // 加载完毕需要重置
           $.pullToRefreshDone('.pull-to-refresh-content')
           $.hideIndicator()
@@ -522,5 +535,20 @@ export default {
   font-size: 0.68rem;
   /*margin: 0 auto;*/
   /*text-align: center;*/
+}
+.badge-user {
+  display: inline-block;
+  padding: 0.15rem 0.28rem 0.15rem;
+  margin-right: -1.7rem;
+  font-size: 0.6rem;
+  line-height: 1;
+  color: #000000;
+  /*background-color: #FFF4C1;*/
+  background-color: #ed8e07;
+  border-radius: 5rem;
+}
+.badge-user.badge-inverted {
+  /*padding: 0 0.25rem 0 0;
+  background-color: transparent;*/
 }
 </style>

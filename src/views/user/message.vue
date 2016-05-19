@@ -21,7 +21,7 @@
             <!-- <div class="item-after">{{ml.msg_touser}}</div> -->
             <!-- <div class="item-after">{{ml.msg_type}}</div> -->
             <div style="position:relative;">
-              <i v-if="ml.msg_isread === 0"></i>
+              <i v-if="ml.msg_isread === 1"></i>
               <font style="margin-left:0.6rem;">{{ml.msg_title}}</font>
             </div>
             <div>{{ml.msg_createtime.replace('T', ' ').replace('.000Z', ' ')}}</div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {loader} from '../../util/util'
+import {loader, dateFormat} from '../../util/util'
 import {userApi} from '../../util/service'
 import $ from 'zepto'
 
@@ -92,6 +92,9 @@ export default {
               return
             }
             for (let m of result.msglist) {
+              // 时间需要转换,参见util里的dateFormat
+              let utcDate = new Date(m.msg_createtime)
+              m.msg_createtime = dateFormat(utcDate, 'yyyy-MM-dd HH:mm:ss')
               this.msglist.push(m)
             }
           }

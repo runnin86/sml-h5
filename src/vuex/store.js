@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {planApi, hpApi} from '../util/service'
+import {planApi, hpApi, userApi} from '../util/service'
 import $ from 'zepto'
 
 Vue.use(Vuex)
@@ -18,7 +18,8 @@ const state = {
   }],
   hpList: [],
   hpList10: [],
-  showImg: window.localStorage.getItem('imageSwitch')
+  showImg: window.localStorage.getItem('imageSwitch'),
+  userUnreadMsg: []
 }
 
 const mutations = {
@@ -225,9 +226,41 @@ const mutations = {
       console.error('无法连接服务器-获取十元专区商品列表:' + e)
     })
   },
+  /*
+   * 设置是否展示图片
+   */
   showImg (state, flag) {
     window.localStorage.setItem('imageSwitch', flag)
     state.showImg = flag
+  },
+  /*
+   * 获取用户未读消息数量(因接口未完善,此处只是去查询第一页100条内的未读条数)
+   */
+  userUnreadMsg () {
+    // console.log('获取用户消息列表!')
+    let token = window.localStorage.getItem('token')
+    let param = '?pagenum=1&pagesize=100'
+    Vue.http.get(userApi.userMessage + param, {}, {
+      headers: {
+        'x-token': token
+      },
+      emulateJSON: true
+    })
+    .then(({data: {code, msg, result}})=>{
+      if (code === 1) {
+        state.userUnreadMsg = []
+        if (result.msglist.length > 0) {
+          for (let m of result.msglist) {
+            // 1=未读;0=已读
+            if (m.msg_isread === 1) {
+              state.userUnreadMsg.push(m)
+            }
+          }
+        }
+      }
+    }).catch((e)=>{
+      console.error('获取用户消息失败:' + e)
+    })
   }
 }
 

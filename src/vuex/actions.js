@@ -17,4 +17,6 @@ export const loadHpList = ({dispatch}) => dispatch('hpList')
 
 export const loadHpList10 = ({dispatch}) => dispatch('hpList10')
 
+export const loadUserUnreadMsg = ({dispatch}) => dispatch('userUnreadMsg')
+
 export const setShowImg = ({dispatch}, n) => dispatch('showImg', n)
