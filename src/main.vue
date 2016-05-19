@@ -16,7 +16,7 @@
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
 import {hpApi, planApi} from './util/service'
-import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10} from './vuex/actions'
+import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10, setShowImg} from './vuex/actions'
 import store from './vuex/store'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
@@ -31,7 +31,8 @@ export default {
       loadBannerForHP,
       loadScrollMsgForHP,
       loadHpList,
-      loadHpList10
+      loadHpList10,
+      setShowImg
     },
     getters: {
       // 注意在这里你需要'getCount'函数本身而不是它的执行结果'getCount()'
@@ -41,7 +42,8 @@ export default {
       hpBanner: state=> state.hpBanner,
       hpScrollmsg: state => state.hpScrollmsg,
       itemList: state => state.hpList,
-      itemList10: sate => sate.hpList10
+      itemList10: sate => sate.hpList10,
+      showImg: state => state.showImg
     }
   },
   ready () {

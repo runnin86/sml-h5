@@ -24,7 +24,7 @@
                 <div class="item-title label">加载图片</div>
                 <div class="item-input">
                   <label class="label-switch pull-right">
-                    <input type="checkbox" v-model="showImg" disabled="true">
+                    <input type="checkbox" v-model="showImg">
                     <div class="checkbox"></div>
                   </label>
                 </div>
@@ -47,7 +47,7 @@ export default {
   },
   data () {
     return {
-      showImg: window.localStorage.getItem('imageSwitch') === 'true'
+      showImg: this.$root.showImg
     }
   },
   methods: {
@@ -85,7 +85,8 @@ export default {
   watch: {
     'showImg': {
       handler: function (val, oldVal) {
-        window.localStorage.setItem('imageSwitch', Boolean(val))
+        // 调用vuex方法改变展示图片开关
+        this.$root.setShowImg(Boolean(val))
       }
     }
   }

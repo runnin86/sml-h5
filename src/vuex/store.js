@@ -18,7 +18,7 @@ const state = {
   }],
   hpList: [],
   hpList10: [],
-  showImg: window.localStorage.getItem('imageSwitch') === 'true'
+  showImg: window.localStorage.getItem('imageSwitch')
 }
 
 const mutations = {
@@ -26,13 +26,17 @@ const mutations = {
    * 获取banner-方案
    */
   bannerForPlan () {
+    if (!state.showImg) {
+      state.planBanner = []
+      return
+    }
     // console.log('刷新banner-方案!')
     // 获取banner的图片数据-方案
     Vue.http.get(planApi.banner)
     .then(({data: {code, msg, info}})=>{
       if (code === 1) {
         state.planBanner = []
-        if (info.length > 0 && state.showImg) {
+        if (info.length > 0) {
           for (var i = 0; i < info.length; i++) {
             state.planBanner.push({
               content: info[i].img
@@ -121,12 +125,16 @@ const mutations = {
    * 获取banner-乐夺宝
    */
   bannerForHP () {
+    if (!state.showImg) {
+      state.hpBanner = []
+      return
+    }
     // console.log('刷新banner-乐夺宝!')
     Vue.http.get(hpApi.banner)
     .then(({data: {code, msg, info}})=>{
       if (code === 1) {
         state.hpBanner = []
-        if (info.length > 0 && state.showImg) {
+        if (info.length > 0) {
           for (var i = 0; i < info.length; i++) {
             state.hpBanner.push({
               content: info[i].img
@@ -216,6 +224,10 @@ const mutations = {
     }).catch((e)=>{
       console.error('无法连接服务器-获取十元专区商品列表:' + e)
     })
+  },
+  showImg (state, flag) {
+    window.localStorage.setItem('imageSwitch', flag)
+    state.showImg = flag
   }
 }
 
