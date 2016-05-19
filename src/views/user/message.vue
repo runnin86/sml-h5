@@ -9,7 +9,7 @@
   <div class="content list" v-infinite-scroll="loadMore">
     <div class="list-block infinite-list">
       <ul v-for="ml in msglist" track-by="$index">
-        <li class="item-content" @click="showMsg('m_' + $index,$event)">
+        <li class="item-content" @click="showMsg('m_' + $index,ml.msg_id,$event)">
           <!-- <div class="item-media"><i class="icon icon-dianji"></i></div> -->
           <div class="item-inner">
             <!-- <div class="item-after">{{ml.msg_id}}</div> -->
@@ -95,6 +95,8 @@ export default {
               // 时间需要转换,参见util里的dateFormat
               let utcDate = new Date(m.msg_createtime)
               m.msg_createtime = dateFormat(utcDate, 'yyyy-MM-dd HH:mm:ss')
+              // 此处只查询列表,不展示内容,需要把内容设置为空
+              m.msg_content = ''
               this.msglist.push(m)
             }
           }
@@ -106,11 +108,31 @@ export default {
         console.error('获取用户消息失败:' + e)
       })
     },
-    showMsg (id, e) {
+    showMsg (id, mid, e) {
       if (document.getElementById(id).style.display === 'block') {
         document.getElementById(id).style.display = 'none'
       }
       else {
+        let token = window.localStorage.getItem('token')
+        this.$http.get(userApi.queryMessage + '?msgid=' + mid, {}, {
+          headers: {
+            'x-token': token
+          },
+          emulateJSON: true
+        })
+        .then(({data: {code, msg, result}})=>{
+          if (code === 1) {
+            for (let m of this.msglist) {
+              //  成功则遍历设置该消息已读,去除头部红点
+              if (m.msg_id === result.msg_id) {
+                m.msg_isread = result.msg_isread
+                m.msg_content = result.msg_content
+              }
+            }
+          }
+        }).catch((e)=>{
+          console.error('获取用户消息失败:' + e)
+        })
         document.getElementById(id).style.display = 'block'
       }
     },

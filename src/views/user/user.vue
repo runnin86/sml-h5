@@ -183,6 +183,11 @@ export default {
     else {
       this.refresh()
     }
+    setInterval(()=> {
+      // 30秒定时查询
+      // 从vuex中获取用户未读消息
+      this.$root.loadUserUnreadMsg()
+    }, 30000)
   },
   data () {
     return {
