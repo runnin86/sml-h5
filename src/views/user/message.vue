@@ -24,7 +24,7 @@
               <i v-if="ml.msg_isread === 1"></i>
               <font style="margin-left:0.6rem;">{{ml.msg_title}}</font>
             </div>
-            <div>{{ml.msg_createtime.replace('T', ' ').replace('.000Z', ' ')}}</div>
+            <div>{{ml.msgCreateTime}}</div>
           </div>
         </li>
         <li class="item-content" :id="'m_' + $index" style="display: none;background-color: #FFF7FB;">
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {loader, dateFormat} from '../../util/util'
+import {loader} from '../../util/util'
 import {userApi} from '../../util/service'
 import $ from 'zepto'
 
@@ -93,9 +93,9 @@ export default {
             }
             for (let m of result.msglist) {
               // 时间需要转换,参见util里的dateFormat
-              let utcDate = new Date(m.msg_createtime)
-              m.msg_createtime = dateFormat(utcDate, 'yyyy-MM-dd HH:mm:ss')
-              // 此处只查询列表,不展示内容,需要把内容设置为空
+              // let utcDate = new Date(m.msg_createtime)
+              // m.msg_createtime = dateFormat(utcDate, 'yyyy-MM-dd HH:mm:ss')
+              // 需要模拟msg_content字段
               m.msg_content = ''
               this.msglist.push(m)
             }
