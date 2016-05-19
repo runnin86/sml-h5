@@ -19,7 +19,7 @@ const state = {
   hpList: [],
   hpList10: [],
   showImg: window.localStorage.getItem('imageSwitch'),
-  userUnreadMsg: []
+  userUnreadMsg: 0
 }
 
 const mutations = {
@@ -239,8 +239,7 @@ const mutations = {
   userUnreadMsg () {
     // console.log('获取用户消息列表!')
     let token = window.localStorage.getItem('token')
-    let param = '?pagenum=1&pagesize=100'
-    Vue.http.get(userApi.userMessage + param, {}, {
+    Vue.http.get(userApi.newMsgTotal, {}, {
       headers: {
         'x-token': token
       },
@@ -248,18 +247,13 @@ const mutations = {
     })
     .then(({data: {code, msg, result}})=>{
       if (code === 1) {
-        state.userUnreadMsg = []
-        if (result.msglist.length > 0) {
-          for (let m of result.msglist) {
-            // 1=未读;0=已读
-            if (m.msg_isread === 1) {
-              state.userUnreadMsg.push(m)
-            }
-          }
+        state.userUnreadMsg = 0
+        if (result[0]) {
+          state.userUnreadMsg = result[0].msgNewCount
         }
       }
     }).catch((e)=>{
-      console.error('获取用户消息失败:' + e)
+      console.error('获取用户未读消息数量失败:' + e)
     })
   }
 }

@@ -25,8 +25,8 @@
                   width="27" height="18">
               </span>
               <span class="pull-right badge-user"
-                v-if="this.$root.userUnreadMsg.length>0"
-                v-text="this.$root.userUnreadMsg.length>99?'99':this.$root.userUnreadMsg.length"></span>
+                v-if="this.$root.userUnreadMsg>0"
+                v-text="this.$root.userUnreadMsg>99?'99':this.$root.userUnreadMsg"></span>
             </a>
           </div>
         </li>

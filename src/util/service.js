@@ -71,8 +71,12 @@ export let userApi = {
   userSales: URL_COMMON + 'nowmflow',
   // 我的销量(上月)
   lastSales: URL_COMMON + 'lastmflow',
+  // 未读消息
+  newMsgTotal: URL_COMMON + 'newmsgtotal',
   // 我的消息
   userMessage: URL_COMMON + 'usermsg',
+  // 消息查询
+  queryMessage: URL_COMMON + 'msgbyid',
   // 我的消息(删除)
   delMessage: URL_COMMON + 'delmsgbyid',
   // 我的二维码
