@@ -1,11 +1,12 @@
 <template>
   <div>
-    <canvas id="qrCanvas"
+    <canvas id="qrCanvas" style="display:none;"
       :style="{height: size + 'px', width: size + 'px'}"
       height={{size}}
       width={{size}}
-      v-el:qr
-    ></canvas>
+      v-el:qr>
+    </canvas>
+    <img id="qrImg" :style="{height: size + 'px', width: size + 'px'}"/>
   </div>
 </template>
 
@@ -53,6 +54,9 @@ export default {
   },
   ready () {
     this.update()
+    var myCanvas = document.getElementById('qrCanvas')
+    let img64 = myCanvas.toDataURL('image/png')
+    document.getElementById('qrImg').src = img64
   },
   methods: {
     update () {
