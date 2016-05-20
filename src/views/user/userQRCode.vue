@@ -11,17 +11,12 @@
     <v-content type="block" >
       <div class="invite-card" v-if="qrUrl">
           <div class="invite-card-content" style="height:100%;">
-            <v-qrcode id="canvas" :val="qrUrl" style="margin-left:1.6rem;"
+            <v-qrcode :val="qrUrl" style="margin-left:1.6rem;"
               :size="size" :bg-color="bgColor"
               :fg-color="fgColor" level="L"></v-qrcode>
           </div>
       </div>
     </v-content>
-    <div class="download-button">
-      <button class="button button-big button-fill" @click="saveAsLocalImage()">
-        <span class="icon icon-download"></span>
-      </button>
-    </div>
   </div>
 </div>
 </template>
@@ -43,8 +38,6 @@ export default {
     .then(({data: {code, msg, result}})=>{
       if (code === 1) {
         this.$set('qrUrl', result)
-        // var imgSrc = document.getElementById('canvas').toDataUrl('image/png')
-        // console.log(imgSrc)
       }
       else {
         $.toast(msg)
@@ -65,13 +58,6 @@ export default {
   components: {
     VContent,
     VQrcode
-  },
-  methods: {
-    saveAsLocalImage () {
-      var myCanvas = document.getElementById('qrCanvas')
-      var image = myCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-      window.location.href = image
-    }
   }
 }
 </script>
@@ -95,17 +81,5 @@ export default {
 }
 .color {
   background-color: #ed8e07;
-}
-.download-button {
-  display: none;
-  margin-top: .8rem;
-  width: 100%;
-  padding: 0 .45rem;
-}
-.download-button button {
-  background-color: #ed8e07;
-  width: 100%;
-  line-height: 2.1rem !important;
-  height: 2.1rem !important;
 }
 </style>

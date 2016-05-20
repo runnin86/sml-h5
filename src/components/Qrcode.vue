@@ -54,6 +54,7 @@ export default {
   },
   ready () {
     this.update()
+    // 隐藏的canvas转换为图片
     var myCanvas = document.getElementById('qrCanvas')
     let img64 = myCanvas.toDataURL('image/png')
     document.getElementById('qrImg').src = img64
