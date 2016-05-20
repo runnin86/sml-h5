@@ -128,7 +128,7 @@
           </div>
         </li>
       </ul>
-      <!-- <ul style="margin-top:0.8rem;">
+      <ul style="margin-top:0.8rem;">
         <li class="item-content item-link" v-link="{ path: '/user/qrCode', replace: false}">
           <div class="item-inner">
             <div class="icon-qrcode item-title">
@@ -136,8 +136,8 @@
             </div>
           </div>
         </li>
-      </ul> -->
-      <ul style="margin-top:0.8rem;">
+      </ul>
+      <ul>
         <li class="item-content item-link" v-link="{ path: '/user/changePwd', replace: false}">
           <div class="item-inner">
             <div class="icon-pwd item-title">

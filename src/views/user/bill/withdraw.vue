@@ -15,10 +15,10 @@
               {{t.withdraw_date}}
           </div>
           <div class="item-title2"
-            :style="{color:t.withdraw_status===0?'red':''}"
+            :style="{color:t.withdraw_status===2?'red':''}"
             style="width:30%;text-align:center;">
             <!-- {{t.recharge_remarks}} -->
-            {{t.withdraw_status===0?'失败':'成功'}}
+            {{t.withdraw_status===0?'审核中':(t.withdraw_status===1?'成功':'失败')}}
           </div>
           <div class="item-title2" style="width:20%;text-align:right;">
             {{t.withdraw_money}}
