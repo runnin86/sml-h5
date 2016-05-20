@@ -84,7 +84,7 @@
           <div class="item-title2">
             方案内容
             <font style="font-size:0.48rem;color:gray;">
-              (方案内容在销售截止后才可观看)
+              (夜里12点以后看到专家的方案)
             </font>
           </div>
         </div>
@@ -210,7 +210,7 @@
       showInfo (id, e) {
         if (id === 'planContent') {
           if (!this.plan.plan_content) {
-            $.toast('方案销售截止后，才可观看!')
+            $.toast('夜里12点以后看到专家的方案!')
             return
           }
         }
