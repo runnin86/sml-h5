@@ -40,6 +40,8 @@ export default {
   },
   methods: {
     login () {
+      // 登录时清空公告Id对象
+      window.localStorage.removeItem('globalNoticeId')
       if (!this.userName || !this.password) {
         $.toast('请输入用户名或密码')
         return
@@ -55,6 +57,8 @@ export default {
           window.localStorage.setItem('user', JSON.stringify(info.user))
           window.localStorage.setItem('token', info.token)
           window.localStorage.setItem('imageSwitch', true)
+          // 调用公告处理
+          this.$root.loadNotice()
           this.$route.router.go({path: this.path, replace: true})
           // 设置购物车图标
           this.$root.setCardBadge()

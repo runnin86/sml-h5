@@ -255,6 +255,51 @@ const mutations = {
     }).catch((e)=>{
       console.error('获取用户未读消息数量失败:' + e)
     })
+  },
+  /*
+   * 获取系统公告
+   */
+  notice () {
+    // console.log('获取系统公告!')
+    let token = window.localStorage.getItem('token')
+    Vue.http.get(userApi.notice, {}, {
+      headers: {
+        'x-token': token
+      },
+      emulateJSON: true
+    })
+    .then(({data: {code, msg, result}})=>{
+      if (code === 1 && result) {
+        // console.log(result)
+        let isShow = false
+        let globalNoticeId = window.localStorage.getItem('globalNoticeId')
+        if (globalNoticeId) {
+          if (result.notice_id !== globalNoticeId) {
+            // 消息ID变更则重新存储globalNotice对象
+            window.localStorage.setItem('globalNoticeId', result.notice_id)
+            isShow = true
+          }
+        }
+        else {
+          // 不存在需要新增本地缓存级别的系统通知对象
+          window.localStorage.setItem('globalNoticeId', result.notice_id)
+          isShow = true
+        }
+        // 判断是否展示
+        if (isShow) {
+          $.modal({
+            title: result.notice_title,
+            text: '<div style="font-size:0.62rem;">' + result.notice_content + '</div>',
+            buttons: [{
+              text: '确定',
+              bold: true
+            }]
+          })
+        }
+      }
+    }).catch((e)=>{
+      console.error('获取系统公告失败:' + e)
+    })
   }
 }
 

@@ -16,7 +16,7 @@
 import Bar from './components/Bar'
 import BarItem from './components/BarItem'
 import {hpApi, planApi} from './util/service'
-import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10, loadUserUnreadMsg, setShowImg} from './vuex/actions'
+import {loadScrollMsgForPlan, loadBannerForPlan, loadRangeList, loadBannerForHP, loadScrollMsgForHP, loadHpList, loadHpList10, loadUserUnreadMsg, loadNotice, setShowImg} from './vuex/actions'
 import store from './vuex/store'
 // import {wxShareConfig} from './util/util'
 import $ from 'zepto'
@@ -33,6 +33,7 @@ export default {
       loadHpList,
       loadHpList10,
       loadUserUnreadMsg,
+      loadNotice,
       setShowImg
     },
     getters: {
@@ -45,7 +46,8 @@ export default {
       itemList: state => state.hpList,
       itemList10: sate => sate.hpList10,
       showImg: state => state.showImg,
-      userUnreadMsg: state => state.userUnreadMsg
+      userUnreadMsg: state => state.userUnreadMsg,
+      notice: state => state.notice
     }
   },
   ready () {
@@ -58,6 +60,7 @@ export default {
       this.loadBannerForPlan()
       this.loadScrollMsgForPlan()
       this.loadRangeList()
+      this.loadNotice()
     }
     // 微信配置参数
     $.sign = {
