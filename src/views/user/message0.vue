@@ -2,42 +2,31 @@
 <div class="content message" transition="bounce">
   <header class="bar bar-nav">
     <a class="button button-link button-nav pull-left" v-link="{path: '/user', replace: true}">
-      <span class="icon icon-left"></span>
+    <span class="icon icon-left"></span>
     </a>
-    <button @click="editList()"
-      style="margin-right:0.1rem;font-size:0.78rem;color:#2F0000;"
-      class="button button-link button-nav pull-right">
-      {{editDesc}}
-    </button>
     <h1 class="title color">我的消息</h1>
   </header>
   <div class="content list" v-infinite-scroll="loadMore">
     <div class="list-block infinite-list">
       <ul v-for="ml in msglist" track-by="$index">
-        <li class="item-content"
-          @click="showMsg('m_' + $index,ml.msg_id,$event)">
-          <label class="label-checkbox item-content"
-            style="width:100%;padding-left:0rem;">
-            <input type="checkbox" :value="ml.msg_id" v-model="ids">
-            <div class="item-media" v-if="checkBox">
-              <i class="icon icon-form-checkbox"></i>
+        <li class="item-content" @click="showMsg('m_' + $index,ml.msg_id,$event)">
+          <!-- <div class="item-media"><i class="icon icon-dianji"></i></div> -->
+          <div class="item-inner">
+            <!-- <div class="item-after">{{ml.msg_id}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_title}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_content}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_createtime.replace('T', ' ').replace('.000Z', ' ')}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_isread}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_remark}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_touser}}</div> -->
+            <!-- <div class="item-after">{{ml.msg_type}}</div> -->
+            <div style="position:relative;">
+              <i v-if="ml.msg_isread === 1"></i>
+              <font style="margin-left:0.6rem;">{{ml.msg_title}}</font>
             </div>
-            <div class="item-inner">
-              <!-- <div class="item-after">{{ml.msg_id}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_title}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_content}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_createtime.replace('T', ' ').replace('.000Z', ' ')}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_isread}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_remark}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_touser}}</div> -->
-              <!-- <div class="item-after">{{ml.msg_type}}</div> -->
-              <div class="item-title">
-                <i v-if="ml.msg_isread === 1" class="redPoint"></i>
-                <font style="margin-left:0.6rem;">{{ml.msg_title}}</font>
-              </div>
-              <div class="item-after">{{ml.msgCreateTime}}</div>
-            </div>
-          </label>
+            <div>{{ml.msgCreateTime}}</div>
+          </div>
+          <div class="btn" style="line-height:2.2rem;">删除</div>
         </li>
         <li class="item-content" :id="'m_' + $index" style="display: none;background-color: #FFF7FB;">
           <div class="item-inner">
@@ -55,27 +44,6 @@
       </div>
     </div>
   </div>
-  <div class="toolBarDel" v-if="checkBox">
-    <div class="list-block">
-      <ul>
-        <li class="item-content del-bottomLi">
-          <label class="label-checkbox item-content"
-            style="width:2rem;padding-left:0rem;">
-            <input type="checkbox" v-model="checkAll" @change="doCheckAll()">
-            <div class="item-media" v-if="checkBox">
-              <i class="icon icon-form-checkbox"></i>
-            </div>
-          </label>
-          <div class="item-inner">
-            <div class="item-title">全选</div>
-            <div class="del-button">
-              <button class="button button-fill button-danger" @click="doDel()">删除</button>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
 </div>
 </template>
 
@@ -83,6 +51,77 @@
 import {loader} from '../../util/util'
 import {userApi} from '../../util/service'
 import $ from 'zepto'
+
+window.addEventListener('load', function () {
+  var initX
+  var moveX
+  var X = 0
+  var objX = 0
+  window.addEventListener('touchstart', function (event) {
+    event.preventDefault()
+    var obj = event.target.parentNode
+    if (obj.className === 'item-content') {
+      initX = event.targetTouches[0].pageX
+      objX = (obj.style.WebkitTransform.replace(/translateX\(/g, '').replace(/px\)/g, '')) * 1
+    }
+    if (objX === 0) {
+      window.addEventListener('touchmove', function (event) {
+        event.preventDefault()
+        var obj = event.target.parentNode
+        if (obj.className === 'item-content') {
+          moveX = event.targetTouches[0].pageX
+          X = moveX - initX
+          if (X > 0) {
+            obj.style.WebkitTransform = 'translateX(' + 0 + 'px)'
+          }
+          else if (X < 0) {
+            var l = Math.abs(X)
+            obj.style.WebkitTransform = 'translateX(' + -l + 'px)'
+            if (l > 80) {
+              l = 80
+              obj.style.WebkitTransform = 'translateX(' + -l + 'px)'
+            }
+          }
+        }
+      })
+    }
+    else if (objX < 0) {
+      window.addEventListener('touchmove', function (event) {
+        event.preventDefault()
+        var obj = event.target.parentNode
+        if (obj.className === 'item-content') {
+          moveX = event.targetTouches[0].pageX
+          X = moveX - initX
+          if (X > 0) {
+            var r = -80 + Math.abs(X)
+            obj.style.WebkitTransform = 'translateX(' + r + 'px)'
+            if (r > 0) {
+              r = 0
+              obj.style.WebkitTransform = 'translateX(' + r + 'px)'
+            }
+          }
+          else {
+            // 向左滑动
+            obj.style.WebkitTransform = 'translateX(' + -80 + 'px)'
+          }
+        }
+      })
+    }
+  })
+  window.addEventListener('touchend', function (event) {
+    event.preventDefault()
+    var obj = event.target.parentNode
+    if (obj.className === 'item-content') {
+      objX = (obj.style.WebkitTransform.replace(/translateX\(/g, '').replace(/px\)/g, '')) * 1
+      if (objX > -40) {
+        obj.style.WebkitTransform = 'translateX(' + 0 + 'px)'
+      }
+      else {
+        obj.style.WebkitTransform = 'translateX(' + -80 + 'px)'
+      }
+    }
+  })
+})
 
 export default {
   route: {
@@ -99,11 +138,7 @@ export default {
       msglist: [],
       pagenum: 1,
       pagesize: 10,
-      loading: false,
-      checkBox: false,
-      checkAll: false,
-      editDesc: '编辑',
-      ids: []
+      loading: false
     }
   },
   computed: {
@@ -146,10 +181,6 @@ export default {
       })
     },
     showMsg (id, mid, e) {
-      if (this.checkBox) {
-        // checkBox选择状态时,不做展开操作
-        return
-      }
       if (document.getElementById(id).style.display === 'block') {
         document.getElementById(id).style.display = 'none'
       }
@@ -195,66 +226,6 @@ export default {
         this.loading = false
         loader.hide()
       }, 500)
-    },
-    editList () {
-      if (!this.checkBox) {
-        this.editDesc = '完成'
-        this.checkBox = true
-      }
-      else {
-        this.editDesc = '编辑'
-        this.checkBox = false
-      }
-    },
-    doCheckAll () {
-      this.ids = []
-      if (this.checkAll) {
-        // 全选情况下收集所有的id
-        for (let m of this.msglist) {
-          this.ids.push(m.msg_id)
-        }
-      }
-    },
-    doDel () {
-      if (this.ids.length > 0) {
-        let delJson = {'msgids': this.ids}
-        let deleteBody = JSON.stringify(delJson)
-        this.$http.delete(userApi.delMessage, deleteBody,
-          {
-            headers: {
-              'x-token': window.localStorage.getItem('token')
-            },
-            emulateJSON: true
-          })
-       .then(({data: {code, msg, result}})=>{
-         if (code === 1) {
-           $.toast('操作成功!')
-           // 删除成功
-           this.checkBox = false
-           this.editDesc = '编辑'
-           this.msglist = []
-           this.getMessage()
-         }
-         else {
-           $.toast(msg)
-         }
-       }).catch((e)=>{
-         console.log('删除我的消息异常:')
-         console.error(e)
-       })
-      }
-    }
-  },
-  watch: {
-    'ids': {
-      handler: function (newVal, oldVal) {
-        if (newVal.length === this.length) {
-          this.checkAll = true
-        }
-        else {
-          this.checkAll = false
-        }
-      }
     }
   }
 }
@@ -290,7 +261,7 @@ export default {
 .color {
   background-color: #ed8e07;
 }
-.redPoint {
+i{
   display:block;
   background: #f00;
   border-radius: 50%;
@@ -300,20 +271,22 @@ export default {
   /*left:-0.2rem;*/
   position: absolute;
 }
-.toolBarDel {
-  position:absolute;
-  bottom:-1rem;
-  width:100%;
-  text-align:center;
-}
-.del-button button {
-  width: 100%;
-  /*line-height: 2.1rem !important;
-  height: 2.1rem !important;*/
-}
-.del-bottomLi {
-  background-color: #FFFFF0;
-  font-size: 0.7rem;
-  height: 2.4rem;
+
+/**{ padding:0; margin:0; list-style: none;}
+header{ background: #f7483b; border-bottom: 1px solid #ccc}
+header h2{ text-align: center; line-height: 54px; font-size: 16px; color: #fff}
+.list-ul{ overflow: hidden}
+.list-li{ line-height: 60px; border-bottom: 1px solid #fcfcfc; position:relative;padding: 0 12px; color: #666;
+  background: #f2f2f2;
+  -webkit-transform: translateX(0px);
+}*/
+.btn{
+  position: absolute;
+  top: 0;
+  right: -80px;
+  text-align: center;
+  background: #ffcb20;
+  color: #fff;
+  width: 80px
 }
 </style>
