@@ -289,7 +289,7 @@ const mutations = {
         if (isShow) {
           $.modal({
             title: result.notice_title,
-            text: '<div style="font-size:0.62rem;">' + result.notice_content + '</div>',
+            text: '<div class="native-scroll" style="font-size:0.62rem;height:10rem;overflow-y:auto;overflow-x:hidden;">' + result.notice_content + '</div>',
             buttons: [{
               text: '确定',
               bold: true
