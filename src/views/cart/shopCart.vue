@@ -7,7 +7,7 @@
       <v-layer></v-layer>
       <v-tabs type="tab" class-name="article-tabs" style="margin-top:0.1rem;" @click="selectTab($event)">
         <v-tab name="tab-planList" status="active" title="方案">
-          <div class="list-block infinite-list" style="margin-top:0.1rem;">
+          <div v-if="!showPlanWarning" class="list-block infinite-list" style="margin-top:0.1rem;">
             <ul>
               <li class="item-content" id="cartRecord" style="padding-left:0rem;"
                 v-for="plan in plans" track-by="$index">
@@ -81,7 +81,7 @@
           </div>
         </v-tab>
         <v-tab name="tab-hpList" title="一元夺宝">
-          <div class="list-block infinite-list" style="margin-top:0.1rem;">
+          <div v-if="!showHpWarning" class="list-block infinite-list" style="margin-top:0.1rem;">
             <ul>
               <li class="item-content" id="cartRecord" style="padding-left:0rem;"
                 v-for="item in items" track-by="$index">
