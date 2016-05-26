@@ -53,15 +53,20 @@ export default {
         })
       .then(({data: {code, msg, info}})=>{
         if (code === 1) {
-          $.toast('登录成功')
-          window.localStorage.setItem('user', JSON.stringify(info.user))
-          window.localStorage.setItem('token', info.token)
-          window.localStorage.setItem('imageSwitch', true)
-          // 调用公告处理
-          this.$root.loadNotice()
-          this.$route.router.go({path: this.path, replace: true})
-          // 设置购物车图标
-          this.$root.setCardBadge()
+          if (info.user.user_status === 0) {
+            $.toast('账户未激活，充值后激活账户')
+          }
+          else if (info.user.user_status === 1) {
+            $.toast('登录成功')
+            window.localStorage.setItem('user', JSON.stringify(info.user))
+            window.localStorage.setItem('token', info.token)
+            window.localStorage.setItem('imageSwitch', true)
+            // 调用公告处理
+            this.$root.loadNotice()
+            this.$route.router.go({path: this.path, replace: true})
+            // 设置购物车图标
+            this.$root.setCardBadge()
+          }
         }
         else {
           $.toast(msg)
