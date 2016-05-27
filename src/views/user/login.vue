@@ -20,6 +20,9 @@
       :class="submit?'button-fill':'disabled'"
       @click="login()">登录</button>
   </div>
+  <div class="pull-right" style="font-size:0.68rem;margin:0.6rem;">
+    <a @click="forgetPwd()">忘记密码?</a>
+  </div>
 </div>
 </template>
 
@@ -33,13 +36,14 @@ export default {
     return {
       title: '登录',
       path: '/' + this.$route.query.from,
-      userName: '',
+      userName: window.localStorage.getItem('localPhone') ? window.localStorage.getItem('localPhone') : '',
       password: '',
       submit: false
     }
   },
   methods: {
     login () {
+      window.localStorage.setItem('localPhone', this.userName)
       // 登录时清空公告Id对象
       window.localStorage.removeItem('globalNoticeId')
       if (!this.userName || !this.password) {
@@ -75,6 +79,9 @@ export default {
         $.alert('服务器连接中断...')
         console.error('无法连接服务器:' + e)
       })
+    },
+    forgetPwd () {
+      this.$route.router.go({path: '/user/forgetPwd', replace: false})
     }
   },
   watch: {

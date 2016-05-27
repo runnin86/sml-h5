@@ -124,6 +124,11 @@ export default function (router) {
         require(['./views/user/bill/reward'], resolve)
       }
     },
+    '/user/forgetPwd': {
+      component (resolve) {
+        require(['./views/user/forgetPwd'], resolve)
+      }
+    },
     '/more': {
       component (resolve) {
         require(['./views/more/more'], resolve)
