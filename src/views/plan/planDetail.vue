@@ -49,11 +49,12 @@
         <div class="pull-left" style="margin-left:-0.4rem;">
           方案数:{{summary.planTotalNum}}
         </div>
-        <div class="center2">
+        <!-- <div class="center2">
           胜率:{{parseInt(summary.winrate*100, 0)}}%
-        </div>
+        </div> -->
         <div class="pull-right r04">
-          奖金:{{summary.totalProfit}}
+          <!-- 奖金:{{summary.totalProfit}} -->
+          胜率:{{parseInt(summary.winrate*100, 0)}}%
         </div>
       </li>
       <li class="item-content" v-if="!plan.plan_content"
