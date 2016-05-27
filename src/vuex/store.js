@@ -66,7 +66,6 @@ const mutations = {
       emulateJSON: true
     })
     .then(({data: {code, msg, result}})=>{
-      // console.log(data)
       // content: '<div style="font-size:0.72em;line-height:2rem;color:#FFFFFF;">温馨提示：理性投注，长跟场红</div>'
       if (code === 1 && result.length > 0) {
         state.planScrollMsg = []
@@ -82,7 +81,7 @@ const mutations = {
         }
       }
       else {
-        console.error('获取方案滚动消息失败:' + msg)
+        console.error('获取方案滚动消息失败:' + msg + '->' + result)
       }
     }).catch((e)=>{
       console.log('无法连接服务器-获取方案滚动消息')
