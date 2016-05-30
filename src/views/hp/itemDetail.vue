@@ -7,7 +7,7 @@
       <div>
         <!-- 轮播图 -->
         <slider :banner="banner" class="detailSlider"
-          style="z-index:9999;background-color:#FFFFFF;"></slider>
+          style="z-index:9999;background-color:#FFFFFF;" lazy></slider>
       </div>
       <div class="list-block media-list" style="margin:0rem;">
         <ul>

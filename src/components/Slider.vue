@@ -34,7 +34,7 @@ export default {
         isAutoplay: true, // 自动播放
         isOverspread: true // 背景平铺
       })
-    }, 2000)
+    }, 100)
   }
 }
 </script>
