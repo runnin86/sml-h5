@@ -10,8 +10,8 @@
     <p class="color-gray"></p>
     <v-content type="block" >
       <div class="invite-card" v-if="qrUrl">
-          <div class="invite-card-content" style="height:100%;">
-            <v-qrcode :val="qrUrl" style="margin-left:1.6rem;"
+          <div class="invite-card-content" align="center" style="height:100%;width:100%;">
+            <v-qrcode :val="qrUrl"
               :size="size" :bg-color="bgColor"
               :fg-color="fgColor" level="L"></v-qrcode>
           </div>
@@ -52,7 +52,7 @@ export default {
       qrUrl: '',
       bgColor: '#FFFFFF',
       fgColor: '#000000',
-      size: 260
+      size: document.body.offsetWidth - 110
     }
   },
   components: {
