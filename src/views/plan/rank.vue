@@ -24,7 +24,7 @@
         </div>
         <div class="item-inner">
           <div class="item-title-row">
-            <div class="item-title" v-text="rank.userId | phone"></div>
+            <div class="item-title" v-text="rank.nickName"></div>
           </div>
           <div class="rank-num" :style="$index+1 | color">{{ $index+1 }}</div>
           <div class="item-subtitle" style="font-size:0.68rem;max-width:90%;">

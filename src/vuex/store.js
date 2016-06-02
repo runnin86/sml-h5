@@ -72,10 +72,10 @@ const mutations = {
         for (var i = 0; i < result.length; i++) {
           let obj = result[i]
           // 隐藏手机号码中间四位
-          let phone = obj.bs_userId.substr(3, 4)
-          let lphone = obj.bs_userId.replace(phone, '****')
+          // let phone = obj.bs_userId.substr(3, 4)
+          // let lphone = obj.bs_userId.replace(phone, '****')
           let scrollText = {content: '<div class="scrollMsgText">用户 ' +
-            lphone + '，上期盈利 ' + (obj.winbonus ? obj.winbonus : 0.0) + ' 元</div>'}
+            obj.nickName + '，上期盈利 ' + (obj.winbonus ? obj.winbonus : 0.0) + ' 元</div>'}
           state.planScrollMsg.push(scrollText)
           // console.log(obj.bs_userId + '->' + obj.winbonus)
         }
