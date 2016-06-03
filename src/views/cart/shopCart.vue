@@ -116,7 +116,7 @@
                     </div>
                     <div style="margin-top:0.3rem;">
                       <span style="font-size:0.5rem;">
-                        人次剩余:<font class="redFont">{{item.totalCount}}</font>
+                        需:<font class="redFont">{{item.amount}}元</font>
                       </span>
                       <span style="font-size:0.5rem;margin-left:1.2rem;">
                         总价:{{item.totalPrice}}.00元
