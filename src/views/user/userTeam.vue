@@ -23,7 +23,7 @@
           <div class="item-title2">
             <img src="/img/我的团队/销量icon.png" width="18" height="19"
               style="margin-right:0.4rem;margin-bottom:-0.16rem;">
-            <!-- {{9622113 | currency '¥'}} -->
+            {{oneLevelFlow | currency '¥'}}
           </div>
         </div>
       </li>
@@ -64,7 +64,7 @@
           <div class="item-title2">
             <img src="/img/我的团队/销量icon.png" width="18" height="19"
               style="margin-right:0.4rem;margin-bottom:-0.16rem;">
-            <!-- {{28688688 | currency '¥'}} -->
+            {{twoLevelFlow | currency '¥'}}
           </div>
         </div>
       </li>
@@ -85,7 +85,7 @@
           <div class="item-title2">
             <img src="/img/我的团队/销量icon.png" width="18" height="19"
               style="margin-right:0.4rem;margin-bottom:-0.16rem;">
-            <!-- {{3982 | currency '¥'}} -->
+            {{threeLevelFlow | currency '¥'}}
           </div>
         </div>
       </li>
@@ -119,6 +119,9 @@ export default {
         this.$set('twoLevelNum', result.twoLevelNum)
         this.$set('threeLevelNum', result.threeLevelNum)
         this.$set('oneLevelUsers', result.oneLevelUsers)
+        this.$set('oneLevelFlow', result.oneLevelFlow)
+        this.$set('twoLevelFlow', result.twoLevelFlow)
+        this.$set('threeLevelFlow', result.threeLevelFlow)
       }
       else {
         $.toast(msg)
@@ -133,8 +136,10 @@ export default {
       oneLevelNum: 0,
       twoLevelNum: 0,
       threeLevelNum: 0,
-      oneLevelUsers: []
-
+      oneLevelUsers: [],
+      oneLevelFlow: 0,
+      twoLevelFlow: 0,
+      threeLevelFlow: 0
     }
   },
   methods: {
