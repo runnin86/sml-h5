@@ -74,10 +74,17 @@ const mutations = {
           // 隐藏手机号码中间四位
           // let phone = obj.bs_userId.substr(3, 4)
           // let lphone = obj.bs_userId.replace(phone, '****')
-          let scrollText = {content: '<div class="scrollMsgText">用户 ' +
-            obj.nickName + '，上期盈利 ' + (obj.winbonus ? obj.winbonus : 0.0) + ' 元</div>'}
-          state.planScrollMsg.push(scrollText)
-          // console.log(obj.bs_userId + '->' + obj.winbonus)
+          if (obj.winbonus > 0) {
+            let scrollText = {content: '<div class="scrollMsgText">用户 ' +
+              obj.nickName + '，上期盈利 ' + obj.winbonus + ' 元</div>'}
+            state.planScrollMsg.push(scrollText)
+            // console.log(obj.bs_userId + '->' + obj.winbonus)
+          }
+        }
+        if (state.planScrollMsg.length === 0) {
+          state.planScrollMsg.push({
+            content: '<div class="scrollMsgText">温馨提示：理性投注，长跟长红</div>'
+          })
         }
       }
       else {
