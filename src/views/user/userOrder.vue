@@ -239,7 +239,7 @@ export default {
     loadMore () {
       let activeTab = $('.active.button.tab-link')[0].hash
       if (activeTab === '#tab-planList') {
-        this.loadMorePlan()
+        // this.loadMorePlan()
       }
       else if (activeTab === '#tab-hpList') {
         this.loadMoreHp()
