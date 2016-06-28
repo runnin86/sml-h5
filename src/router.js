@@ -92,6 +92,7 @@ export default function (router) {
     '/user/help': {
       component (resolve) {
         require(['./views/user/help'], resolve)
+        // require(['./views/user/help-sd'], resolve)
       }
     },
     '/user/commission': {
@@ -142,6 +143,7 @@ export default function (router) {
     '/more/about': {
       component (resolve) {
         require(['./views/more/about'], resolve)
+        // require(['./views/more/about-sd'], resolve)
       }
     }
   })
