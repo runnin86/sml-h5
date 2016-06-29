@@ -12,7 +12,7 @@
         <div class="invite-card-content" style="height:100%;">
             <div class="center_code">
                 <div class="wx_code" style="width:100%;height:100%;margin-top:.6rem;">
-                    <img src="/img/64X64.png" height="64" width="64">
+                    <img src="/img/logo-sd.png" height="64" width="64">
                 </div>
             </div>
             <div class="url" style="margin-left: .4rem;height:auto;margin-bottom: .8rem;">
