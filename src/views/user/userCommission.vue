@@ -10,11 +10,27 @@
     <ul v-for="t in list | orderBy 'order_id' -1">
       <li class="item-content2">
         <div class="item-inner"
-          :style="{color:t.status===0?'#FF4500':(t.status===1?'#DCDCDC':'')}">
+          :style="{color:(t.commissionStatus===4?'#FF4500':'#DCDCDC')}">
           <div class="item-title2">
             <div>
               {{t.from_user_phone}}
-              <font>({{t.status===0?'可提现':(t.status===1?'已提现':'')}})</font>
+              <font>({{t.commissionStatus===4
+                ?
+                '可提现'
+                :
+                (t.commissionStatus===1
+                ?
+                '已提现'
+                :
+                (t.commissionStatus===2
+                ?
+                '审核中'
+                :
+                t.commissionStatus===3
+                ?
+                '未达标'
+                :''
+                ))}})</font>
             </div>
             <div style="font-size:0.48rem;">
               <span>
@@ -91,8 +107,8 @@ export default {
           // console.log(result)
           for (var i = 0; i < result.length; i++) {
             let ob = result[i]
-            if (ob.status === 0) {
-              // 0可提,1已提
+            if (ob.commissionStatus === 4) {
+              // commissionStatus:1已提现 2:提现审核中 3:未达标 4:可提现
               this.withDrawLength += 1
               this.withDrawMoney += ob.total_fee
             }
@@ -107,6 +123,10 @@ export default {
       })
     },
     doWithDraw () {
+      if (this.withDrawLength === 0 && this.withDrawMoney === 0) {
+        $.toast('可提现金额为0')
+        return
+      }
       let wdModals = {
         title: '',
         text: '为保障您的财产安全,提取佣金前需要输入您的登录密码。',
