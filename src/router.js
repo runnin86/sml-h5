@@ -147,7 +147,7 @@ export default function (router) {
       }
     },
     '/checkout/:token/:pwd': {
-      name: 'cashier',
+      name: 'checkout',
       component (resolve) {
         require(['./views/cart/checkout'], resolve)
       }
