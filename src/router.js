@@ -145,6 +145,12 @@ export default function (router) {
         require(['./views/more/about'], resolve)
         // require(['./views/more/about-sd'], resolve)
       }
+    },
+    '/checkout/:token/:pwd': {
+      name: 'cashier',
+      component (resolve) {
+        require(['./views/cart/checkout'], resolve)
+      }
     }
   })
 
