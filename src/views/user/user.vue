@@ -50,7 +50,7 @@
             </a>
           </div>
           <div class="r04" style="width:48%;">
-            <a class="button button-dark" @click="doRecharge()"
+            <a class="button button-dark" @click="getOauthCode()"
               style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">
               充值
             </a>
@@ -189,6 +189,10 @@ export default {
       // 从vuex中获取用户未读消息
       this.$root.loadUserUnreadMsg()
     }.bind(this), 15000)
+    // 回调时会有鉴权code和需要充值
+    if (this.isCharge && this.oauthCode) {
+      this.doRecharge()
+    }
   },
   destroyed () {
     // console.log('销毁')
@@ -200,6 +204,8 @@ export default {
       user: JSON.parse(window.localStorage.getItem('user')),
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       showsales: 'now',
+      isCharge: this.$route.query.isCharge,
+      oauthCode: this.$route.query.code,
       userate: 0, // 盈利
       coinmeter: 0, // 本金
       usersales: 0, // 本月销量
@@ -343,25 +349,18 @@ export default {
         console.error('获取账户本金失败:' + e)
       })
     },
-    doRecharge (type) {
+    getOauthCode () {
+      // 去微信鉴权
+      let appid = 'wxd43e717e7930c91e'
+      let redirect_uri = 'http://rx4ioctq0b.proxy.qqbrowser.cc/user?isCharge=true'
+      let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' +
+      'appid=' + appid +
+      '&redirect_uri=' + redirect_uri +
+      '&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
+      window.location.href = oauthUrl
+    },
+    doRecharge () {
       $.toast('充值功能暂未开放,敬请期待!')
-
-      // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd43e717e7930c91e&redirect_uri=http%3A%2F%2Frx4ioctq0b.proxy.qqbrowser.cc%2Fuser%2FregForward.do%3Fuid%3D1&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
-      // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd43e717e7930c91e&redirect_uri=http://rx4ioctq0b.proxy.qqbrowser.cc/user&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
-      // parent.location.href = oauthUrl
-      // this.$route.router.go({path: oauthUrl, replace: true})
-      // window.open(oauthUrl)
-      // let redirect_uri = 'http://smp.zcsml.com/gzh/wxReCharge.do'
-      // // var now = new Date().getTime()
-      // var state = new Date().getTime()
-      // let authUrl = 'weixin://https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxadccc645716a9348&redirect_uri=' +
-      // redirect_uri +
-      // '&response_type=code&scope=snsapi_base&state=' +
-      // state +
-      // '#wechat_redirect'
-      // console.log(authUrl)
-      // window.open(authUrl)
-
       // let url = 'http://192.168.1.15:8080/pay/pingxxPay.do'
       // // let url = 'http://218.244.151.190/demo/charge'
       // let spcarInfos = {
