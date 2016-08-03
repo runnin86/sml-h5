@@ -171,6 +171,7 @@ import Card from '../../components/CardItem'
 import VCountDown from '../../components/Countdown'
 import VLayer from '../../components/PullToRefreshLayer'
 import {userApi} from '../../util/service'
+// import pingpp from 'pingpp-js'
 import $ from 'zepto'
 var refreshMsg
 export default {
@@ -344,6 +345,61 @@ export default {
     },
     doRecharge (type) {
       $.toast('充值功能暂未开放,敬请期待!')
+
+      // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd43e717e7930c91e&redirect_uri=http%3A%2F%2Frx4ioctq0b.proxy.qqbrowser.cc%2Fuser%2FregForward.do%3Fuid%3D1&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
+      // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd43e717e7930c91e&redirect_uri=http://rx4ioctq0b.proxy.qqbrowser.cc/user&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
+      // parent.location.href = oauthUrl
+      // this.$route.router.go({path: oauthUrl, replace: true})
+      // window.open(oauthUrl)
+      // let redirect_uri = 'http://smp.zcsml.com/gzh/wxReCharge.do'
+      // // var now = new Date().getTime()
+      // var state = new Date().getTime()
+      // let authUrl = 'weixin://https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxadccc645716a9348&redirect_uri=' +
+      // redirect_uri +
+      // '&response_type=code&scope=snsapi_base&state=' +
+      // state +
+      // '#wechat_redirect'
+      // console.log(authUrl)
+      // window.open(authUrl)
+
+      // let url = 'http://192.168.1.15:8080/pay/pingxxPay.do'
+      // // let url = 'http://218.244.151.190/demo/charge'
+      // let spcarInfos = {
+      //   amount: 1000,
+      //   uPhone: '18251967031',
+      //   channel: 'wx_pub',
+      //   payType: '2'
+      // }
+      // // let postBody = JSON.stringify(spcarInfos)
+      // // console.log(spcarInfos)
+      // // console.log(postBody)
+      // this.$http.post(url, spcarInfos, {
+      //   headers: {
+      //     // 'x-token': token
+      //   },
+      //   emulateJSON: true
+      // })
+      // .then(({data: da})=>{
+      //   // console.log(da.chargeObj)
+      //   pingpp.createPayment(da.chargeObj, function (result, err) {
+      //     console.log(result)
+      //     console.log(err)
+      //     if (result === 'success') {
+      //       console.log(1)
+      //       // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
+      //     }
+      //     else if (result === 'fail') {
+      //       console.log(2)
+      //       // charge 不正确或者微信公众账号支付失败时会在此处返回
+      //     }
+      //     else if (result === 'cancel') {
+      //       console.log(3)
+      //       // 微信公众账号支付取消支付
+      //     }
+      //   })
+      // }).catch((e)=>{
+      //   console.error('充值获取charge失败:' + e)
+      // })
     },
     doWithDraw () {
       let wdModals = {
