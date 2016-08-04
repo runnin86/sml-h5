@@ -238,7 +238,8 @@ export default {
       }
     },
     recharge () {
-      $.toast('充值功能暂未开放,敬请期待!')
+      // $.toast('充值功能暂未开放,敬请期待!')
+      this.$route.router.go({path: '/recharge?from=plan', replace: true})
     },
     isValidate (dtime) {
       // 计算时间差

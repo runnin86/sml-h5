@@ -151,6 +151,11 @@ export default function (router) {
       component (resolve) {
         require(['./views/cart/checkout'], resolve)
       }
+    },
+    '/recharge': {
+      component (resolve) {
+        require(['./views/user/recharge'], resolve)
+      }
     }
   })
 
