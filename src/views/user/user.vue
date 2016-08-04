@@ -50,7 +50,7 @@
             </a>
           </div>
           <div class="r04" style="width:48%;">
-            <a class="button button-dark" @click="getOauthCode()"
+            <a class="button button-dark" @click="doRecharge()"
               style="background-color:#FFFFFF;border-color:#ef494a;color:#ef494a">
               充值
             </a>
@@ -189,10 +189,6 @@ export default {
       // 从vuex中获取用户未读消息
       this.$root.loadUserUnreadMsg()
     }.bind(this), 15000)
-    // 回调时会有鉴权code和需要充值
-    if (this.isCharge && this.oauthCode) {
-      this.doRecharge()
-    }
   },
   destroyed () {
     // console.log('销毁')
@@ -204,8 +200,6 @@ export default {
       user: JSON.parse(window.localStorage.getItem('user')),
       showImg: window.localStorage.getItem('imageSwitch') === 'true',
       showsales: 'now',
-      isCharge: this.$route.query.isCharge,
-      oauthCode: this.$route.query.code,
       userate: 0, // 盈利
       coinmeter: 0, // 本金
       usersales: 0, // 本月销量
@@ -349,57 +343,17 @@ export default {
         console.error('获取账户本金失败:' + e)
       })
     },
-    getOauthCode () {
+    doRecharge () {
+      // $.toast('充值功能暂未开放,敬请期待!')
       this.$route.router.go({path: '/recharge?from=user', replace: true})
-      // 去微信鉴权
+      // // 去微信鉴权
       // let appid = 'wxd43e717e7930c91e'
-      // let redirect_uri = 'http://rx4ioctq0b.proxy.qqbrowser.cc/user?isCharge=true'
+      // let redirect_uri = 'http://rx4ioctq0b.proxy.qqbrowser.cc/recharge?from=user'
       // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' +
       // 'appid=' + appid +
       // '&redirect_uri=' + redirect_uri +
       // '&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
       // window.location.href = oauthUrl
-    },
-    doRecharge () {
-      $.toast('充值功能暂未开放,敬请期待!')
-      // let url = 'http://192.168.1.15:8080/pay/pingxxPay.do'
-      // // let url = 'http://218.244.151.190/demo/charge'
-      // let spcarInfos = {
-      //   amount: 1000,
-      //   uPhone: '18251967031',
-      //   channel: 'wx_pub',
-      //   payType: '2'
-      // }
-      // // let postBody = JSON.stringify(spcarInfos)
-      // // console.log(spcarInfos)
-      // // console.log(postBody)
-      // this.$http.post(url, spcarInfos, {
-      //   headers: {
-      //     // 'x-token': token
-      //   },
-      //   emulateJSON: true
-      // })
-      // .then(({data: da})=>{
-      //   // console.log(da.chargeObj)
-      //   pingpp.createPayment(da.chargeObj, function (result, err) {
-      //     console.log(result)
-      //     console.log(err)
-      //     if (result === 'success') {
-      //       console.log(1)
-      //       // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
-      //     }
-      //     else if (result === 'fail') {
-      //       console.log(2)
-      //       // charge 不正确或者微信公众账号支付失败时会在此处返回
-      //     }
-      //     else if (result === 'cancel') {
-      //       console.log(3)
-      //       // 微信公众账号支付取消支付
-      //     }
-      //   })
-      // }).catch((e)=>{
-      //   console.error('充值获取charge失败:' + e)
-      // })
     },
     doWithDraw () {
       let wdModals = {
