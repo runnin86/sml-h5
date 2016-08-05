@@ -62,18 +62,22 @@
         <div style="width:180%;">
           <span class="icon-histogram"
             style="font-size:1rem;color:red;">
-            <font style="font-size:0.68rem;color:#ffffff;">
+            <font style="font-size:0.62rem;color:#ffffff;">
               {{plan.range_name}}
             </font>
           </span>
           <span class="pull-right icon-piechart r04"
             style="font-size:1rem;color:red;">
-            <font style="font-size:0.68rem;color:#FFFFFF;"
-              v-if="plan.range_salelimit>0">
+            <font style="font-size:0.58rem;color:#FFFFFF;"
+              v-if="plan.range_salelimit>0 && plan.personLimit === '-1'">
               限购剩余 {{plan.range_salelimit-plan.saledAmount}} 元
             </font>
-            <font style="font-size:0.68rem;color:#FFFFFF;" v-else>
+            <!-- <font style="font-size:0.68rem;color:#FFFFFF;" v-else>
               不限购
+            </font> -->
+            <font style="font-size:0.58rem;color:#FFFFFF;"
+              v-if="plan.personLimit !== '-1'">
+              本方案最多可购买 {{plan.personLimit}} 元
             </font>
           </span>
         </div>

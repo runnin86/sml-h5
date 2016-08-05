@@ -13,6 +13,7 @@ const state = {
   }],
   rangeList: [],
   hpBanner: [],
+  limitPlans: [],
   hpScrollmsg: [{
     content: '<div class="scrollMsgText">一元夺宝，精彩无限!</div>'
   }],
@@ -106,8 +107,10 @@ const mutations = {
     })
     .then(({data: {code, msg, result}})=>{
       if (code === 1) {
+        // console.log(result.limitPlans)
         // console.log(result.rangeList)
         state.rangeList = result.rangeList
+        state.limitPlans = result.limitPlans
       }
       else if (code === 0) {
         $.toast(msg)

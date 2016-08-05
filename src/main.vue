@@ -41,6 +41,7 @@ export default {
       planScrollMsg: state => state.planScrollMsg,
       planBanner: state=> state.planBanner,
       rangeList: state=> state.rangeList,
+      limitPlans: state=> state.limitPlans,
       hpBanner: state=> state.hpBanner,
       hpScrollmsg: state => state.hpScrollmsg,
       itemList: state => state.hpList,

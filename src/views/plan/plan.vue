@@ -40,8 +40,12 @@
                   v-if="r.rangeSaleLimit-r.rangeSaled>=0">
                   限购剩余 {{r.rangeSaleLimit-r.rangeSaled}} 元
                 </font>
-                <font style="font-size:0.68rem;color:black;" v-else>
+                <!-- <font style="font-size:0.68rem;color:black;" v-else>
                   不限购
+                </font> -->
+                <font style="font-size:0.68rem;color:black;"
+                  v-if="r.range_id === '005'">
+                  个人限购区
                 </font>
               </span>
             </div>
@@ -49,48 +53,66 @@
           <card type="content">
             <div class="list-block infinite-list">
               <ul>
-                <li class="item-content" v-for="p in r.plans | orderBy 'plan_status' 1"
-                  v-link="{name: 'planDetail', params: { id: p.plan_id }, activeClass: 'active', replace: false}">
-                  <div class="item-media">
-                    <img :src="p.expert_photo" class="img-responsive"
-                      style="margin-left:-0.28rem;"
-                      width="42" height="46">
-                  </div>
-                  <div class="item-inner text-sml" style="font-size:0.68rem;margin-left:0.56rem;">
-                    <div style="width: 22%;">
-                      <div>{{p.expert_name}}</div>
+                <div v-for="p in r.plans | orderBy 'plan_status' 1">
+                  <li class="item-content" style="margin-bottom:-0.6rem;"
+                    v-for="l in $root.limitPlans"
+                    v-if="p.plan_id === l.planId">
+                    <div class="tipsDiv">
+                      <span>
+                        本次方案限购金额为您的可用余额的{{l.limitConfig*100}}%
+                      </span>
+                      <span class="pull-right">
+                        当日可购
+                        <font style="color:#FFD700">
+                          {{l.limitAmount}}
+                        </font>
+                        元
+                      </span>
+                    </div>
+                  </li>
+                  <li class="item-content spliteLine"
+                    v-link="{name: 'planDetail', params: { id: p.plan_id }, activeClass: 'active', replace: false}">
+                    <div class="item-media">
+                      <img :src="p.expert_photo" class="img-responsive"
+                        style="margin-left:-0.28rem;"
+                        width="42" height="46">
+                    </div>
+                    <div class="item-inner text-sml" style="font-size:0.68rem;margin-left:0.56rem;">
+                      <div style="width: 22%;">
+                        <div>{{p.expert_name}}</div>
+                        <div>
+                          <!-- planConfident:-1默认为3 -->
+                          <img v-if="p.planConfident===-1 || p.planConfident>0" src="/img/专家方案/信心.png" width="12" height="12">
+                          <img v-if="p.planConfident===-1 || p.planConfident>1" src="/img/专家方案/信心.png" width="12" height="12"
+                            style="margin-left:-0.1rem;">
+                          <img v-if="p.planConfident===-1 || p.planConfident>2" src="/img/专家方案/信心.png" width="12" height="12"
+                            style="margin-left:-0.1rem;">
+                          <img v-if="p.planConfident>3" src="/img/专家方案/信心.png" width="12" height="12"
+                            style="margin-left:-0.1rem;">
+                          <img v-if="p.planConfident>4" src="/img/专家方案/信心.png" width="12" height="12"
+                            style="margin-left:-0.1rem;">
+                        </div>
+                      </div>
+                      <div class="icon-golds" style="font-size:1rem;width: 26%;">
+                        <font style="font-size:0.5rem;margin-left:-0.22rem;">
+                          {{p.plan_amount}}.00 元
+                        </font>
+                      </div>
+                      <div class="icon-clock2" style="font-size:1rem;width: 28%;">
+                        <font style="font-size:0.5rem;margin-left:-0.12rem;">
+                          <!-- 剩余时间通过服务器时间和deadline_time去计算 -->
+                          {{p.deadline_time | residualTime}}
+                        </font>
+                      </div>
                       <div>
-                        <!-- planConfident:-1默认为3 -->
-                        <img v-if="p.planConfident===-1 || p.planConfident>0" src="/img/专家方案/信心.png" width="12" height="12">
-                        <img v-if="p.planConfident===-1 || p.planConfident>1" src="/img/专家方案/信心.png" width="12" height="12"
-                          style="margin-left:-0.1rem;">
-                        <img v-if="p.planConfident===-1 || p.planConfident>2" src="/img/专家方案/信心.png" width="12" height="12"
-                          style="margin-left:-0.1rem;">
-                        <img v-if="p.planConfident>3" src="/img/专家方案/信心.png" width="12" height="12"
-                          style="margin-left:-0.1rem;">
-                        <img v-if="p.planConfident>4" src="/img/专家方案/信心.png" width="12" height="12"
-                          style="margin-left:-0.1rem;">
+                        <img v-if="isValidate(p.deadline_time)" src="/img/专家方案/购物车-选中.png"
+                          width="26" height="24" @click="addToCart(p.plan_id, $event)">
+                        <img v-else="isValidate(p.deadline_time)" src="/img/专家方案/购物车.png"
+                          width="26" height="24" @click="addToCart(0, $event)">
                       </div>
                     </div>
-                    <div class="icon-golds" style="font-size:1rem;width: 26%;">
-                      <font style="font-size:0.5rem;margin-left:-0.22rem;">
-                        {{p.plan_amount}}.00 元
-                      </font>
-                    </div>
-                    <div class="icon-clock2" style="font-size:1rem;width: 28%;">
-                      <font style="font-size:0.5rem;margin-left:-0.12rem;">
-                        <!-- 剩余时间通过服务器时间和deadline_time去计算 -->
-                        {{p.deadline_time | residualTime}}
-                      </font>
-                    </div>
-                    <div>
-                      <img v-if="isValidate(p.deadline_time)" src="/img/专家方案/购物车-选中.png"
-                        width="26" height="24" @click="addToCart(p.plan_id, $event)">
-                      <img v-else="isValidate(p.deadline_time)" src="/img/专家方案/购物车.png"
-                        width="26" height="24" @click="addToCart(0, $event)">
-                    </div>
-                  </div>
-                </li>
+                  </li>
+                </div>
               </ul>
             </div>
           </card>
@@ -356,5 +378,14 @@ export default {
   font-size:0.72em;
   line-height:2rem;
   color:#FFFFFF;
+}
+.tipsDiv {
+  width:100%;
+  font-size:0.58rem;
+  margin-left:-0.22rem;
+  margin-right:0.42rem;
+}
+.spliteLine {
+  border-bottom: 1px solid #DAA520;
 }
 </style>
