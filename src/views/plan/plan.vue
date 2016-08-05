@@ -386,6 +386,6 @@ export default {
   margin-right:0.42rem;
 }
 .spliteLine {
-  border-bottom: 1px solid #DAA520;
+  border-bottom: 1px solid #C0C0C0;
 }
 </style>
