@@ -87,9 +87,6 @@ const mutations = {
           })
         }
       }
-      else {
-        console.error('获取方案滚动消息失败:' + msg + '->' + result)
-      }
     }).catch((e)=>{
       console.log('无法连接服务器-获取方案滚动消息')
       console.error(e)
