@@ -26,6 +26,7 @@
     </div>
     <div class="submit-button">
       <button class="button button-fill button-success"
+        :class="this.isRecharge?'disabled':'button-success'"
         @click="doRecharge()">
         立即支付
       </button>
@@ -47,7 +48,8 @@ export default {
       path: '/' + this.$route.params.state,
       rechargeMoney: 1000,
       uPhone: window.localStorage.getItem('localPhone'),
-      openid: this.$route.params.openid
+      openid: this.$route.params.openid,
+      isRecharge: false
     }
   },
   methods: {
@@ -55,47 +57,61 @@ export default {
       $.toast(msg)
     },
     doRecharge () {
-      $.confirm('账号[' + this.user.user_phone + ']即将充值</br>￥1000.00', '提示', ()=>{
-        let url = 'http://reg.zqsml.com/pay/pingxxPay.do'
-        // let url = 'http://192.168.1.22:8080/pay/pingxxPay.do'
-        let spcarInfos = {
-          chargeMoney: '1000',
-          uPhone: this.user.user_phone,
-          channel: 'wx_pub',
-          payType: '2',
-          openId: this.$route.params.openid
-        }
-        // let postBody = JSON.stringify(spcarInfos)
-        // console.log(spcarInfos)
-        // console.log(postBody)
-        this.$http.post(url, spcarInfos, {
-          headers: {
-            // 'x-token': token
-          },
-          emulateJSON: true
-        })
-        .then(({data: da})=>{
-          // console.log(da.chargeObj)
-          pingpp.createPayment(da.chargeObj, function (result, err) {
-            if (result === 'success') {
-              // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
-              $.toast('支付成功!')
-            }
-            else if (result === 'fail') {
-              // charge 不正确或者微信公众账号支付失败时会在此处返回
-              $.toast('支付失败!')
-            }
-            else if (result === 'cancel') {
-              // 微信公众账号支付取消支付
-              $.toast('支付取消!')
-            }
+      if (!this.isRecharge) {
+        this.isRecharge = true
+        $.confirm('账号[' + this.user.user_phone + ']即将充值</br>￥1000.00', '提示', ()=>{
+          let url = 'http://reg.zqsml.com/pay/pingxxPay.do'
+          // let url = 'http://192.168.1.22:8080/pay/pingxxPay.do'
+          let spcarInfos = {
+            chargeMoney: '1000',
+            uPhone: this.user.user_phone,
+            channel: 'wx_pub',
+            payType: '2',
+            openId: this.$route.params.openid
+          }
+          // let postBody = JSON.stringify(spcarInfos)
+          // console.log(spcarInfos)
+          // console.log(postBody)
+          this.$http.post(url, spcarInfos, {
+            headers: {
+              // 'x-token': token
+            },
+            emulateJSON: true
           })
-        }).catch((e)=>{
-          console.error('充值获取charge失败:' + e)
+          .then(({data: da})=>{
+            // console.log(da.chargeObj)
+            pingpp.createPayment(da.chargeObj, function (result, err) {
+              if (result === 'success') {
+                // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
+                $.toast('支付成功!')
+              }
+              else if (result === 'fail') {
+                // charge 不正确或者微信公众账号支付失败时会在此处返回
+                $.toast('支付失败!')
+                setTimeout(function () {
+                  this.isRecharge = false
+                }.bind(this), 3000)
+              }
+              else if (result === 'cancel') {
+                // 微信公众账号支付取消支付
+                $.toast('支付取消!')
+                setTimeout(function () {
+                  this.isRecharge = false
+                }.bind(this), 3000)
+              }
+            })
+          }).catch((e)=>{
+            $.toast('支付异常!')
+            setTimeout(function () {
+              this.isRecharge = false
+            }.bind(this), 3000)
+            console.error('充值获取charge失败:' + e)
+          })
+        }, ()=>{
+          // confirm取消
+          this.isRecharge = false
         })
-      }, ()=>{
-        // confirm取消
-      })
+      }
     }
   }
 }
