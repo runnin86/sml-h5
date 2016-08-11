@@ -45,10 +45,10 @@ export default {
   data () {
     return {
       user: JSON.parse(window.localStorage.getItem('user')),
-      path: '/' + this.$route.params.state,
+      path: '/' + this.$route.params.state.split('@')[0],
       rechargeMoney: 1000,
       uPhone: window.localStorage.getItem('localPhone'),
-      openid: this.$route.params.openid,
+      openid: this.$route.params.state.split('@')[1],
       isRecharge: false
     }
   },
@@ -57,6 +57,10 @@ export default {
       $.toast(msg)
     },
     doRecharge () {
+      if (!this.user) {
+        this.isRecharge = true
+        $.toast('请登录后充值!')
+      }
       if (!this.isRecharge) {
         this.isRecharge = true
         $.confirm('账号[' + this.user.user_phone + ']即将充值</br>￥1000.00', '提示', ()=>{
@@ -67,7 +71,7 @@ export default {
             uPhone: this.user.user_phone,
             channel: 'wx_pub',
             payType: '2',
-            openId: this.$route.params.openid
+            openId: this.openid
           }
           // let postBody = JSON.stringify(spcarInfos)
           // console.log(spcarInfos)
