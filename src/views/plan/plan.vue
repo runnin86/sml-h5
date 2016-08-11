@@ -261,15 +261,15 @@ export default {
     },
     recharge () {
       // $.toast('充值功能暂未开放,敬请期待!')
-      this.$route.router.go({path: '/recharge?from=plan', replace: true})
-      // // 去微信鉴权
-      // let appid = 'wxd43e717e7930c91e'
-      // let redirect_uri = 'http://rx4ioctq0b.proxy.qqbrowser.cc/recharge?from=plan'
-      // let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' +
-      // 'appid=' + appid +
-      // '&redirect_uri=' + redirect_uri +
-      // '&response_type=code&scope=snsapi_base&state=pingpp#wechat_redirect'
-      // window.location.href = oauthUrl
+      // this.$route.router.go({path: '/recharge/49828/plan', replace: true})
+      // 去微信鉴权
+      let appid = 'wxadccc645716a9348'
+      let redirect_uri = 'http://reg.zqsml.com/user/reChargeForward.do'
+      let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' +
+      'appid=' + appid +
+      '&redirect_uri=' + redirect_uri +
+      '&response_type=code&scope=snsapi_base&state=plan#wechat_redirect'
+      window.location.href = oauthUrl
     },
     isValidate (dtime) {
       // 计算时间差
