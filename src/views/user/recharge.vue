@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import pingpp from 'pingpp-js'
 import $ from 'zepto'
 
 export default {
@@ -42,10 +43,11 @@ export default {
   },
   data () {
     return {
-      path: '/' + this.$route.query.from,
+      user: JSON.parse(window.localStorage.getItem('user')),
+      path: '/' + this.$route.params.state,
       rechargeMoney: 1000,
       uPhone: window.localStorage.getItem('localPhone'),
-      oauthCode: this.$route.query.code
+      openid: this.$route.params.openid
     }
   },
   methods: {
@@ -53,45 +55,44 @@ export default {
       $.toast(msg)
     },
     doRecharge () {
-      $.confirm('您的账号即将充值</br>￥1000.00', '提示', ()=>{
-        // let url = 'http://192.168.1.15:8080/pay/pingxxPay.do'
-        // // let url = 'http://218.244.151.190/demo/charge'
-        // let spcarInfos = {
-        //   amount: 1000,
-        //   uPhone: '18251967031',
-        //   channel: 'wx_pub',
-        //   payType: '2'
-        // }
-        // // let postBody = JSON.stringify(spcarInfos)
-        // // console.log(spcarInfos)
-        // // console.log(postBody)
-        // this.$http.post(url, spcarInfos, {
-        //   headers: {
-        //     // 'x-token': token
-        //   },
-        //   emulateJSON: true
-        // })
-        // .then(({data: da})=>{
-        //   // console.log(da.chargeObj)
-        //   pingpp.createPayment(da.chargeObj, function (result, err) {
-        //     console.log(result)
-        //     console.log(err)
-        //     if (result === 'success') {
-        //       console.log(1)
-        //       // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
-        //     }
-        //     else if (result === 'fail') {
-        //       console.log(2)
-        //       // charge 不正确或者微信公众账号支付失败时会在此处返回
-        //     }
-        //     else if (result === 'cancel') {
-        //       console.log(3)
-        //       // 微信公众账号支付取消支付
-        //     }
-        //   })
-        // }).catch((e)=>{
-        //   console.error('充值获取charge失败:' + e)
-        // })
+      $.confirm('账号[' + this.user.user_phone + ']即将充值</br>￥1000.00', '提示', ()=>{
+        let url = 'http://reg.zqsml.com/pay/pingxxPay.do'
+        // let url = 'http://192.168.1.22:8080/pay/pingxxPay.do'
+        let spcarInfos = {
+          chargeMoney: '1000',
+          uPhone: this.user.user_phone,
+          channel: 'wx_pub',
+          payType: '2',
+          openId: this.$route.params.openid
+        }
+        // let postBody = JSON.stringify(spcarInfos)
+        // console.log(spcarInfos)
+        // console.log(postBody)
+        this.$http.post(url, spcarInfos, {
+          headers: {
+            // 'x-token': token
+          },
+          emulateJSON: true
+        })
+        .then(({data: da})=>{
+          // console.log(da.chargeObj)
+          pingpp.createPayment(da.chargeObj, function (result, err) {
+            if (result === 'success') {
+              // 只有微信公众账号 wx_pub 支付成功的结果会在这里返回，其他的支付结果都会跳转到 extra 中对应的 URL。
+              $.toast('支付成功!')
+            }
+            else if (result === 'fail') {
+              // charge 不正确或者微信公众账号支付失败时会在此处返回
+              $.toast('支付失败!')
+            }
+            else if (result === 'cancel') {
+              // 微信公众账号支付取消支付
+              $.toast('支付取消!')
+            }
+          })
+        }).catch((e)=>{
+          console.error('充值获取charge失败:' + e)
+        })
       }, ()=>{
         // confirm取消
       })
