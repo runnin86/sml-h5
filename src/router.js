@@ -152,7 +152,7 @@ export default function (router) {
         require(['./views/cart/checkout'], resolve)
       }
     },
-    '/recharge/:openid/:state': {
+    '/recharge/:state/:openid': {
       name: 'recharge',
       component (resolve) {
         require(['./views/user/recharge'], resolve)
