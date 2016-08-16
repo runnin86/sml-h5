@@ -18,21 +18,26 @@
         :class="this.rechargeMoney===1000?'selected_check':''">
         1000元
       </span>
- 		 	<span :class="this.rechargeMoney===3000?'selected_check':'disabled'">
+ 		 	<span @click="this.rechargeMoney=3000"
+        :class="this.rechargeMoney===3000?'selected_check':''">
         3000元
       </span>
-  		<span :class="this.rechargeMoney===5000?'selected_check':'disabled'">
+  		<span @click="this.rechargeMoney=5000"
+        :class="this.rechargeMoney===5000?'selected_check':''">
         5000元
       </span>
 		</div>
   	<div class="option_box_right">
-  		<span :class="this.rechargeMoney===2000?'selected_check':'disabled'">
+  		<span @click="this.rechargeMoney=2000"
+        :class="this.rechargeMoney===2000?'selected_check':''">
         2000元
       </span>
-  		<span :class="this.rechargeMoney===4000?'selected_check':'disabled'">
+  		<span @click="this.rechargeMoney=4000"
+        :class="this.rechargeMoney===4000?'selected_check':''">
         4000元
       </span>
-  		<span :class="this.rechargeMoney===6000?'selected_check':'disabled'">
+  		<span @click="this.rechargeMoney=6000"
+        :class="this.rechargeMoney===6000?'selected_check':''">
         6000元
       </span>
   	</div>
@@ -58,7 +63,7 @@ export default {
     return {
       user: JSON.parse(window.localStorage.getItem('user')),
       path: '/' + this.$route.params.state.split('@')[0],
-      rechargeMoney: 1000,
+      rechargeMoney: 2000,
       uPhone: window.localStorage.getItem('localPhone'),
       openid: this.$route.params.state.split('@')[1],
       isRecharge: false
@@ -75,7 +80,7 @@ export default {
       }
       if (!this.isRecharge) {
         this.isRecharge = true
-        $.confirm('账号[' + this.user.user_phone + ']即将充值</br>￥1000.00', '提示', ()=>{
+        $.confirm('账号[' + this.user.user_phone + ']即将充值</br>￥' + this.rechargeMoney + '.00', '提示', ()=>{
           let url = 'http://reg.zqsml.com/pay/pingxxPay.do'
           // let url = 'http://192.168.1.22:8080/pay/pingxxPay.do'
           let spcarInfos = {
