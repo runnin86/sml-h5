@@ -7,30 +7,42 @@
     </a>
     <h1 class="title color">充值</h1>
   </header>
-  <div class="content" style="margin-top:-1rem;">
-    <div class="content-block-title">请选择充值金额:</div>
-    <div class="buttons-tab">
-      <a :class="this.rechargeMoney===100?'tab-link button active':'tab-link button disabled'"
-        @click="this.tips('目前仅支持充值1000元')">100元</a>
-      <a :class="this.rechargeMoney===500?'tab-link button active':'tab-link button'"
-        @click="this.tips('目前仅支持充值1000元')">500元</a>
-      <a :class="this.rechargeMoney===1000?'tab-link button active':'tab-link button'"
-        @click="this.rechargeMoney=1000">1000元</a>
-    </div>
-    <div class="content-block">
-      <div class="content-block">
-        <div class="money-input">
-          <input type="number" readonly="readonly" v-model="rechargeMoney" placeholder="请选择充值金额">
-        </div>
-      </div>
-    </div>
-    <div class="submit-button">
-      <button class="button button-fill button-success"
-        :class="this.isRecharge?'disabled':'button-success'"
-        @click="doRecharge()">
-        立即支付
-      </button>
-    </div>
+
+  <div class="remind">
+    	<span>请选择充值金额</span>
+	</div>
+
+  <div class="option_box">
+		<div class="option_box_left">
+  		<span @click="this.rechargeMoney=1000"
+        :class="this.rechargeMoney===1000?'selected_check':''">
+        1000元
+      </span>
+ 		 	<span :class="this.rechargeMoney===3000?'selected_check':'disabled'">
+        3000元
+      </span>
+  		<span :class="this.rechargeMoney===5000?'selected_check':'disabled'">
+        5000元
+      </span>
+		</div>
+  	<div class="option_box_right">
+  		<span :class="this.rechargeMoney===2000?'selected_check':'disabled'">
+        2000元
+      </span>
+  		<span :class="this.rechargeMoney===4000?'selected_check':'disabled'">
+        4000元
+      </span>
+  		<span :class="this.rechargeMoney===6000?'selected_check':'disabled'">
+        6000元
+      </span>
+  	</div>
+  </div>
+
+  <div class="payment_btn">
+  	<span @click="doRecharge()"
+      :class="this.isRecharge?'disabled':''">
+      微信支付
+    </span>
   </div>
 </div>
 </template>
@@ -122,29 +134,91 @@ export default {
 </script>
 
 <style>
-.rcag .submit-button {
-  margin: 0 auto 2rem auto;
-  width: 100%;
-  padding: 0 .45rem;
-}
-.rcag .submit-button button {
-  width: 100%;
-  line-height: 2.1rem !important;
-  height: 2.1rem !important;
-}
 .color {
   background-color: #ed8e07;
 }
-.money-input input{
-  width: 100%;
-  height: 2.15rem;
-  font-size: .7rem;
-  padding: .4rem .5rem;
-  background-color: #fff;
-  margin-top: -1rem;
-  margin-bottom: -.5rem;
-  border: 1px solid rgba(0,0,0,.2);
-  border-radius: .2rem;
+.disabled {
+  background-color:#F5F5F5 !important;
+  color:#c8c9cb !important;
+}
+.remind {
+  width:100%;
+	margin:0 auto;
+  margin-top:2.2rem;
+	height:60px;
+	background-color:#FFF;
+	overflow:hidden;
+	border-bottom:#e6e6e6 solid 1px;
+}
+.remind span {
+  display:block;
+  color:#666666;
+  font-size:16px;
+  margin-left:20px;
+  line-height:60px;
+}
+.option_box {
+  width:100%;
+	height:330px;
+}
+
+.option_box_left {
+  width:44%;
+	margin-left:10px;
+	float:left;
+}
+
+.option_box_right {
+  width:44%;
+	margin-right:10px;
+	float:right;
+}
+
+.option_box_right>span,.option_box_left>span{
+  width:100%;
+  border:1px solid #e6e6e6;
+  height:80px;
+  background-color:#fff;
+  margin-top:16px;
+  float:left;
+  display:block;
+  font-size:16px;
+  color:#333333;
+  text-align:center;
+  line-height:80px;
+  list-style:none;
+  cursor:pointer;
+}
+.selected {
+  width:100%;
+	border:1px solid #e6e6e6;
+  height:80px;
+  background-color:#fff;
+  margin-top:16px;
+  float:left;
+}
+.selected_check {
+  border: 1px solid #49cb99 !important;
+  background-image:url('/img/check_icon.png');
+	background-repeat: no-repeat;
+	background-position:right bottom;
+  background-size:14%;
+}
+.payment_btn {
+  height:62px;
+  width:94%;
+  background-color:#49cb99;
+  cursor:pointer;
+  margin:0 auto;
+  border: 1px solid #49cb99;
+  border-radius:2px;
+}
+.payment_btn span {
+  display:block;
+  text-align:center;
+  line-height:60px;
+  font-size:16px;
+  color:#FFF;
 }
 /*
  从右至左切入
