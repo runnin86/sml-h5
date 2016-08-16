@@ -22,10 +22,10 @@
         :class="this.rechargeMoney===3000?'selected_check':''">
         3000元
       </span>
-  		<span @click="this.rechargeMoney=5000"
+  		<!-- <span @click="this.rechargeMoney=5000"
         :class="this.rechargeMoney===5000?'selected_check':''">
         5000元
-      </span>
+      </span> -->
 		</div>
   	<div class="option_box_right">
   		<span @click="this.rechargeMoney=2000"
@@ -36,10 +36,10 @@
         :class="this.rechargeMoney===4000?'selected_check':''">
         4000元
       </span>
-  		<span @click="this.rechargeMoney=6000"
+  		<!-- <span @click="this.rechargeMoney=6000"
         :class="this.rechargeMoney===6000?'selected_check':''">
         6000元
-      </span>
+      </span> -->
   	</div>
   </div>
 
@@ -116,9 +116,7 @@ export default {
               else if (result === 'cancel') {
                 // 微信公众账号支付取消支付
                 $.toast('支付取消!')
-                setTimeout(function () {
-                  this.isRecharge = false
-                }.bind(this), 3000)
+                this.isRecharge = false
               }
             })
           }).catch((e)=>{
@@ -164,7 +162,7 @@ export default {
 }
 .option_box {
   width:100%;
-	height:330px;
+	height:220px;
 }
 
 .option_box_left {
