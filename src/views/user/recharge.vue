@@ -84,7 +84,7 @@ export default {
           let url = 'http://reg.zqsml.com/pay/pingxxPay.do'
           // let url = 'http://192.168.1.22:8080/pay/pingxxPay.do'
           let spcarInfos = {
-            chargeMoney: '1000',
+            chargeMoney: this.rechargeMoney.toString(),
             uPhone: this.user.user_phone,
             channel: 'wx_pub',
             payType: '2',
