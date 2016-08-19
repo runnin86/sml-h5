@@ -54,10 +54,23 @@
 
 <script>
 import pingpp from 'pingpp-js'
+// import {userApi} from '../../util/service'
 import $ from 'zepto'
 
 export default {
   ready () {
+    // 根据token获取用户信息
+    // this.$http.get(userApi.smuser, {}, {
+    //   headers: {
+    //     'x-token': window.localStorage.getItem('token')
+    //   },
+    //   emulateJSON: true
+    // })
+    // .then(({data: {code, msg, info}})=>{
+    //   if (code === 1) {
+    //     console.log(info.user)
+    //   }
+    // })
   },
   data () {
     return {
