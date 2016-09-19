@@ -65,7 +65,7 @@ export default {
     }
     // 微信配置参数
     $.sign = {
-      appId: 'wxadccc645716a9348',
+      appId: 'wx74e81e3aa7edce63',
       timestamp: Date.parse(new Date()),
       nonceStr: this.randomString(32),
       signature: '{sign.signature}'

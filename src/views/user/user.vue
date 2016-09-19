@@ -347,7 +347,7 @@ export default {
       // $.toast('充值功能暂未开放,敬请期待!')
       // this.$route.router.go({path: '/recharge?from=user', replace: true})
       // 去微信鉴权
-      let appid = 'wxadccc645716a9348'
+      let appid = 'wx74e81e3aa7edce63'
       let redirect_uri = 'http://reg.zqsml.com/user/reChargeForward.do'
       let oauthUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' +
       'appid=' + appid +
